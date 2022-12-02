@@ -40,7 +40,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class MergedDataStoreViewTest extends TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // note: h2 seems to require ints as the primary key, and then prepends `<typeName>.` when returning them
   // as such, we don't compare primary keys directly here

@@ -12,7 +12,7 @@ import org.apache.commons.codec.binary.Hex
 import org.locationtech.geomesa.features.avro.FieldNameEncoder._
 
 import java.util.concurrent.ConcurrentHashMap
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class FieldNameEncoder(serializationVersion: Int, forceFullEncoding: Boolean = false) {
   private val m = if (serializationVersion < 4 || forceFullEncoding) cachePreV4 else cacheV4

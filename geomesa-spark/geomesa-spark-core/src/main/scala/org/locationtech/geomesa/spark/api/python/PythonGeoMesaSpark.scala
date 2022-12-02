@@ -15,7 +15,7 @@ import org.locationtech.geomesa.spark.api.java.JavaSpatialRDD
 import org.locationtech.geomesa.spark.{GeoMesaSpark, Schema, SpatialRDD, SpatialRDDProvider}
 import org.opengis.feature.simple.SimpleFeature
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object PythonGeoMesaSpark {
   def apply(params: java.util.Map[String, _ <: java.io.Serializable]) =

@@ -45,7 +45,7 @@ object ScalaCollectionsConverterFactory {
     */
   class ListToListConverter(scalaToJava: Boolean) extends Converter {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def convert[T](source: scala.Any, target: Class[T]): T = {
       if (scalaToJava) {
@@ -63,7 +63,7 @@ object ScalaCollectionsConverterFactory {
     */
   class MapToMapConverter(scalaToJava: Boolean) extends Converter {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def convert[T](source: scala.Any, target: Class[T]): T = {
       if (scalaToJava) {

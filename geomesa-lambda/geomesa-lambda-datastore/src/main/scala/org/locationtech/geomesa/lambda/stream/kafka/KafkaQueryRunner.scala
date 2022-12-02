@@ -26,7 +26,7 @@ class KafkaQueryRunner(features: ReadableFeatureCache,
   override protected val name: String = "Kafka lambda"
 
   override protected def features(sft: SimpleFeatureType, filter: Option[Filter]): CloseableIterator[SimpleFeature] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     val iter = filter match {
       case Some(f: Id) => f.getIDs.iterator.asScala.map(i => features.get(i.toString)).filter(_ != null)
       case Some(f)     => features.all().filter(f.evaluate)

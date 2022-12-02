@@ -40,7 +40,7 @@ import scala.util.control.NonFatal
 
 object AttributeIndexJob {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   final val IndexAttributes = "--geomesa.index.attributes"
   final val IndexCoverage = "--geomesa.index.coverage"
@@ -160,7 +160,7 @@ object AttributeIndexJob {
 
 class AttributeIndexJob extends Tool {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private var conf: Configuration = new Configuration()
 

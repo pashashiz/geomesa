@@ -27,7 +27,7 @@ import scala.util.control.NonFatal
 
 package object osm {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Determines if the fields require parsing OSM entity metadata or not

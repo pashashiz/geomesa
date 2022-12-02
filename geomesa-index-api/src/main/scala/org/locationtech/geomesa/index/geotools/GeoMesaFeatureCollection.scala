@@ -146,7 +146,7 @@ class GeoMesaFeatureCollection(source: GeoMesaFeatureSource, original: Query)
 
 object GeoMesaFeatureCollection extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val oneUp = new AtomicLong(0)
 

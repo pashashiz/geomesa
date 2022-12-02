@@ -22,7 +22,7 @@ class ArrowIngestCommand extends IngestCommand[ArrowDataStore] with ArrowDataSto
   override val params = new ArrowIngestParams()
 
   override def execute(): Unit = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     if (params.files.asScala.exists(PathUtils.isRemote _)) {
       throw new ParameterException(s"Only local ingestion supported: ${params.files}")
     }

@@ -15,7 +15,7 @@ import org.springframework.web.context.ServletContextAware
 
 import javax.servlet.ServletContext
 import scala.beans.BeanProperty
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class SpringScalatraBootstrap extends ApplicationContextAware with ServletContextAware with LazyLogging {
 

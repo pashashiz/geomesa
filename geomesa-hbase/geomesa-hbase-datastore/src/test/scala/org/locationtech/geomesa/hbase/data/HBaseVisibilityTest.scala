@@ -42,7 +42,7 @@ import java.security.PrivilegedExceptionAction
 @RunWith(classOf[JUnitRunner])
 class HBaseVisibilityTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 
@@ -69,7 +69,7 @@ class HBaseVisibilityTest extends Specification with LazyLogging {
   def getAuths(user: String): Seq[String] = {
     adminUser.runAs(new PrivilegedExceptionAction[Seq[String]]() {
       override def run(): Seq[String] = {
-        VisibilityClient.getAuths(adminConn, user).getAuthList.asScala.map(_.toStringUtf8)
+        VisibilityClient.getAuths(adminConn, user).getAuthList.asScala.toList.map(_.toStringUtf8)
       }
     })
   }

@@ -21,7 +21,7 @@ import scala.collection.mutable.ListBuffer
 
 object RelationUtils extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   @transient val ff: FilterFactory2 = CommonFactoryFinder.getFilterFactory2
 

@@ -37,7 +37,7 @@ import java.util.Collections
 @RunWith(classOf[JUnitRunner])
 class GeoMesaDataStoreVisitorTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SimpleFeatureTypes.createType("test", "name:String,age:Int,dtg:Date,*geom:Point:srid=4326")
 

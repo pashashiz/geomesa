@@ -34,7 +34,7 @@ import java.awt.RenderingHints.Key
 import java.net.URI
 import java.util
 import java.util.Collections
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 
 class GeoMesaFeatureSource(val ds: DataStore with HasGeoMesaStats,
@@ -188,7 +188,7 @@ object GeoMesaFeatureSource {
 
     /*_*/
     override def toArray[O](a: Array[O with Object]): Array[O with Object] = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       // noinspection ScalaRedundantCast
       featureList.asJava.toArray(a).asInstanceOf[Array[O with Object]]
     }
@@ -217,7 +217,7 @@ object GeoMesaFeatureSource {
 
   class DelegatingResourceInfo(source: SimpleFeatureSource) extends ResourceInfo {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val keywords = Collections.unmodifiableSet((Set("features", getName) ++ source.getSchema.getKeywords).asJava)
 

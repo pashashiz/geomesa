@@ -24,7 +24,7 @@ abstract class ThreadedConsumer(
     closeConsumers: Boolean = true
   ) extends BaseThreadedConsumer(consumers) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val callback = new LogOffsetCommitCallback(logger)
 
@@ -87,7 +87,7 @@ abstract class ThreadedConsumer(
 
 object ThreadedConsumer {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Handler for asynchronous errors in the consumer threads

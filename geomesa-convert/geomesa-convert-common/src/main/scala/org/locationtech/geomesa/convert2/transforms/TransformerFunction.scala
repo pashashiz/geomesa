@@ -67,7 +67,7 @@ trait TransformerFunction extends ContextDependent[TransformerFunction] {
 
 object TransformerFunction {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy val functions: Map[String, TransformerFunction] = {
     val map = Map.newBuilder[String, TransformerFunction]

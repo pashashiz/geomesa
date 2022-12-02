@@ -26,6 +26,8 @@ import org.opengis.filter.Filter
 import java.io.Flushable
 import java.util.concurrent.atomic.AtomicLong
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
 import scala.util.control.NonFatal
 
 trait GeoMesaFeatureWriter[DS <: GeoMesaDataStore[DS]] extends SimpleFeatureWriter with Flushable with LazyLogging {
@@ -184,7 +186,7 @@ object GeoMesaFeatureWriter extends LazyLogging {
                                                                     val filter: Filter)
       extends GeoMesaFeatureWriter[DS] {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val partition = TablePartition(ds, sft).getOrElse {
       throw new IllegalStateException("Creating a partitioned writer for a non-partitioned schema")
@@ -194,12 +196,16 @@ object GeoMesaFeatureWriter extends LazyLogging {
     private val view = cache.asScala
 
     override protected def getWriter(feature: SimpleFeature): IndexWriter = {
+      import ds.ec
       val p = partition.partition(feature)
       var writer = cache.get(p)
       if (writer == null) {
         // reconfigure the partition each time - this should be idempotent, and block
         // until it is fully created (which may happen in some other thread)
-        indices.par.foreach(index => ds.adapter.createTable(index, Some(p), index.getSplits(Some(p))))
+        val result = Future.traverse(indices) { index =>
+          Future(ds.adapter.createTable(index, Some(p), index.getSplits(Some(p))))
+        }
+        Await.result(result, Duration.Inf)
         writer = ds.adapter.createWriter(sft, indices, Some(p))
         cache.put(p, writer)
       }

@@ -29,7 +29,7 @@ object SimpleFeatureStreamSource {
   def buildSource(conf: Config): SimpleFeatureStreamSource = buildSource(conf, "")
 
   def buildSource(conf: Config, namespace: String): SimpleFeatureStreamSource = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     val factory = ServiceLoader.load(classOf[SimpleFeatureStreamSourceFactory]).iterator().asScala.find(_.canProcess(conf))
     factory.map { f => f.create(conf, namespace) }.getOrElse(throw new RuntimeException("Cannot load source"))
   }

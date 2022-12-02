@@ -15,7 +15,7 @@ import java.util.Properties
   */
 trait PropertiesPersistence {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // make lazy so that load() in subclasses isn't invoked before class is fully constructed
   private lazy val properties = {

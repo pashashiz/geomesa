@@ -23,7 +23,7 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
 import java.io._
 import java.nio.charset.StandardCharsets
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.io.Source
 
 class LeafletMapExporter(stream: ExportStream) extends ByteCounterExporter(stream) with LazyLogging {

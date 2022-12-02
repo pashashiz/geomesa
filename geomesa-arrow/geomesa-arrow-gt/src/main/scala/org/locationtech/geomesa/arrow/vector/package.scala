@@ -16,7 +16,7 @@ import org.apache.arrow.vector.{FieldVector, ZeroVector}
 
 package object vector {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Trait for creating new vectors

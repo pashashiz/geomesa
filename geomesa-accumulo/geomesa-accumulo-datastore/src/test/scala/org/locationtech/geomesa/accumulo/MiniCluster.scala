@@ -17,7 +17,7 @@ import org.locationtech.geomesa.utils.io.{PathUtils, WithClose}
 
 import java.io.{File, FileWriter}
 import java.nio.file.Files
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 case object MiniCluster extends LazyLogging {
 

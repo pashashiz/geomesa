@@ -494,7 +494,7 @@ object OrcAttributeWriter {
     private val valueWriter = getInnerWriter(valueBinding, vector.values)
 
     override def apply(sf: SimpleFeature, row: Int): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val value = sf.getAttribute(attribute).asInstanceOf[java.util.Map[AnyRef, AnyRef]]
       if (value != null) {

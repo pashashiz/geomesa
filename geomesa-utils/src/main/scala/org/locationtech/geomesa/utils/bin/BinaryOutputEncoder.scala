@@ -22,7 +22,7 @@ import java.io.{ByteArrayOutputStream, OutputStream}
 import java.nio.charset.StandardCharsets
 import java.nio.{ByteBuffer, ByteOrder}
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class BinaryOutputEncoder private (toValues: ToValues) {
 
@@ -137,7 +137,7 @@ object BinaryOutputEncoder extends LazyLogging {
     case null => 0L
     case n: Number => n.longValue()
     case _ =>
-      import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+      import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
       var sum = 0L
       label.toString.getBytes(StandardCharsets.UTF_8).iterator.take(8).foreachIndex {
         case (b, i) => sum += (b & 0xffL) << (8 * i)

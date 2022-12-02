@@ -34,7 +34,7 @@ import org.specs2.runner.JUnitRunner
 import java.nio.ByteBuffer
 import java.util.concurrent.atomic.AtomicInteger
 import java.util.{Collections, Date, Properties}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.concurrent.duration._
 
 @RunWith(classOf[JUnitRunner])

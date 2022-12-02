@@ -34,7 +34,7 @@ case class SimpleFeatureParquetSchema(sft: SimpleFeatureType, schema: MessageTyp
 
   import SimpleFeatureParquetSchema.{CurrentSchemaVersion, SchemaVersionKey}
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Parquet file metadata
@@ -56,7 +56,7 @@ case class SimpleFeatureParquetSchema(sft: SimpleFeatureType, schema: MessageTyp
 
 object SimpleFeatureParquetSchema {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val FeatureIdField = "__fid__"
 

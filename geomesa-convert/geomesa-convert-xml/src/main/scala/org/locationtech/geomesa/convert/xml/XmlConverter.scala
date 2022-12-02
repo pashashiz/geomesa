@@ -79,7 +79,7 @@ class XmlConverter(sft: SimpleFeatureType, config: XmlConfig, fields: Seq[XmlFie
 
 object XmlConverter extends StrictLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def createXPath(factory: String, namespaces: Map[String, String] = Map.empty): XPath = {
     val fact = try {

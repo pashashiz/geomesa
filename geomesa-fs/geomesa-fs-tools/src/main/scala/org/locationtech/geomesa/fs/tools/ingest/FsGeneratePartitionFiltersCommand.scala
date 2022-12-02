@@ -19,7 +19,7 @@ import org.locationtech.geomesa.tools.{Command, OptionalCqlFilterParam, Required
 
 class FsGeneratePartitionFiltersCommand extends FsDataStoreCommand {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val params = new FsGeneratePartitionFiltersParams()
 

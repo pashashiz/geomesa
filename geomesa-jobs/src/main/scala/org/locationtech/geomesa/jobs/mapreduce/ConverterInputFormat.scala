@@ -86,7 +86,7 @@ class CombineFileStreamRecordReaderWrapper(split: CombineFileSplit,
 
 class ConverterRecordReader extends FileStreamRecordReader with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def createIterator(
       stream: InputStream with Seekable,

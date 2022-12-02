@@ -30,7 +30,7 @@ class KryoFeatureSerializerTest extends Specification with LazyLogging {
 
   import SerializationOption._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

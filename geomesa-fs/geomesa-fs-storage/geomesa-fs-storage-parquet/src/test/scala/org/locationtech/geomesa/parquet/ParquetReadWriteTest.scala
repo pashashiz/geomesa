@@ -35,7 +35,7 @@ import scala.collection.mutable.ArrayBuffer
 @RunWith(classOf[JUnitRunner])
 class ParquetReadWriteTest extends Specification with AllExpectations {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 
@@ -74,7 +74,7 @@ class ParquetReadWriteTest extends Specification with AllExpectations {
         sf = reader.read()
       }
     }
-    result
+    result.toList
   }
 
   def readFile(geoFilter: org.opengis.filter.Filter, tsft: SimpleFeatureType): Seq[SimpleFeature] = {

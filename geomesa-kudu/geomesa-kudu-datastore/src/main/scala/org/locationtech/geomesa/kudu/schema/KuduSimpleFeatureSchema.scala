@@ -28,7 +28,7 @@ import java.util.concurrent.ConcurrentHashMap
   */
 class KuduSimpleFeatureSchema private (sft: SimpleFeatureType) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val adapters: IndexedSeq[KuduColumnAdapter[AnyRef]] = {
     val builder = IndexedSeq.newBuilder[KuduColumnAdapter[AnyRef]]
@@ -83,7 +83,7 @@ class KuduSimpleFeatureSchema private (sft: SimpleFeatureType) {
     * @return
     */
   def serialize(feature: SimpleFeature): Seq[KuduValue[_]] = {
-    import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+    import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
     val builder = Seq.newBuilder[KuduValue[_]]
     builder.sizeHint(adapters.length)
     adapters.foreachIndex { case (adapter, i) => builder += KuduValue(feature.getAttribute(i), adapter) }

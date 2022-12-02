@@ -21,7 +21,7 @@ import java.util.{Map => JMap}
 @RunWith(classOf[JUnitRunner])
 class SparkSQLGeometricDistanceFunctionsTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   "sql geometric distance functions" should {
 

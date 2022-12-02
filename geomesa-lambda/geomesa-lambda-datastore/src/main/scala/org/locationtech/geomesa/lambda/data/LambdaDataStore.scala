@@ -30,7 +30,9 @@ import org.opengis.feature.simple.SimpleFeatureType
 import org.opengis.filter.Filter
 
 import java.time.Clock
+import java.util.concurrent.Executors
 import java.util.{Collections, Properties}
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.concurrent.duration.Duration
 
 class LambdaDataStore(val persistence: DataStore, config: LambdaConfig)(implicit clock: Clock = Clock.systemUTC())
@@ -38,7 +40,10 @@ class LambdaDataStore(val persistence: DataStore, config: LambdaConfig)(implicit
 
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
+
+  private val blockingPool = Executors.newCachedThreadPool()
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.fromExecutor(blockingPool)
 
   private val authProvider: Option[AuthorizationsProvider] = persistence match {
     // this is a bit of a hack to work around hbase null vs empty auths
@@ -164,7 +169,7 @@ class LambdaDataStore(val persistence: DataStore, config: LambdaConfig)(implicit
   }
 
   override def dispose(): Unit = {
-    CloseWithLogging(transients.asMap.asScala.values)
+    CloseWithLogging(transients.asMap.asScala.values, blockingPool)
     transients.invalidateAll()
     CloseWithLogging(config.offsetManager)
     persistence.dispose()

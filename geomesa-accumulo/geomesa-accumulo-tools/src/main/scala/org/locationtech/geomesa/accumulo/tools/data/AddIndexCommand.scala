@@ -71,7 +71,7 @@ class AddIndexCommandExecutor(override val params: AddIndexParameters) extends A
 
   def addIndex(ds: AccumuloDataStore): Unit  = {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val sft = Option(ds.getSchema(params.featureName)).map(SimpleFeatureTypes.mutable).orNull
     require(sft != null, s"Schema '${params.featureName}' does not exist in the specified data store")

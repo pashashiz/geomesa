@@ -29,7 +29,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 @RunWith(classOf[JUnitRunner])
 class ArrowDeltaIteratorTest extends TestWithFeatureType with Mockito with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val spec = "name:String,team:String,age:Int,props:String:json=true,dtg:Date,*geom:Point:srid=4326"
 

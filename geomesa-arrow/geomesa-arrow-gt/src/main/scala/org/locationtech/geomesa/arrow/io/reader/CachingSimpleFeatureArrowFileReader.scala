@@ -69,7 +69,7 @@ class CachingSimpleFeatureArrowFileReader(is: InputStream) extends SimpleFeature
 
 object CachingSimpleFeatureArrowFileReader {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Reads a single logical arrow 'file' from the stream, which may contain multiple record batches

@@ -237,7 +237,7 @@ object ExportCommand extends LazyLogging {
   import org.locationtech.geomesa.index.conf.QueryHints.RichHints
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val CountKey = "count"
 

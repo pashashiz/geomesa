@@ -86,13 +86,13 @@ class Version1BackwardsCompatTest extends Specification {
     val r = new Random()
     r.setSeed(0)
 
-    var lst = new mutable.MutableList[String]
+    val lst = new mutable.ListBuffer[String]
     for (i <- 0 until size) {
       lst += randomString(i, 8, r)
     }
 
     val sf = new Version1ASF(new FeatureIdImpl(id), sft)
-    for (i <- 0 until lst.size) {
+    for (i <- lst.indices) {
       sf.setAttribute(i, lst(i))
     }
     sf
@@ -156,7 +156,7 @@ class Version1BackwardsCompatTest extends Specification {
 
   "FeatureSpecificReader" should {
     "do subset data" in {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val subset = getSubsetData
       subset.size mustEqual 10

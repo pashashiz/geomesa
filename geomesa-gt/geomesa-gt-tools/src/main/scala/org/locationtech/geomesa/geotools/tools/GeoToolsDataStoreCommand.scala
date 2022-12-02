@@ -23,7 +23,7 @@ import java.util.Properties
  */
 trait GeoToolsDataStoreCommand extends DataStoreCommand[DataStore] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def params: GeoToolsDataStoreParams
 

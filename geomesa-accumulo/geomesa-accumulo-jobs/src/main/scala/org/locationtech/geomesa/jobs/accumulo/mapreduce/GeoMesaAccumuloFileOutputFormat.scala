@@ -26,6 +26,8 @@ import org.locationtech.geomesa.jobs.mapreduce.GeoMesaOutputFormat.OutputCounter
 import org.locationtech.geomesa.utils.index.IndexMode
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 import scala.util.control.NonFatal
 
 /**
@@ -33,7 +35,7 @@ import scala.util.control.NonFatal
  */
 object GeoMesaAccumuloFileOutputFormat extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val FilesPath  = "files"
   val SplitsPath = "splits"
@@ -63,6 +65,8 @@ object GeoMesaAccumuloFileOutputFormat extends LazyLogging {
       case Some(i) => Seq(ds.manager.index(sft, i, IndexMode.Write))
     }
 
+    implicit val ec: ExecutionContextExecutor = ds.ec
+
     val tables = partitions match {
       case None => indices.flatMap(_.getTableNames(None))
       case Some(parts) =>
@@ -70,7 +74,10 @@ object GeoMesaAccumuloFileOutputFormat extends LazyLogging {
         logger.debug(s"Creating index tables for ${parts.length} partitions")
         parts.flatMap { p =>
           // create the partitions up front so we know the number of splits and reducers - this call is idempotent
-          indices.par.foreach(index => ds.adapter.createTable(index, Some(p), index.getSplits(Some(p))))
+          val result = Future.traverse(indices) { index =>
+            Future(ds.adapter.createTable(index, Some(p), index.getSplits(Some(p))))
+          }
+          Await.result(result, Duration.Inf)
           indices.flatMap(_.getTableNames(Some(p)))
         }
     }

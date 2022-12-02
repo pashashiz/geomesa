@@ -209,7 +209,7 @@ object GeoJsonSerializer extends LazyLogging {
 
   private class ListWriter(name: String, i: Int, binding: ObjectType) extends JsonAttributeWriter {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val elementWriter: (JsonWriter, Any) => Unit = subWriter(binding)
 
@@ -229,7 +229,7 @@ object GeoJsonSerializer extends LazyLogging {
   private class MapWriter(name: String, i: Int, keyBinding: ObjectType, valueBinding: ObjectType)
       extends JsonAttributeWriter {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val valueWriter: (JsonWriter, Any) => Unit = subWriter(valueBinding)
 

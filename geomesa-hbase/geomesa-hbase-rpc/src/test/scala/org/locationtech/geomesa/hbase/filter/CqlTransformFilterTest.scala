@@ -27,7 +27,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class CqlTransformFilterTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SimpleFeatureTypes.createType("CqlTransformFilterTest", "name:String,*geom:Point:srid=4326")
 
@@ -95,7 +95,7 @@ class CqlTransformFilterTest extends Specification with LazyLogging {
       val filterTransform = CqlTransformFilter.parseFrom(Base64.decode(base64TransformerFilter))
 
       def getAttributes(cell: Cell): Seq[AnyRef] =
-        serializer.deserialize(cell.getValueArray, cell.getValueOffset, cell.getValueLength).getAttributes.asScala
+        serializer.deserialize(cell.getValueArray, cell.getValueOffset, cell.getValueLength).getAttributes.asScala.toList
 
       filter.filterKeyValue(cells.head) mustEqual ReturnCode.INCLUDE
       filter.transformCell(cells.head) mustEqual cells.head

@@ -52,8 +52,9 @@ import org.opengis.feature.simple.SimpleFeatureType
 import org.opengis.filter.Filter
 
 import java.io.{Closeable, IOException, StringReader}
-import java.util.concurrent.{ConcurrentHashMap, ScheduledExecutorService}
+import java.util.concurrent.{ConcurrentHashMap, Executors, ScheduledExecutorService}
 import java.util.{Collections, Properties, UUID}
+import scala.concurrent.{ExecutionContext, ExecutionContextExecutor}
 import scala.concurrent.duration.Duration
 import scala.util.{Failure, Success, Try}
 
@@ -67,7 +68,10 @@ class KafkaDataStore(
   import org.apache.kafka.clients.producer.ProducerConfig.TRANSACTIONAL_ID_CONFIG
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
+
+  private val blockingPool = Executors.newCachedThreadPool()
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.fromExecutor(blockingPool)
 
   override val stats: GeoMesaStats = new RunnableStats(this)
 
@@ -315,6 +319,7 @@ class KafkaDataStore(
     CloseWithLogging(defaultProducer)
     CloseWithLogging(partitionedProducer)
     CloseWithLogging(caches.asMap.asScala.values)
+    CloseWithLogging(blockingPool)
     caches.invalidateAll()
     super.dispose()
   }
@@ -500,7 +505,7 @@ object KafkaDataStore extends LazyLogging {
                                                   readBack: Duration)
       extends ConsumerRebalanceListener with LazyLogging {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def onPartitionsRevoked(topicPartitions: java.util.Collection[TopicPartition]): Unit = {}
 

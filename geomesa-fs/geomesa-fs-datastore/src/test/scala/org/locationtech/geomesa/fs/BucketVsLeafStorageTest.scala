@@ -29,7 +29,7 @@ class BucketVsLeafStorageTest extends Specification {
 
   import org.locationtech.geomesa.fs.storage.common.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

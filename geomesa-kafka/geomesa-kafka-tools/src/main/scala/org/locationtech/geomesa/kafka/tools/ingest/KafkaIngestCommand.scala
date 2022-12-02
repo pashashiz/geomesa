@@ -28,7 +28,7 @@ import scala.concurrent.duration.Duration
 
 class KafkaIngestCommand extends IngestCommand[KafkaDataStore] with KafkaDistributedCommand {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val params = new KafkaIngestParams()
 

@@ -22,7 +22,7 @@ import scala.util.Try
 
 class VisibilityFilterFunction extends FunctionExpressionImpl(VisibilityFilterFunction.Name) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val cache = scala.collection.mutable.Map.empty[String, java.lang.Boolean]
 

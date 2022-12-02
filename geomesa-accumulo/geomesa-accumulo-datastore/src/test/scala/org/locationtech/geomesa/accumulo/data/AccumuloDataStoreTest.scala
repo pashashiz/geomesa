@@ -47,7 +47,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class AccumuloDataStoreTest extends Specification with TestWithMultipleSfts {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

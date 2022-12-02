@@ -43,7 +43,7 @@ class HBaseDataStore(con: ConnectionWrapper, override val config: HBaseDataStore
 
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val connection: Connection = con.connection
 

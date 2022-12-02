@@ -285,7 +285,7 @@ object DensityScan extends LazyLogging {
     * Renderer for geometries
     */
   sealed trait GeometryRenderer {
-    def render(grid: RenderingGrid, sf: SimpleFeature)
+    def render(grid: RenderingGrid, sf: SimpleFeature): Unit
   }
 
   /**

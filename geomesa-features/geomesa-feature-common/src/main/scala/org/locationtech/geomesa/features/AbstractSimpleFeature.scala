@@ -101,7 +101,7 @@ object AbstractSimpleFeature {
     override def setDefaultGeometry(geo: Object): Unit = setAttribute(sft.getGeometryDescriptor.getLocalName, geo)
     override def setValue(newValue: Object): Unit = setValue(newValue.asInstanceOf[java.util.Collection[Property]])
     override def setValue(values: java.util.Collection[Property]): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       var i = 0
       values.asScala.foreach { p =>
         setAttribute(i, p.getValue)
@@ -187,7 +187,7 @@ abstract class AbstractSimpleFeature(sft: SimpleFeatureType) extends SimpleFeatu
   }
   override def getProperties(name: Name): java.util.Collection[Property] = getProperties(name.getLocalPart)
   override def getProperties(name: String): java.util.Collection[Property] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     getProperties.asScala.filter(_.getName.toString == name).toSeq.asJava
   }
   override def getProperty(name: Name): Property = getProperty(name.getLocalPart)

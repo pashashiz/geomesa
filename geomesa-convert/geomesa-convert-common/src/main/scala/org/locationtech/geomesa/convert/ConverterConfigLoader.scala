@@ -14,7 +14,7 @@ import org.locationtech.geomesa.utils.conf.GeoMesaSystemProperties.SystemPropert
 
 import java.net.URL
 import java.util.{ServiceLoader, List => JList}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object ConverterConfigLoader extends LazyLogging {
 

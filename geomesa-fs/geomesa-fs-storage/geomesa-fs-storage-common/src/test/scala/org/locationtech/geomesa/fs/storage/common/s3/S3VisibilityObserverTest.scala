@@ -32,7 +32,7 @@ import java.util.Base64
 @RunWith(classOf[JUnitRunner])
 class S3VisibilityObserverTest extends Specification with Mockito {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SimpleFeatureTypes.createType("s3", "dtg:Date,*geom:Point:srid=4326")
 

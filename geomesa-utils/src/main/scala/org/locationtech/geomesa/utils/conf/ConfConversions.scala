@@ -12,7 +12,7 @@ import com.typesafe.config.{Config, ConfigUtil}
 
 object ConfConversions {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Normalizes a potentially nested path into a dot-delimited string

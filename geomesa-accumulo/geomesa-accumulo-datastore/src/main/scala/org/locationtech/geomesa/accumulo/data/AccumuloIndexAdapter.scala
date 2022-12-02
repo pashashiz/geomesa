@@ -43,17 +43,19 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 import java.nio.charset.StandardCharsets
 import java.util.Collections
 import java.util.Map.Entry
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 
 /**
   * Index adapter for accumulo back-end
   *
   * @param ds data store
   */
-class AccumuloIndexAdapter(ds: AccumuloDataStore) extends IndexAdapter[AccumuloDataStore] {
+class AccumuloIndexAdapter(ds: AccumuloDataStore)(implicit val ec: ExecutionContextExecutor) extends IndexAdapter[AccumuloDataStore] {
 
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val tableOps = ds.connector.tableOperations()
 
@@ -123,25 +125,28 @@ class AccumuloIndexAdapter(ds: AccumuloDataStore) extends IndexAdapter[AccumuloD
   }
 
   override def deleteTables(tables: Seq[String]): Unit = {
-    tables.par.foreach { table =>
-      if (tableOps.exists(table)) {
-        tableOps.delete(table)
-      }
+    val result = Future.traverse(tables) { table =>
+      if (tableOps.exists(table)) Future(tableOps.delete(table))
+      else Future.successful(())
     }
+    Await.result(result, Duration.Inf)
   }
 
   override def clearTables(tables: Seq[String], prefix: Option[Array[Byte]]): Unit = {
     val auths = ds.auths // get the auths once up front
-    tables.par.foreach { table =>
+    val result = Future.traverse(tables) { table =>
       if (tableOps.exists(table)) {
         val config = GeoMesaBatchWriterConfig().setMaxWriteThreads(ds.config.writeThreads)
         WithClose(ds.connector.createBatchDeleter(table, auths, ds.config.queries.threads, config)) { deleter =>
           val range = prefix.map(p => Range.prefix(new Text(p))).getOrElse(new Range())
           deleter.setRanges(Collections.singletonList(range))
-          deleter.delete()
+          Future(deleter.delete())
         }
+      } else {
+        Future.successful(())
       }
     }
+    Await.result(result, Duration.Inf)
   }
 
   override def createQueryPlan(strategy: QueryStrategy): AccumuloQueryPlan = {

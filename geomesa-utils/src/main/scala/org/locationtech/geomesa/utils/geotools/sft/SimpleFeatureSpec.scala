@@ -134,7 +134,7 @@ object SimpleFeatureSpec {
   def attribute(sft: SimpleFeatureType, descriptor: AttributeDescriptor): AttributeSpec = {
     import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val name = descriptor.getLocalName
     val binding = descriptor.getType.getBinding

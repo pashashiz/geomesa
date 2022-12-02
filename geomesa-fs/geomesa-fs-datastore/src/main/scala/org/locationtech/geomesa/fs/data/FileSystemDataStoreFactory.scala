@@ -85,7 +85,7 @@ class FileSystemDataStoreFactory extends DataStoreFactorySpi {
 
 object FileSystemDataStoreFactory extends GeoMesaDataStoreInfo {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val DisplayName: String = "File System (GeoMesa)"
   override val Description: String = "File System Data Store"

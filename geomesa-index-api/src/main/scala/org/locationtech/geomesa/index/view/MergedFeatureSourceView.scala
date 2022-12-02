@@ -25,6 +25,8 @@ import org.opengis.filter.sort.SortBy
 import java.awt.RenderingHints.Key
 import java.util.Collections
 import java.util.concurrent.atomic.AtomicBoolean
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 
 /**
   * Feature source for merged data store view
@@ -39,7 +41,7 @@ class MergedFeatureSourceView(
     sources: Seq[(SimpleFeatureSource, Option[Filter])],
     parallel: Boolean,
     sft: SimpleFeatureType
-  ) extends SimpleFeatureSource with LazyLogging {
+  )(implicit val ec: ExecutionContextExecutor) extends SimpleFeatureSource with LazyLogging {
 
   lazy private val hints = Collections.unmodifiableSet(Collections.emptySet[Key])
 
@@ -50,7 +52,10 @@ class MergedFeatureSourceView(
   override def getCount(query: Query): Int = {
     val total =
       if (parallel) {
-        val counts = sources.par.map { case (source, f) => source.getCount(mergeFilter(sft, query, f)) }
+        val result = Future.traverse(sources) {
+          case (source, f) => Future(source.getCount(mergeFilter(sft, query, f)))
+        }
+        val counts = Await.result(result, Duration.Inf)
         counts.foldLeft(0)((sum, count) => if (sum < 0 || count < 0) { -1 } else { sum + count })
       } else {
         // if one of our sources can't get a count (i.e. is negative), give up and return -1
@@ -74,7 +79,12 @@ class MergedFeatureSourceView(
       }
     }
 
-    val sourceBounds = if (parallel) { sources.par.flatMap(getSingle).seq } else { sources.flatMap(getSingle) }
+    val sourceBounds = if (parallel) {
+      val result = Future.traverse(sources)(pair => Future(getSingle(pair)))
+      Await.result(result, Duration.Inf).flatten
+    } else {
+      sources.flatMap(getSingle)
+    }
 
     val bounds = new ReferencedEnvelope(org.locationtech.geomesa.utils.geotools.CRS_EPSG_4326)
     sourceBounds.foreach(bounds.expandToInclude)
@@ -85,7 +95,12 @@ class MergedFeatureSourceView(
     def getSingle(sourceAndFilter: (SimpleFeatureSource, Option[Filter])): Option[ReferencedEnvelope] =
       Option(sourceAndFilter._1.getBounds(mergeFilter(sft, query, sourceAndFilter._2)))
 
-    val sourceBounds = if (parallel) { sources.par.flatMap(getSingle).seq } else { sources.flatMap(getSingle) }
+    val sourceBounds = if (parallel) {
+      val result = Future.traverse(sources)(pair => Future(getSingle(pair)))
+      Await.result(result, Duration.Inf).flatten
+    } else {
+      sources.flatMap(getSingle)
+    }
 
     val bounds = new ReferencedEnvelope(org.locationtech.geomesa.utils.geotools.CRS_EPSG_4326)
     sourceBounds.foreach(bounds.expandToInclude)

@@ -19,7 +19,7 @@ import org.opengis.feature.simple.SimpleFeatureType
 import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.util.{Date, Locale, UUID}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object AvroSimpleFeatureUtils extends LazyLogging {
 

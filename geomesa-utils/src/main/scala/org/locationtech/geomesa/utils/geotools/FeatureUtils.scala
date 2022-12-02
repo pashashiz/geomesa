@@ -16,7 +16,7 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
 import java.lang.{Boolean => jBoolean}
 import java.util.Locale
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.immutable.HashSet
 
 /** Utilities for re-typing and re-building [[SimpleFeatureType]]s and [[SimpleFeature]]s while

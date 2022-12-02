@@ -45,7 +45,7 @@ class OrcFileSystemStorage(context: FileSystemContext, metadata: StorageMetadata
 
 object OrcFileSystemStorage {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val Encoding      = "orc"
   val FileExtension = "orc"

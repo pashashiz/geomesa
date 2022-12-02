@@ -32,7 +32,7 @@ class AccumuloDataStoreAuthTest extends TestWithFeatureType {
   import AccumuloDataStoreParams.{AuthsParam, ForceEmptyAuthsParam}
   import org.locationtech.geomesa.security.AuthProviderParam
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

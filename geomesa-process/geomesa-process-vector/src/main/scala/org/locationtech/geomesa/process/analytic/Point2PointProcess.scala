@@ -107,7 +107,7 @@ class Point2PointProcess extends GeoMesaProcess {
           }
         }.flatten
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     new ListFeatureCollection(sft, lineFeatures.toList.asJava)
   }

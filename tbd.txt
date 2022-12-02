@@ -1,0 +1,2 @@
+1. Use collections compat to support 2.12, 2.11
+2. Spark 3.x does not exist for 2.11

@@ -18,7 +18,7 @@ import java.util.{Collections, UUID}
 
 class CollectionFunctionFactory extends TransformerFunctionFactory with CollectionParsing {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def functions: Seq[TransformerFunction] =
     Seq(listParserFn, mapParserFn, listFn, mapValueFunction, transformList, listItem)
@@ -115,7 +115,7 @@ object CollectionFunctionFactory {
 
   private class TransformList(exp: Expression) extends NamedTransformerFunction(Seq("transformListItems")) {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def apply(args: Array[AnyRef]): AnyRef = {
       args(0) match {

@@ -29,7 +29,7 @@ import java.util.{Date, UUID}
 @RunWith(classOf[JUnitRunner])
 class ParquetConverterTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

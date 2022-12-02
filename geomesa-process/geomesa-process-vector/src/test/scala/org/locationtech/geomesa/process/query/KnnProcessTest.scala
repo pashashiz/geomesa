@@ -31,7 +31,7 @@ import java.util.Collections
 @RunWith(classOf[JUnitRunner])
 class KnnProcessTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val process = new KNearestNeighborSearchProcess
 

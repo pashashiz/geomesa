@@ -26,7 +26,7 @@ import java.util.{Collections, UUID}
 @RunWith(classOf[JUnitRunner])
 class SparkSQLColumnsTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

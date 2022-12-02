@@ -42,7 +42,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class AccumuloDataStoreColumnGroupsTest extends Specification with TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // note: using Seq.foreach, ok instead of foreach(Seq) shaves several seconds off the time to run this test
 
@@ -256,7 +256,7 @@ class AccumuloDataStoreColumnGroupsTest extends Specification with TestWithFeatu
       WithClose(SimpleFeatureArrowFileReader.streaming(in)) { reader =>
         val results = SelfClosingIterator(reader.features()).map { f =>
           // round the points, as precision is lost due to the arrow encoding
-          val attributes = f.getAttributes.asScala.collect {
+          val attributes = f.getAttributes.asScala.toList.collect {
             case p: Point => s"POINT (${Math.round(p.getX * 10) / 10d} ${Math.round(p.getY * 10) / 10d})"
             case a => a
           }

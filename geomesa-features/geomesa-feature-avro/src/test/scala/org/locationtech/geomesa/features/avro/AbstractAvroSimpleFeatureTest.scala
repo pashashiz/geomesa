@@ -81,7 +81,7 @@ trait AbstractAvroSimpleFeatureTest {
   def getFeatures(f: File): List[SimpleFeature] = {
     // verify file can be read as generic records
     WithClose(new DataFileStream[GenericRecord](new FileInputStream(f), new GenericDatumReader[GenericRecord]())) { dfs =>
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       dfs.iterator().asScala.toList
     }
 

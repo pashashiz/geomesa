@@ -23,7 +23,7 @@ class OrSequentialEquality(property: PropertyName, values: Seq[AnyRef]) extends 
 
   import org.locationtech.geomesa.filter.factory.FastFilterFactory.factory
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val children: Seq[Filter] = values.map(value => factory.equals(property, factory.literal(value)))
 

@@ -17,7 +17,7 @@ import java.{io => jio, util => ju}
 
 package object security {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val GEOMESA_AUDIT_PROVIDER_IMPL: SystemProperty = SystemProperty("geomesa.audit.provider.impl")
   val GEOMESA_AUTH_PROVIDER_IMPL : SystemProperty = SystemProperty("geomesa.auth.provider.impl")

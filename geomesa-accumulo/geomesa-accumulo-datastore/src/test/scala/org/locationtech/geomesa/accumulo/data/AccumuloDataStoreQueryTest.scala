@@ -46,7 +46,7 @@ class AccumuloDataStoreQueryTest extends Specification with TestWithMultipleSfts
 
   import org.locationtech.geomesa.filter.ff
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 
@@ -681,8 +681,8 @@ class AccumuloDataStoreQueryTest extends Specification with TestWithMultipleSfts
     }
 
     "handle Query.ALL" in {
-      ds.getFeatureSource(defaultSft.getTypeName).getFeatures(Query.ALL).features() must not throwAn[IllegalArgumentException]()
-      ds.getFeatureReader(Query.ALL, Transaction.AUTO_COMMIT) must throwAn[IllegalArgumentException]
+      ds.getFeatureSource(defaultSft.getTypeName).getFeatures(Query.ALL).features() must not(throwAn[IllegalArgumentException]())
+      ds.getFeatureReader(Query.ALL, Transaction.AUTO_COMMIT) must throwAn[IllegalArgumentException]()
     }
   }
 }

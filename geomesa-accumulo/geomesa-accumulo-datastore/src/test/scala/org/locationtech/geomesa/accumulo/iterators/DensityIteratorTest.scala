@@ -32,7 +32,7 @@ import scala.util.Random
 @RunWith(classOf[JUnitRunner])
 class DensityIteratorTest extends Specification with TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

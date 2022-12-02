@@ -26,7 +26,7 @@ import java.util.Collections
 @RunWith(classOf[JUnitRunner])
 class RedisDataStoreTest extends Specification with Mockito {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val spec = s"name:String:index=true,dtg:Date,*geom:Point:srid=4326;geomesa.indices=z3:${Z3Index.version}:3:geom:dtg"
 

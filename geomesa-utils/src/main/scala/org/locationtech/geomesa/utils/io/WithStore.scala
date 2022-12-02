@@ -17,7 +17,7 @@ import org.geotools.data.{DataStore, DataStoreFinder}
   */
 object WithStore {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def apply[DS <: DataStore](params: Map[String, _]): WithStore[DS] = apply(params.asJava)
 

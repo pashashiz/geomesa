@@ -21,7 +21,7 @@ import java.net.URL
 
 class ShapefileExporter(file: File) extends FeatureExporter {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val url = URLs.fileToUrl(file)
   private var ds: ShapefileDataStore = _

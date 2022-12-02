@@ -32,6 +32,10 @@ import org.opengis.feature.simple.SimpleFeature
 import org.opengis.filter.Filter
 import org.opengis.filter.expression.PropertyName
 
+import java.util.concurrent.Executors
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutor, Future}
+
 @DescribeProcess(
   title = "Geomesa-enabled K Nearest Neighbor Search",
   description = "Performs a K-nearest-neighbor search on a feature collection using a second feature collection as input"
@@ -121,91 +125,90 @@ object KNearestNeighborSearchProcess {
     override def execute(source: SimpleFeatureSource, query: Query): Unit = {
       logger.debug(s"Running Geomesa KNN process on source type ${source.getClass.getName}")
 
-      // create a new feature collection to hold the results of the KNN search around each point
-      val collection = new DefaultFeatureCollection()
       val geom = ff.property(source.getSchema.getGeomField)
 
-      // for each entry in the inputFeatures collection:
-      queries.par.foreach { p =>
-        // tracks our nearest neighbors
-        val results = Array.ofDim[FeatureWithDistance](k)
-        // tracks features are in our search envelope but that aren't within our current search distance
-        // we use a java linked list as scala doesn't have anything with 'iterate and remove' functionality
-        val overflow = new java.util.LinkedList[FeatureWithDistance]()
+      WithClose(Executors.newFixedThreadPool(Runtime.getRuntime.availableProcessors() * 2)) { blockingPool =>
+        implicit val ec: ExecutionContextExecutor = ExecutionContext.fromExecutor(blockingPool)
 
-        // calculator for expanding window queries
-        val window = new KnnWindow(query, geom, p, k, start, threshold)
-        var found = 0 // tracks the number of neighbors we've found so far
+        // for each entry in the inputFeatures collection:
+        val results = Future.traverse(queries) { p =>
+          Future {
+            // tracks our nearest neighbors
+            val results = Array.ofDim[FeatureWithDistance](k)
+            // tracks features are in our search envelope but that aren't within our current search distance
+            // we use a java linked list as scala doesn't have anything with 'iterate and remove' functionality
+            val overflow = new java.util.LinkedList[FeatureWithDistance]()
 
-        val initial = window.next(None)
-        logger.trace(s"Current query window:\n  ${window.window.debug.mkString("\n  ")}")
-        logger.trace(s"Current filter: ${ECQL.toCQL(initial.getFilter)}")
+            // calculator for expanding window queries
+            val window = new KnnWindow(query, geom, p, k, start, threshold)
+            var found = 0 // tracks the number of neighbors we've found so far
 
-        // run our first query against the estimated distance
-        WithClose(source.getFeatures(initial).features()) { iter =>
-          // note: the calculator will populate our results array
-          val knn = new KnnCalculator(p, k, window.radius, results)
-          while (iter.hasNext) {
-            val sf = iter.next
-            // features that aren't within our query distance are added to the overflow for the next iteration
-            knn.visit(sf).foreach(d => overflow.add(FeatureWithDistance(sf, d)))
-          }
-          found = knn.size
-        }
+            val initial = window.next(None)
+            logger.trace(s"Current query window:\n  ${window.window.debug.mkString("\n  ")}")
+            logger.trace(s"Current filter: ${ECQL.toCQL(initial.getFilter)}")
 
-        var iteration = 1 // tracks the number of queries we've run
-
-        // if we haven't found k features, start expanding the search distance
-        while (found < k && window.hasNext) {
-          val last = window.radius
-          // calculate the next query to search, based on how many we've found so far
-          val next = window.next(Some(found))
-          logger.debug(
-            s"Expanding search at (${p.getX} ${p.getY}) from $last to ${window.radius} meters " +
-                s"based on finding $found/$k neighbors")
-          logger.trace(s"Current query window:\n  ${window.window.debug.mkString("\n  ")}")
-          logger.trace(s"Current filter: ${ECQL.toCQL(next.getFilter)}")
-
-          // calculator for our new distance, initialized with the neighbors we've already found
-          val knn = new KnnCalculator(p, k, window.radius, results, found)
-          // re-visit any features that were outside our distance but inside our last envelope
-          val iter = overflow.iterator()
-          while (iter.hasNext) {
-            val FeatureWithDistance(sf, d) = iter.next()
-            if (d <= window.radius) {
-              knn.visit(sf, d)
-              iter.remove()
+            // run our first query against the estimated distance
+            WithClose(source.getFeatures(initial).features()) { iter =>
+              // note: the calculator will populate our results array
+              val knn = new KnnCalculator(p, k, window.radius, results)
+              while (iter.hasNext) {
+                val sf = iter.next
+                // features that aren't within our query distance are added to the overflow for the next iteration
+                knn.visit(sf).foreach(d => overflow.add(FeatureWithDistance(sf, d)))
+              }
+              found = knn.size
             }
-          }
 
-          // run the new query
-          WithClose(source.getFeatures(next).features()) { iter =>
-            while (iter.hasNext) {
-              val sf = iter.next
-              // features that aren't within our query distance are added to the overflow for the next iteration
-              knn.visit(sf).foreach(d => overflow.add(FeatureWithDistance(sf, d)))
+            var iteration = 1 // tracks the number of queries we've run
+
+            // if we haven't found k features, start expanding the search distance
+            while (found < k && window.hasNext) {
+              val last = window.radius
+              // calculate the next query to search, based on how many we've found so far
+              val next = window.next(Some(found))
+              logger.debug(
+                s"Expanding search at (${p.getX} ${p.getY}) from $last to ${window.radius} meters " +
+                  s"based on finding $found/$k neighbors")
+              logger.trace(s"Current query window:\n  ${window.window.debug.mkString("\n  ")}")
+              logger.trace(s"Current filter: ${ECQL.toCQL(next.getFilter)}")
+
+              // calculator for our new distance, initialized with the neighbors we've already found
+              val knn = new KnnCalculator(p, k, window.radius, results, found)
+              // re-visit any features that were outside our distance but inside our last envelope
+              val iter = overflow.iterator()
+              while (iter.hasNext) {
+                val FeatureWithDistance(sf, d) = iter.next()
+                if (d <= window.radius) {
+                  knn.visit(sf, d)
+                  iter.remove()
+                }
+              }
+
+              // run the new query
+              WithClose(source.getFeatures(next).features()) { iter =>
+                while (iter.hasNext) {
+                  val sf = iter.next
+                  // features that aren't within our query distance are added to the overflow for the next iteration
+                  knn.visit(sf).foreach(d => overflow.add(FeatureWithDistance(sf, d)))
+                }
+                found = knn.size
+              }
+
+              iteration += 1
             }
-            found = knn.size
+
+            logger.debug(
+              s"Found $found/$k neighbors at (${p.getX} ${p.getY}) after $iteration iteration(s) with final search " +
+                s"distance of ${window.radius} (initial $start, max $threshold)")
+            logger.trace(results.take(found).map(_.sf).mkString("; "))
+            results
           }
+        }.map(_.flatten)
 
-          iteration += 1
-        }
-
-        logger.debug(
-          s"Found $found/$k neighbors at (${p.getX} ${p.getY}) after $iteration iteration(s) with final search " +
-              s"distance of ${window.radius} (initial $start, max $threshold)")
-        logger.trace(results.take(found).map(_.sf).mkString("; "))
-
-        collection.synchronized {
-          var i = 0
-          while (i < found) {
-            collection.add(results(i).sf)
-            i += 1
-          }
-        }
+        val collection = new DefaultFeatureCollection()
+        Await.result(results, Duration.Inf).foreach { result => collection.add(result.sf) }
+        this.result = FeatureResult(collection)
       }
-
-      this.result = FeatureResult(collection)
     }
   }
 

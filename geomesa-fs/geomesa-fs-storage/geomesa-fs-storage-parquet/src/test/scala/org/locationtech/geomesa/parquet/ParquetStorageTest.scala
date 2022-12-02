@@ -36,7 +36,7 @@ import java.util.UUID
 @RunWith(classOf[JUnitRunner])
 class ParquetStorageTest extends Specification with AllExpectations with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

@@ -31,7 +31,7 @@ import java.nio.file.Files
 @RunWith(classOf[JUnitRunner])
 class ArrowDataStoreTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   import ArrowDataStoreFactory.{CachingParam, UrlParam}
 

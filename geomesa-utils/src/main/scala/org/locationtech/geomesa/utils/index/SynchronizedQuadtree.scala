@@ -18,7 +18,7 @@ import java.util.concurrent.locks.{Lock, ReentrantReadWriteLock}
  */
 class SynchronizedQuadtree[T] extends SpatialIndex[T] with Serializable {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private var qt = new Quadtree
 

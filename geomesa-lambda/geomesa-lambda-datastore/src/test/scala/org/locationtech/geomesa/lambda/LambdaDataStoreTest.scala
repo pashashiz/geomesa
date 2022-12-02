@@ -32,7 +32,7 @@ import java.util.Date
 
 class LambdaDataStoreTest extends LambdaTest with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
   import scala.concurrent.duration._
 
   sequential

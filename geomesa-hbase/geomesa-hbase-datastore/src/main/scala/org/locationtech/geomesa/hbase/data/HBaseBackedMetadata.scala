@@ -16,7 +16,7 @@ import org.locationtech.geomesa.index.metadata.{KeyValueStoreMetadata, MetadataS
 import org.locationtech.geomesa.utils.collection.CloseableIterator
 import org.locationtech.geomesa.utils.io.WithClose
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class HBaseBackedMetadata[T](connection: Connection, catalog: TableName, val serializer: MetadataSerializer[T])
     extends { private val table = connection.getTable(catalog) } with KeyValueStoreMetadata[T] {

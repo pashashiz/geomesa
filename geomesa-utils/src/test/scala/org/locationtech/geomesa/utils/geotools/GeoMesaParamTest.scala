@@ -22,7 +22,7 @@ import scala.concurrent.duration.Duration
 @RunWith(classOf[JUnitRunner])
 class GeoMesaParamTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   "GeoMesaParam" should {
     "look up values" in {

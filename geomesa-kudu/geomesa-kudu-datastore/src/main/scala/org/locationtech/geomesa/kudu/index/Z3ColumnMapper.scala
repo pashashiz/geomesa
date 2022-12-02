@@ -29,7 +29,7 @@ class Z3ColumnMapper(index: GeoMesaFeatureIndex[_, _]) extends KuduColumnMapper(
   override def configurePartitions(): CreateTableOptions = {
     import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val options = new CreateTableOptions()
 

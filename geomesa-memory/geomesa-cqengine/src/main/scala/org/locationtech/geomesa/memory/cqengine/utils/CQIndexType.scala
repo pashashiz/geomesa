@@ -30,7 +30,7 @@ object CQIndexType extends Enumeration {
     * @return
     */
   def getDefinedAttributes(sft: SimpleFeatureType): Seq[(String, CQIndexType)] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val types = Seq.newBuilder[(String, CQIndexType)]
     types.sizeHint(sft.getAttributeCount)

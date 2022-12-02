@@ -14,7 +14,7 @@ import org.opengis.feature.simple.SimpleFeature
 
 object SimpleFeaturePropertyAccessor extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Initialize the static property accessors cache with the context classloader to ensure

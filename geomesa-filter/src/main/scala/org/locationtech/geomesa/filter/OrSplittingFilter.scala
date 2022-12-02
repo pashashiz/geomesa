@@ -11,7 +11,7 @@ package org.locationtech.geomesa.filter
 import org.geotools.filter.visitor.DefaultFilterVisitor
 import org.opengis.filter._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class OrSplittingFilter extends DefaultFilterVisitor {
 

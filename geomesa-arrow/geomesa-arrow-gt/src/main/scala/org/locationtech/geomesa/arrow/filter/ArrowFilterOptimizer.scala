@@ -36,7 +36,7 @@ object ArrowFilterOptimizer extends LazyLogging {
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val ff: FilterFactory2 = FastFilterFactory.factory
 

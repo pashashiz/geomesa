@@ -75,7 +75,7 @@ package object io {
    * @return metadata map
    */
   def getSortAsMetadata(field: String, reverse: Boolean): java.util.Map[String, String] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     // note: reverse == descending
     Map(Metadata.SortField -> field, Metadata.SortOrder -> (if (reverse) { "descending" } else { "ascending" })).asJava
   }

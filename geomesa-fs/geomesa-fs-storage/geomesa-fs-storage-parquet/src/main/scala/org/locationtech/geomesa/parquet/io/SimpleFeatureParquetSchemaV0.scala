@@ -24,7 +24,7 @@ import org.opengis.feature.simple.SimpleFeatureType
   */
 object SimpleFeatureParquetSchemaV0 {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def apply(sft: SimpleFeatureType): MessageType = {
     val idField =

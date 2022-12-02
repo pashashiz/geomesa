@@ -77,7 +77,7 @@ object QueryInterceptor extends LazyLogging {
       */
     private class QueryInterceptorFactoryImpl(ds: DataStore) extends QueryInterceptorFactory {
 
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       private val expiry = TableBasedMetadata.Expiry.toDuration.get.toMillis
 

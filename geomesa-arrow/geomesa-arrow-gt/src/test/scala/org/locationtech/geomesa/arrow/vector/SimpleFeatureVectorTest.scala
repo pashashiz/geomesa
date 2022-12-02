@@ -203,7 +203,7 @@ class SimpleFeatureVectorTest extends Specification {
       }
     }
     "set and get lists and maps" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val sft = SimpleFeatureTypes.createType("test",
         "name:String,tags:Map[String,String],dates:List[Date],*geom:Point:srid=4326")
       val features = (0 until 10).map { i =>
@@ -225,7 +225,7 @@ class SimpleFeatureVectorTest extends Specification {
       }
     }
     "set and get dictionary encoded lists" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val sft = SimpleFeatureTypes.createType("test", "names:List[String],dtg:Date,*geom:Point:srid=4326")
       val features = (0 until 10).map { i =>
         val names = Seq.tabulate(i)(j => s"name0${j % 5}").asJava

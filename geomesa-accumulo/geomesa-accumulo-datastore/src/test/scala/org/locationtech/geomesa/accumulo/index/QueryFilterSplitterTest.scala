@@ -32,7 +32,7 @@ class QueryFilterSplitterTest extends Specification {
   import org.locationtech.geomesa.filter.ff
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SchemaBuilder.builder()
     .addString("attr1")

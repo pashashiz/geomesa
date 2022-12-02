@@ -83,7 +83,7 @@ object AvroPath extends BasicParser {
 
   case class ArrayRecordExpr(field: String, matched: String) extends AvroPath {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def eval(r: Any): Option[Any] = r match {
       case a: java.util.List[GenericRecord] => a.asScala.find(predicate)

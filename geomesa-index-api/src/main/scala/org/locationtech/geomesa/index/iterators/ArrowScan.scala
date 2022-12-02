@@ -84,7 +84,7 @@ object ArrowScan extends LazyLogging {
   import org.locationtech.geomesa.index.conf.QueryHints.RichHints
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   object Configuration {
 

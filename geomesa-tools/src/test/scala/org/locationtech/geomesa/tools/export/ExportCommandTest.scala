@@ -51,7 +51,7 @@ import java.util.{Collections, Date}
 @RunWith(classOf[JUnitRunner])
 class ExportCommandTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val excludes = Seq(ExportFormat.Null)
   val formats = ExportFormat.Formats.filterNot(excludes.contains)
@@ -234,7 +234,7 @@ class ExportCommandTest extends Specification {
     bytes.grouped(16).map(BinaryOutputEncoder.decode).toSeq.map { values =>
       val dtg = new Date(values.dtg)
       val f1 = features.find(_.getAttribute("dtg") == dtg).get
-      val attributes = sft.getAttributeDescriptors.asScala.map(_.getLocalName).map {
+      val attributes = sft.getAttributeDescriptors.asScala.toList.map(_.getLocalName).map {
         case "geom" => s"POINT (${values.lon} ${values.lat})"
         case "dtg"  => dtg
         case "name" => f1.getAttribute("name")
@@ -301,7 +301,7 @@ class ExportCommandTest extends Specification {
       SelfClosingIterator(ds.getFeatureReader).toList.map { f =>
         val dtg = f.getAttribute("dtg")
         val f1 = features.find(_.getAttribute("dtg") == dtg).get
-        val attributes = sft.getAttributeDescriptors.asScala.map(_.getLocalName).map {
+        val attributes = sft.getAttributeDescriptors.asScala.toList.map(_.getLocalName).map {
           case "geom" => f.getAttribute(0)
           case "dtg"  => dtg
           case "name" => f.getAttribute("name")

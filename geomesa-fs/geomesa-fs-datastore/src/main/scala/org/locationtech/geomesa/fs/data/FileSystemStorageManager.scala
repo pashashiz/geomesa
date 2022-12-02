@@ -30,7 +30,7 @@ import scala.util.control.NonFatal
 class FileSystemStorageManager private (fc: FileContext, conf: Configuration, root: Path, namespace: Option[String])
     extends MethodProfiling with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val cache = new ConcurrentHashMap[String, (Path, FileSystemStorage)]().asScala
 

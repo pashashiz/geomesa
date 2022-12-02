@@ -60,7 +60,7 @@ object ArrowAttributeWriter {
 
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Writer for feature ID. The return FeatureWriter expects to be passed the entire SimpleFeature, not

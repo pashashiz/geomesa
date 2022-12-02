@@ -10,17 +10,11 @@ package org.locationtech.geomesa.jobs.interop.mapreduce;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.JobContext;
-import org.apache.hadoop.mapreduce.OutputCommitter;
-import org.apache.hadoop.mapreduce.OutputFormat;
-import org.apache.hadoop.mapreduce.RecordWriter;
-import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.*;
 import org.locationtech.geomesa.jobs.mapreduce.GeoMesaOutputFormat$;
 import org.opengis.feature.simple.SimpleFeature;
 import org.opengis.feature.simple.SimpleFeatureType;
-import scala.Predef;
-import scala.Tuple2;
-import scala.collection.JavaConverters;
+import scala.jdk.CollectionConverters;
 
 import java.io.IOException;
 import java.util.Map;
@@ -54,9 +48,8 @@ public class GeoMesaOutputFormat extends OutputFormat<Text, SimpleFeature> {
     }
 
     public static void setOutput(Configuration conf, Map<String, String> dataStoreParams, SimpleFeatureType type) {
-        Object m = JavaConverters.mapAsScalaMapConverter(dataStoreParams).asScala();
         scala.collection.immutable.Map<String, String> scalaParams =
-              ((scala.collection.mutable.Map<String, String>) m).toMap(Predef.<Tuple2<String, String>>conforms());
+                scala.collection.immutable.Map.from(CollectionConverters.MapHasAsScala(dataStoreParams).asScala());
         GeoMesaOutputFormat$.MODULE$.setOutput(conf, scalaParams, type, scala.Option.apply(null));
     }
 }

@@ -42,7 +42,7 @@ object JoinIndex extends ConfiguredIndex {
 
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // hook to allow for not returning join plans
   val AllowJoinPlans: ThreadLocal[Boolean] = new ThreadLocal[Boolean] {

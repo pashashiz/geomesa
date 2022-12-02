@@ -50,7 +50,7 @@ sealed trait AccumuloQueryPlan extends QueryPlan[AccumuloDataStore] {
 
 object AccumuloQueryPlan extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // scan result => range
   type JoinFunction = Entry[Key, Value] => org.apache.accumulo.core.data.Range

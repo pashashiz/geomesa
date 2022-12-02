@@ -21,7 +21,7 @@ import org.locationtech.geomesa.utils.io.CloseWithLogging
 class SortedMergeIterator[T](streams: Seq[CloseableIterator[T]])(implicit ordering: Ordering[T])
     extends CloseableIterator[T] {
 
-  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
 
   private val indexedStreams = streams.toIndexedSeq
   // reverse the ordering so we get the head of the queue as the first value

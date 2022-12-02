@@ -28,7 +28,7 @@ import org.opengis.feature.simple.SimpleFeature
   */
 class GeoToolsSpatialRDDProvider extends SpatialRDDProvider with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def canProcess(params: java.util.Map[String, _ <: java.io.Serializable]): Boolean = {
     val parameters = params.asInstanceOf[java.util.Map[String, java.io.Serializable]]

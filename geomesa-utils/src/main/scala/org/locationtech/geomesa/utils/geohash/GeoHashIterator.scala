@@ -226,7 +226,7 @@ abstract class GeoHashIterator(latitudeLL: Double,
   @Override
   override def hasNext: Boolean = doesHaveNext
 
-  protected def setCurrentGeoHash(newCurrentGeoHash: GeoHash) {
+  protected def setCurrentGeoHash(newCurrentGeoHash: GeoHash): Unit = {
     ghPrevious = ghCurrent
     ghCurrent = newCurrentGeoHash
   }

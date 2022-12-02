@@ -86,7 +86,7 @@ class KafkaDataStoreFactory extends DataStoreFactorySpi {
 
 object KafkaDataStoreFactory extends GeoMesaDataStoreInfo with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val LayerViewReader = Derivation.Successful(ConfigReader.fromCursor(readLayerViewConfig))
   private val LayerViewClassTag = ClassTag[LayerViewConfig](classOf[LayerViewConfig])

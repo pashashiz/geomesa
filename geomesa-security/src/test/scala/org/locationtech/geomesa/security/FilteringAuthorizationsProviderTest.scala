@@ -14,7 +14,7 @@ import org.specs2.runner.JUnitRunner
 
 import java.io.Serializable
 import java.util
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @RunWith(classOf[JUnitRunner])
 class FilteringAuthorizationsProviderTest extends Specification {

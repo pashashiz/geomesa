@@ -21,7 +21,7 @@ import org.opengis.filter.expression.PropertyName
 
 import java.time.ZonedDateTime
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
   * Estimate query counts based on cached stats.
@@ -36,7 +36,7 @@ trait StatsBasedEstimator {
   stats: GeoMesaStats =>
 
   import StatsBasedEstimator.{ErrorThresholds, ZHistogramPrecision}
-  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
 
   /**
     * Estimates the count for a given filter, based off the per-attribute metadata we have stored

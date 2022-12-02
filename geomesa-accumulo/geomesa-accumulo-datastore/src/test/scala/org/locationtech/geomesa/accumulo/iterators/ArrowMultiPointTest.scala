@@ -28,7 +28,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 @RunWith(classOf[JUnitRunner])
 class ArrowMultiPointTest extends TestWithFeatureType with Mockito with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val spec = "team:String,name:String,dtg:Date,*geom:MultiPoint:srid=4326"
 

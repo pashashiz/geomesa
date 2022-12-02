@@ -25,13 +25,13 @@ import org.specs2.runner.JUnitRunner
 
 import java.text.SimpleDateFormat
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.concurrent.duration.Duration
 
 @RunWith(classOf[JUnitRunner])
 class HBaseTTLTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

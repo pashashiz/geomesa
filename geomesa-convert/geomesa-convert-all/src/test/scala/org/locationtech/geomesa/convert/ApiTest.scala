@@ -70,7 +70,7 @@ class ApiTest extends Specification {
 class TestConverter(sft: SimpleFeatureType, config: BasicConfig, fields: Seq[TestField], options: BasicOptions)
     extends AbstractConverter[String, BasicConfig, TestField, BasicOptions](sft, config, fields, options) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override protected def parse(is: InputStream, ec: EvaluationContext): CloseableIterator[String] =
     CloseableIterator(IOUtils.lineIterator(is, options.encoding).asScala, is.close())

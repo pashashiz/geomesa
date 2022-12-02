@@ -19,7 +19,7 @@ import org.opengis.filter.Filter
 import org.specs2.mutable.Specification
 import org.specs2.specification.core.Fragments
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * Trait to simplify tests that require reading and writing features from an AccumuloDataStore

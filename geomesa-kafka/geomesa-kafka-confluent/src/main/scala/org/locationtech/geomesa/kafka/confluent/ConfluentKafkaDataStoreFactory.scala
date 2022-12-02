@@ -22,7 +22,7 @@ import org.opengis.feature.simple.SimpleFeatureType
 import java.awt.RenderingHints
 import java.io.Serializable
 import java.net.URL
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.control.NonFatal
 
 class ConfluentKafkaDataStoreFactory extends DataStoreFactorySpi {

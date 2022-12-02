@@ -17,7 +17,7 @@ import scala.util.Try
 
 trait GeoMesaDataStoreServlet extends PersistentDataStoreServlet {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   type PasswordHandler = AnyRef { def encode(value: String): String; def decode(value: String): String }
 
@@ -31,7 +31,7 @@ trait GeoMesaDataStoreServlet extends PersistentDataStoreServlet {
     }.toSet
 
   sys.addShutdownHook {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     dataStoreCache.values.asScala.foreach(_.dispose())
   }
 

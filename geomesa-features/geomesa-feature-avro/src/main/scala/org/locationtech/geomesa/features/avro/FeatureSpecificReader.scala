@@ -120,7 +120,7 @@ object FeatureSpecificReader {
                                 projectedType: SimpleFeatureType,
                                 includeFid: Boolean) {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val requiredFields = DataUtilities.attributeNames(projectedType).toSet
     private val nillableFields = originalType.getAttributeDescriptors.asScala.collect {

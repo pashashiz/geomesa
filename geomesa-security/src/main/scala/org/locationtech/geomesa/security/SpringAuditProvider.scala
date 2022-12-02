@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails
 
 import java.io.Serializable
 import java.util.Collections
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class SpringAuditProvider extends AuditProvider {
 

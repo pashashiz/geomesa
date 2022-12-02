@@ -142,7 +142,7 @@ object DelimitedTextConverter {
   def magicParsing(typeName: String,
                    is: InputStream,
                    format: CSVFormat = Formats.QuotedMinimal): CloseableIterator[SimpleFeature] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val parser = format.parse(new InputStreamReader(is, StandardCharsets.UTF_8))
     val records = parser.iterator()

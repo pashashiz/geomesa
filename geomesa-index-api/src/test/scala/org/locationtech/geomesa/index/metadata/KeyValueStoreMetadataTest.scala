@@ -72,7 +72,7 @@ class KeyValueStoreMetadataTest extends Specification {
     override protected def scanValue(row: Array[Byte]): Option[Array[Byte]] = Option(data.get(row))
 
     override protected def scanRows(prefix: Option[Array[Byte]]): CloseableIterator[(Array[Byte], Array[Byte])] = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       prefix match {
         case None => CloseableIterator(data.entrySet().iterator.asScala.map(e => e.getKey -> e.getValue))
         case Some(p) =>

@@ -39,7 +39,7 @@ object XmlConverterFactory {
 
   object XmlConfigConvert extends ConverterConfigConvert[XmlConfig] with OptionConvert with StrictLogging {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override protected def decodeConfig(
         cur: ConfigObjectCursor,

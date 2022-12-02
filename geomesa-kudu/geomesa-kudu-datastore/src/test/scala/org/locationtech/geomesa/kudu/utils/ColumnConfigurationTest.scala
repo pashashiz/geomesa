@@ -20,7 +20,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class ColumnConfigurationTest extends Specification with Mockito {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   "ColumnConfiguration" should {
     "default to lz4 compression" in {

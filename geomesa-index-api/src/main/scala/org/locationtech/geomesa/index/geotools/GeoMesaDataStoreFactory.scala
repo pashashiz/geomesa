@@ -15,7 +15,6 @@ import org.locationtech.geomesa.utils.audit.{AuditProvider, AuditWriter}
 import org.locationtech.geomesa.utils.geotools.GeoMesaParam
 import org.locationtech.geomesa.utils.geotools.GeoMesaParam._
 
-import java.io.Serializable
 import java.util.concurrent.TimeUnit
 import scala.concurrent.duration.Duration
 

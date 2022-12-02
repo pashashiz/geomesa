@@ -26,7 +26,7 @@ class FilterSplitter(sft: SimpleFeatureType, indices: Seq[GeoMesaFeatureIndex[_,
 
   import FilterSplitter._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Splits the query up into different filter plans to be evaluated. Each filter plan will consist of one or

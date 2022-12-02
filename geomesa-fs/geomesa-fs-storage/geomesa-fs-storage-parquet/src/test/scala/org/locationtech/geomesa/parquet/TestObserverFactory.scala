@@ -29,7 +29,7 @@ class TestObserverFactory extends FileSystemObserverFactory {
 
 object TestObserverFactory {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val observers: scala.collection.mutable.Set[TestObserver] =
     Collections.synchronizedSet(new java.util.HashSet[TestObserver]()).asScala

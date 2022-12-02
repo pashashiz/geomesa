@@ -62,7 +62,7 @@ class DeltaWriter(
   import DeltaWriter._
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val allocator = ArrowAllocator(s"delta-writer:${sft.getTypeName}")
 
@@ -208,7 +208,7 @@ object DeltaWriter extends StrictLogging {
 
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // empty provider
   private val Provider = new MapDictionaryProvider()

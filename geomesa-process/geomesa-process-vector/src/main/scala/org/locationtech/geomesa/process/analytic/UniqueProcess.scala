@@ -31,7 +31,7 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 import org.opengis.filter.Filter
 import org.opengis.util.ProgressListener
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable
 
 @DescribeProcess(title = "Geomesa Unique",
@@ -161,7 +161,7 @@ class AttributeVisitor(val features: SimpleFeatureCollection,
                        val filter: Option[Filter],
                        histogram: Boolean) extends GeoMesaProcessVisitor with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val attribute    = attributeDescriptor.getLocalName
   private val uniqueValues = mutable.Map.empty[Any, Long].withDefaultValue(0)

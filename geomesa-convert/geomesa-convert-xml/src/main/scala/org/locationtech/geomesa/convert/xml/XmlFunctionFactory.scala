@@ -24,7 +24,7 @@ import scala.concurrent.duration.Duration
 
 class XmlFunctionFactory extends TransformerFunctionFactory {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy private val defaultXPathFactory = ConfigFactory.load("xml-converter-defaults").getString("xpath-factory")
 

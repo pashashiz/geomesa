@@ -34,7 +34,7 @@ class AvroConverterFactory extends AbstractConverterFactory[AvroConverter, AvroC
   import AvroSimpleFeatureUtils.{AVRO_SIMPLE_FEATURE_USERDATA, AVRO_SIMPLE_FEATURE_VERSION, FEATURE_ID_AVRO_FIELD_NAME}
   import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterator
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override protected val typeToProcess: String = "avro"
 
@@ -153,7 +153,7 @@ class AvroConverterFactory extends AbstractConverterFactory[AvroConverter, AvroC
 
 object AvroConverterFactory {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Take an avro schema and return the simple feature type bindings for it

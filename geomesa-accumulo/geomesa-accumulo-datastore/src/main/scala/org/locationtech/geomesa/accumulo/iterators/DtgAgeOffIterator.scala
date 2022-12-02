@@ -35,7 +35,7 @@ class DtgAgeOffIterator extends AgeOffIterator with DtgAgeOffFilter {
                     env: IteratorEnvironment): Unit = {
     import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     super.init(source, options, env)
     try {

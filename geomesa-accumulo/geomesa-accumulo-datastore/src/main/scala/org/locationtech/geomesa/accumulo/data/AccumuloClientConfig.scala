@@ -74,7 +74,7 @@ case class AccumuloClientConfig(
     authType: Option[String],
     principal: Option[String],
     token: Option[String]
-  ) {
+  ) = {
     this(instance, zookeepers, zkTimeout, authType, principal, token);
     this.config = config;
     this.hasInstance = hasInstance;

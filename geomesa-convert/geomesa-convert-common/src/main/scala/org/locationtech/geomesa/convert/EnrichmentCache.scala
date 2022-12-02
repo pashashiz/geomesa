@@ -42,7 +42,7 @@ object EnrichmentCache {
 class SimpleEnrichmentCache(val cache: java.util.Map[String, java.util.HashMap[String, AnyRef]] = new java.util.HashMap[String, java.util.HashMap[String, AnyRef]]())
     extends EnrichmentCache {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def get(args: Array[String]): Any = Option(cache.get(args(0))).map(_.get(args(1))).orNull
 
@@ -61,7 +61,7 @@ class SimpleEnrichmentCacheFactory extends EnrichmentCacheFactory {
 }
 
 class ResourceLoadingCache(path: String, idField: String, headers: Seq[String]) extends EnrichmentCache {
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val data = {
     val loader = Option(Thread.currentThread().getContextClassLoader).getOrElse(getClass.getClassLoader)
@@ -86,7 +86,7 @@ class ResourceLoadingCacheFactory extends EnrichmentCacheFactory {
   override def canProcess(conf: Config): Boolean = conf.hasPath("type") && conf.getString("type").equals("resource")
 
   override def build(conf: Config): EnrichmentCache = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val path = conf.getString("path")
     val idField = conf.getString("id-field")

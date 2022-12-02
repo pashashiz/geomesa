@@ -45,7 +45,7 @@ class BatchMultiScanner(
     batchSize: Int = 32768
   ) extends CloseableIterator[java.util.Map.Entry[Key, Value]] with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   require(batchSize > 0, f"Illegal batchSize ($batchSize%d). Value must be > 0")
   require(numThreads > 0, f"Illegal numThreads ($numThreads%d). Value must be > 0")

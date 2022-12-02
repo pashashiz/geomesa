@@ -28,7 +28,7 @@ import org.locationtech.geomesa.utils.io.WithStore
 import org.opengis.feature.simple.SimpleFeature
 
 import java.io.File
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * Class to write data to a single index
@@ -73,7 +73,7 @@ object WriteIndexJob {
 
     override protected def cleanup(context: Context): Unit = {}
 
-    override def map(key: Text, value: SimpleFeature, context: Context) {
+    override def map(key: Text, value: SimpleFeature, context: Context): Unit = {
       context.write(text, value)
       counter.increment(1)
     }

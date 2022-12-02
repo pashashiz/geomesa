@@ -419,7 +419,7 @@ object OrcOutputFormatWriter {
     private val converter = getConverter(binding)
 
     override def apply(sf: SimpleFeature, output: OrcStruct): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val value = sf.getAttribute(attribute).asInstanceOf[java.util.List[AnyRef]]
       if (value == null) {
         output.setFieldValue(col, null)
@@ -445,7 +445,7 @@ object OrcOutputFormatWriter {
     private val valueConverter = getConverter(valueBinding)
 
     override def apply(sf: SimpleFeature, output: OrcStruct): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val value = sf.getAttribute(attribute).asInstanceOf[java.util.Map[AnyRef, AnyRef]]
       if (value == null) {
         output.setFieldValue(col, null)

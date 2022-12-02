@@ -29,7 +29,7 @@ import java.util.{Collections, Date}
 @RunWith(classOf[JUnitRunner])
 class DtgAgeOffTest extends Specification with TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

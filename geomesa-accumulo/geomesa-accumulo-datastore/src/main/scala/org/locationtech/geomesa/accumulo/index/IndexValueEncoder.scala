@@ -29,7 +29,7 @@ object IndexValueEncoder {
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val cache = new ConcurrentHashMap[ImmutableSimpleFeatureType, ImmutableSimpleFeatureType]()
 
@@ -99,7 +99,7 @@ object IndexValueEncoder {
   @deprecated
   class IndexValueEncoderImpl(sft: SimpleFeatureType) extends SimpleFeatureSerializer with LimitedSerialization {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val indexSft = getIndexSft(sft)
     private val encoder = KryoFeatureSerializer(indexSft)

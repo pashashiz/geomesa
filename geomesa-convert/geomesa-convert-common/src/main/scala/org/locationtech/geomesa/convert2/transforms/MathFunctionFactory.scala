@@ -10,7 +10,7 @@ package org.locationtech.geomesa.convert2.transforms
 
 class MathFunctionFactory extends TransformerFunctionFactory {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def functions: Seq[TransformerFunction] = Seq(add, subtract, multiply, divide, mean, min, max)
 

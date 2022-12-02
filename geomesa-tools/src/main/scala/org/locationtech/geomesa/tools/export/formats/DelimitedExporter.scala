@@ -27,7 +27,7 @@ class DelimitedExporter(stream: ExportStream, format: CSVFormat, withHeader: Boo
 
   import org.locationtech.geomesa.utils.geotools.GeoToolsDateFormat
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private var printer: CSVPrinter = _
 

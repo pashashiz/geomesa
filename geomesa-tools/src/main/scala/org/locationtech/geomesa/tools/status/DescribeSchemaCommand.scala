@@ -22,7 +22,7 @@ import scala.collection.mutable.ArrayBuffer
 
 trait DescribeSchemaCommand[DS <: DataStore] extends DataStoreCommand[DS] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val name: String = "describe-schema"
 

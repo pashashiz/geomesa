@@ -50,7 +50,7 @@ class Frequency[T](
     implicit val ct: ClassTag[T]
   ) extends Stat {
 
-  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
 
   override type S = Frequency[T]
 

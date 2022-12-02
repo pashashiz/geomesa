@@ -61,9 +61,9 @@ class ScalaSimpleFeature private (sft: SimpleFeatureType, values: Array[AnyRef])
 
 object ScalaSimpleFeature {
 
-  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+  import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Copy the feature. This is a shallow copy, in that the attributes and user data values will be shared

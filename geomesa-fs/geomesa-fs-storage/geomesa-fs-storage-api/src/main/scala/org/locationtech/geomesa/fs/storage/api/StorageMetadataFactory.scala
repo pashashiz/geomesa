@@ -43,7 +43,7 @@ trait StorageMetadataFactory {
 
 object StorageMetadataFactory {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy private val factories = ServiceLoader.load(classOf[StorageMetadataFactory]).asScala.toSeq
 

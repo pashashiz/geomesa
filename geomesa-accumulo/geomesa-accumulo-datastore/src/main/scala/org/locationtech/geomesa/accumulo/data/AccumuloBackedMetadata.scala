@@ -20,7 +20,7 @@ import org.locationtech.geomesa.utils.io.{CloseQuietly, CloseWithLogging}
 class AccumuloBackedMetadata[T](val connector: Connector, val table: String, val serializer: MetadataSerializer[T])
     extends KeyValueStoreMetadata[T] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val config = GeoMesaBatchWriterConfig().setMaxMemory(10000L).setMaxWriteThreads(2)
 
@@ -99,7 +99,7 @@ object AccumuloBackedMetadata {
     */
   class SingleRowAccumuloMetadata[T](metadata: AccumuloBackedMetadata[T]) {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     // if the table doesn't exist, we assume that we don't ever need to check it for old-encoded rows
     private val tableExists = metadata.connector.tableOperations().exists(metadata.table)

@@ -36,7 +36,7 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 class GeoMesaDataSource extends DataSourceRegister
     with RelationProvider with SchemaRelationProvider with CreatableRelationProvider with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def shortName(): String = "geomesa"
 

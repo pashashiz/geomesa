@@ -9,7 +9,7 @@
 package org.locationtech.geomesa.features.kryo.json
 
 import org.geotools.factory.CommonFactoryFinder
-import org.geotools.filter.expression.PropertyAccessors
+import org.geotools.filter.expression.{PropertyAccessor, PropertyAccessors}
 import org.geotools.filter.text.ecql.ECQL
 import org.junit.runner.RunWith
 import org.locationtech.geomesa.features.ScalaSimpleFeature
@@ -29,11 +29,11 @@ class JsonPathPropertyAccessorTest extends Specification {
 
   "JsonPathPropertyAccessor" should {
     "be available on the classpath" in {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val accessors =
         PropertyAccessors.findPropertyAccessors(new ScalaSimpleFeature(sft, ""), "$.json.foo", classOf[String], null)
       accessors must not(beNull)
-      accessors.asScala must contain(JsonPathPropertyAccessor)
+      accessors.asScala must contain(JsonPathPropertyAccessor: PropertyAccessor)
     }
 
     "access json values in simple features" in {

@@ -11,7 +11,7 @@ package org.locationtech.geomesa.filter
 import org.geotools.filter.visitor.DefaultFilterVisitor
 import org.opengis.filter.{And, Filter}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 // This class helps us split a Filter into pieces if there are ANDs at the top.
 class AndSplittingFilter extends DefaultFilterVisitor {

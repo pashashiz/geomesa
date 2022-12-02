@@ -21,7 +21,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class AccumuloQueryEventTransformTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy val connector = MiniCluster.cluster.getConnector(Users.root.name, Users.root.password)
 

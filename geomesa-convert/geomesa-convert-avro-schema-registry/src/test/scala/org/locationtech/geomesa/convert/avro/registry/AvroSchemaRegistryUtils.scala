@@ -16,7 +16,7 @@ import java.io.ByteArrayOutputStream
 
 trait AvroSchemaRegistryUtils {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val spec = getClass.getResourceAsStream("/schema.avsc")
   val spec2 = getClass.getResourceAsStream("/schema2.avsc")

@@ -15,7 +15,7 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
 case class SFTAttributes(sft: SimpleFeatureType) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val lookupMap: Map[String, Attribute[SimpleFeature, _]] =
     sft.getAttributeDescriptors.asScala.map(buildSimpleFeatureAttribute).map(a => a.getAttributeName -> a).toMap

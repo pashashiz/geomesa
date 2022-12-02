@@ -66,7 +66,7 @@ class SortingSimpleFeatureIterator(features: CloseableIterator[SimpleFeature], s
 
 object SortingSimpleFeatureIterator extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Sorts the iterator in memory

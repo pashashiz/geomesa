@@ -29,7 +29,7 @@ import scala.util.{Failure, Success, Try}
 
 object HBaseConnectionPool extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val configs: LoadingCache[ConfigKey, Configuration] = Caffeine.newBuilder().build(
     new CacheLoader[ConfigKey, Configuration] {

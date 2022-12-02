@@ -19,7 +19,7 @@ import java.nio.ByteBuffer
 import java.time.format.DateTimeFormatter
 import java.util.{Date, Locale}
 import scala.annotation.tailrec
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.reflect.{ClassTag, classTag}
 import scala.util.control.NonFatal
 

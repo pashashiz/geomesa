@@ -13,7 +13,7 @@ import org.apache.avro.generic.{GenericDatumReader, GenericDatumWriter, GenericR
 import org.apache.avro.io.{DecoderFactory, EncoderFactory}
 
 import java.io.ByteArrayOutputStream
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 trait AvroUtils {
   val spec = getClass.getResourceAsStream("/schema.avsc")

@@ -21,7 +21,7 @@ class EnvironmentCommand extends Command {
   override val params = new EnvironmentParameters()
   // TODO accumulo environment?
   override def execute(): Unit = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     if (params.sfts == null && params.converters == null && !params.listSfts &&
       !params.listConverters && !params.describeSfts && !params.describeConverters) {

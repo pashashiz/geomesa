@@ -131,7 +131,7 @@ object LambdaDataStoreFactory extends GeoMesaDataStoreInfo {
 
   private def filter(params: java.util.Map[String, _ <: Serializable]): java.util.Map[String, Serializable] = {
     // note: includes a bit of redirection to allow us to pass non-serializable values in to tests
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     Map[String, Any](params.asScala.toSeq: _ *)
         .map { case (k, v) => (if (k.startsWith("lambda.")) { k.substring(7) } else { k }, v) }
         .asJava.asInstanceOf[java.util.Map[String, Serializable]]

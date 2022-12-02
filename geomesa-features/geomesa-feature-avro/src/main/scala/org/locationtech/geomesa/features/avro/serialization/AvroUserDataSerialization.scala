@@ -16,7 +16,7 @@ import java.nio.ByteBuffer
 
 object AvroUserDataSerialization extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def serialize(out: Encoder, map: java.util.Map[_ <: AnyRef, _ <: AnyRef]): Unit = {
     def write(value: Any): Option[() => Unit] = {

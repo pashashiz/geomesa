@@ -24,7 +24,7 @@ class PartitionedPostgisPsDialect(store: JDBCDataStore, delegate: PartitionedPos
 
   import PartitionedPostgisPsDialect.PreparedStatementKey
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // cache for tracking json-type columns
   private val jsonColumns: LoadingCache[PreparedStatementKey, java.lang.Boolean] =

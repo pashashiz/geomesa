@@ -300,7 +300,7 @@ package object api {
   object ByteRange {
 
     import ByteArrays.ByteOrdering
-    import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+    import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
 
     val UnboundedLowerRange: Array[Byte] = Array.empty
     val UnboundedUpperRange: Array[Byte] = Array.fill(3)(ByteArrays.MaxByte)

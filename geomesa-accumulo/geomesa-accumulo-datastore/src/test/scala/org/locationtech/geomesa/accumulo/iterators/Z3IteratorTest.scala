@@ -26,7 +26,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class Z3IteratorTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SimpleFeatureTypes.createType("z3IteratorTest", "dtg:Date,*geom:Point:srid=4326")
   val filter = ECQL.toFilter("bbox(geom, -78, 38, -75, 40) AND dtg DURING 1970-01-01T00:05:00.000Z/1970-01-01T00:15:00.000Z")

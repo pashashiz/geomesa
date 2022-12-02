@@ -38,7 +38,7 @@ class AgeOffIterator extends Filter with AgeOffFilter {
                     options: java.util.Map[String, String],
                     env: IteratorEnvironment): Unit = {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     super.init(source, options, env)
     super.init(options.asScala.toMap)

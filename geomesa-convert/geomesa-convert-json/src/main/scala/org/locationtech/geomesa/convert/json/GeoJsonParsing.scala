@@ -18,7 +18,7 @@ trait GeoJsonParsing {
 
   import GeoJsonParsing._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val factory = new GeometryFactory
 

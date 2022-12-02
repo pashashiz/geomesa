@@ -20,7 +20,7 @@ import org.opengis.filter.expression.{Expression, Function, Literal, PropertyNam
 import org.opengis.filter.spatial._
 import org.opengis.filter.temporal._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 
 package object filter {

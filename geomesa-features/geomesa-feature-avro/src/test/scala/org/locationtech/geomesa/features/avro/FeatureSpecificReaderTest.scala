@@ -110,12 +110,12 @@ class FeatureSpecificReaderTest extends LazyLogging {
     val r = new Random()
     r.setSeed(0)
 
-    var lst = new mutable.MutableList[String]
+    val lst = new mutable.ListBuffer[String]
     for(i <- 0 until size)
       lst += randomString(i, 8, r)
 
     val sf = new AvroSimpleFeature(new FeatureIdImpl(id), sft)
-    for(i <- 0 until lst.size) {
+    for(i <- lst.indices) {
       sf.setAttribute(i, lst(i))
     }
     sf
@@ -147,7 +147,7 @@ class FeatureSpecificReaderTest extends LazyLogging {
 
   @Test
   def testSubset() = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val subset = getSubsetData
     Assert.assertEquals(10, subset.size)

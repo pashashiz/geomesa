@@ -25,7 +25,7 @@ import java.util.{Date, UUID}
 @RunWith(classOf[JUnitRunner])
 class KuduColumnAdapterTest extends Specification with Mockito {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SimpleFeatureTypes.createType("test",
     "string:String,int:Int,long:Long,float:Float,double:Double,boolean:Boolean,date:Date,uuid:UUID," +

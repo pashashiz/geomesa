@@ -42,7 +42,7 @@ class GeoMesaStreamsBuilderTest extends Specification with StrictLogging {
   import org.apache.kafka.streams.scala.Serdes._
   import org.apache.kafka.streams.scala.kstream._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy val sft =
     SimpleFeatureTypes.createImmutableType("streams", "name:String,age:Int,dtg:Date,*geom:Point:srid=4326")
@@ -103,7 +103,7 @@ class GeoMesaStreamsBuilderTest extends Specification with StrictLogging {
             }
           }
         }
-        buf
+        buf.toList
       }
 
       val timestampExtractor = new TimestampExtractingTransformer()

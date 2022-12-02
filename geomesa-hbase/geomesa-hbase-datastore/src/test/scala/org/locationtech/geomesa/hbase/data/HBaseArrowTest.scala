@@ -31,7 +31,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 @RunWith(classOf[JUnitRunner])
 class HBaseArrowTest extends Specification with LazyLogging  {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy val sft = SimpleFeatureTypes.createType("arrow", "name:String,age:Int,dtg:Date,*geom:Point:srid=4326")
 

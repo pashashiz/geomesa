@@ -36,7 +36,7 @@ class GenerateFeatureWrappersTest extends Specification {
           |  def setGeom(x: org.locationtech.jts.geom.Point): Unit = sf.setAttribute(2, x)
           |
           |  def debug(): String = {
-          |    import scala.collection.JavaConverters._
+          |    import scala.jdk.CollectionConverters._
           |    val sb = new StringBuilder(s"${sf.getType.getTypeName}:${sf.getID}")
           |    sf.getProperties.asScala.foreach(p => sb.append(s"|${p.getName.getLocalPart}=${p.getValue}"))
           |    sb.toString()
@@ -64,7 +64,7 @@ class GenerateFeatureWrappersTest extends Specification {
           |  def setGeom(x: org.locationtech.jts.geom.Point): Unit = sf.setAttribute(2, x)
           |
           |  def debug(): String = {
-          |    import scala.collection.JavaConverters._
+          |    import scala.jdk.CollectionConverters._
           |    val sb = new StringBuilder(s"${sf.getType.getTypeName}:${sf.getID}")
           |    sf.getProperties.asScala.foreach(p => sb.append(s"|${p.getName.getLocalPart}=${p.getValue}"))
           |    sb.toString()
@@ -92,7 +92,7 @@ class GenerateFeatureWrappersTest extends Specification {
           |  def setGeom(x: org.locationtech.jts.geom.Point): Unit = sf.setAttribute(2, x)
           |
           |  def debug(): String = {
-          |    import scala.collection.JavaConverters._
+          |    import scala.jdk.CollectionConverters._
           |    val sb = new StringBuilder(s"${sf.getType.getTypeName}:${sf.getID}")
           |    sf.getProperties.asScala.foreach(p => sb.append(s"|${p.getName.getLocalPart}=${p.getValue}"))
           |    sb.toString()
@@ -124,7 +124,7 @@ class GenerateFeatureWrappersTest extends Specification {
           |    def setGeom(x: org.locationtech.jts.geom.Point): Unit = sf.setAttribute(2, x)
           |
           |    def debug(): String = {
-          |      import scala.collection.JavaConverters._
+          |      import scala.jdk.CollectionConverters._
           |      val sb = new StringBuilder(s"${sf.getType.getTypeName}:${sf.getID}")
           |      sf.getProperties.asScala.foreach(p => sb.append(s"|${p.getName.getLocalPart}=${p.getValue}"))
           |      sb.toString()

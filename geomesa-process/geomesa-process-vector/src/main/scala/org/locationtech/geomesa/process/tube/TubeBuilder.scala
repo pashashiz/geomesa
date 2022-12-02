@@ -146,7 +146,7 @@ class NoGapFill(tubeFeatures: SimpleFeatureCollection,
 
   // Union features to create a single geometry and single combined time range
   def unionFeatures(orderedFeatures: Seq[SimpleFeature], id: String): SimpleFeature = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     val geoms = orderedFeatures.map { sf => getGeom(sf) }
     val unionGeom = geoFac.buildGeometry(geoms.asJava).union
     val min = getStartTime(orderedFeatures.head)

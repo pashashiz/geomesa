@@ -164,7 +164,7 @@ package object streams {
    */
   class GeoMesaMessageSerializer(val sft: SimpleFeatureType, val internal: SimpleFeatureSerializer) {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val converters: Array[AnyRef => AnyRef] =
       sft.getAttributeDescriptors.toArray(Array.empty[AttributeDescriptor]).map { d =>
@@ -225,7 +225,7 @@ package object streams {
       userData: Map[String, String]
     ) extends SimpleFeature {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def getAttribute(i: Int): AnyRef = converters(i).apply(attributes(i))
     override def getUserData: java.util.Map[AnyRef, AnyRef] =

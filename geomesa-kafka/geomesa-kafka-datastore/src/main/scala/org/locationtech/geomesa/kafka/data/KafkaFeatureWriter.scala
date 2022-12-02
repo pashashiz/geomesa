@@ -101,7 +101,7 @@ object KafkaFeatureWriter {
       filter: Filter
     ) extends AppendKafkaFeatureWriter(sft, producer, serializer) {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val ids: Iterator[String] = filter match {
       case ids: Id => ids.getIDs.iterator.asScala.map(_.toString)

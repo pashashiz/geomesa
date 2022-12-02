@@ -22,7 +22,7 @@ object LambdaDataStoreParams extends GeoMesaDataStoreParams with SecurityParams 
 
   // note: this class is kept separate to avoid any runtime dependencies on Accumulo
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val BrokersParam =
     new GeoMesaParam[String](

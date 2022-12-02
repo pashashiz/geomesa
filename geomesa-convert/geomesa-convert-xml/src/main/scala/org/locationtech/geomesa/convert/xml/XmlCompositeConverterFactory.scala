@@ -25,7 +25,7 @@ class XmlCompositeConverterFactory extends SimpleFeatureConverterFactory with La
 
   import XmlCompositeConverterFactory.TypeToProcess
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def apply(sft: SimpleFeatureType, conf: Config): Option[SimpleFeatureConverter] = {
     if (!conf.hasPath("type") || conf.getString("type") != TypeToProcess) { None } else {

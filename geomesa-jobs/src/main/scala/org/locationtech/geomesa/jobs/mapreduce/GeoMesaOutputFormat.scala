@@ -30,7 +30,7 @@ import java.io.IOException
   */
 class GeoMesaOutputFormat extends OutputFormat[Text, SimpleFeature] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def getRecordWriter(context: TaskAttemptContext): RecordWriter[Text, SimpleFeature] = {
     val params = GeoMesaConfigurator.getDataStoreOutParams(context.getConfiguration)
@@ -53,7 +53,7 @@ class GeoMesaOutputFormat extends OutputFormat[Text, SimpleFeature] {
 
 object GeoMesaOutputFormat {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   object OutputCounters {
     val Group   = "org.locationtech.geomesa.jobs.output"

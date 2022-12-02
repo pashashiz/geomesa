@@ -20,7 +20,7 @@ import org.opengis.filter.identity.FeatureId
 import org.opengis.geometry.BoundingBox
 
 import java.util.{Collection => JCollection, List => JList}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 
 

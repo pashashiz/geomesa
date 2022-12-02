@@ -12,7 +12,7 @@ import org.opengis.filter.spatial.{DWithin, _}
 import org.opengis.filter.temporal.{Before, Ends, Meets, TOverlaps, _}
 import org.opengis.filter.{ExcludeFilter, Or, _}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
   * Extracts ID filters

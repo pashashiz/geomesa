@@ -218,7 +218,7 @@ object RedisAgeOff extends StrictLogging {
     */
   private class AgeOffRunner(ds: RedisDataStore, typeName: String) extends Runnable with RedisLocking {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val table = key(ds, typeName)
     private val lockPath = s"/org.locationtech.geomesa.redis.${ds.config.catalog}.ttl.$typeName"

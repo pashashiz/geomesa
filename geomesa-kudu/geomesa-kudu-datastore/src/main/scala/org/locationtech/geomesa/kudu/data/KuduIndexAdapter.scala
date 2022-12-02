@@ -28,12 +28,16 @@ import org.locationtech.geomesa.utils.io.WithClose
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
 import java.nio.charset.StandardCharsets
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 
 class KuduIndexAdapter(ds: KuduDataStore) extends IndexAdapter[KuduDataStore] {
 
   import org.locationtech.geomesa.kudu.utils.RichKuduClient.RichScanner
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
+
+  implicit val ec: ExecutionContextExecutor = ds.ec
 
   override def createTable(
       index: GeoMesaFeatureIndex[_, _],
@@ -63,11 +67,11 @@ class KuduIndexAdapter(ds: KuduDataStore) extends IndexAdapter[KuduDataStore] {
   }
 
   override def deleteTables(tables: Seq[String]): Unit = {
-    tables.par.foreach { table =>
-      if (ds.client.tableExists(table)) {
-        ds.client.deleteTable(table)
-      }
+    val result = Future.traverse(tables) { table =>
+      if (ds.client.tableExists(table)) Future(ds.client.deleteTable(table))
+      else Future.successful(())
     }
+    Await.result(result, Duration.Inf)
   }
 
   override def clearTables(tables: Seq[String], prefix: Option[Array[Byte]]): Unit = {
@@ -75,7 +79,7 @@ class KuduIndexAdapter(ds: KuduDataStore) extends IndexAdapter[KuduDataStore] {
 
     val indices = ds.getTypeNames.map(ds.getSchema).flatMap(ds.manager.indices(_))
 
-    tables.par.foreach { name =>
+    val result = Future.traverse(tables) { name =>
       val index = indices.find(_.getTableNames().contains(name)).getOrElse {
         throw new IllegalArgumentException(s"Couldn't find index corresponding to table '$name'")
       }
@@ -84,15 +88,18 @@ class KuduIndexAdapter(ds: KuduDataStore) extends IndexAdapter[KuduDataStore] {
       val builder = ds.client.newScannerBuilder(table)
       builder.setProjectedColumnNames(columns.flatMap(_.columns.map(_.getName)).asJava)
 
-      WithClose(SessionHolder(ds.client.newSession()), builder.build().iterator) { case (holder, iterator) =>
-        holder.session.setFlushMode(FlushMode.AUTO_FLUSH_BACKGROUND)
-        iterator.foreach { row =>
-          val delete = table.newDelete()
-          columns.foreach(_.transfer(row, delete.getRow))
-          holder.session.apply(delete)
+      Future {
+        WithClose(SessionHolder(ds.client.newSession()), builder.build().iterator) { case (holder, iterator) =>
+          holder.session.setFlushMode(FlushMode.AUTO_FLUSH_BACKGROUND)
+          iterator.foreach { row =>
+            val delete = table.newDelete()
+            columns.foreach(_.transfer(row, delete.getRow))
+            holder.session.apply(delete)
+          }
         }
       }
     }
+    Await.result(result, Duration.Inf)
   }
 
   // TODO GEOMESA-2548 add per-datastore (feature type?) config for e.g. geomesa.scan.ranges.target
@@ -111,7 +118,7 @@ class KuduIndexAdapter(ds: KuduDataStore) extends IndexAdapter[KuduDataStore] {
     // create push-down predicates and remove from the ecql where possible
     val KuduFilter(predicates, ecql) = strategy.ecql.map(mapper.schema.predicate).getOrElse(KuduFilter(Seq.empty, None))
 
-    val adapter = KuduResultAdapter(index.sft, auths, ecql, hints)
+    val adapter = KuduResultAdapter(index.sft, auths.toList, ecql, hints)
 
     if (keyRanges.isEmpty) { EmptyPlan(filter, adapter) } else {
       val tables = index.getTablesForQuery(filter.filter)

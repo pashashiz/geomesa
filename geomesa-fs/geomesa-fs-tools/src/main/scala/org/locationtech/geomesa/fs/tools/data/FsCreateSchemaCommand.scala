@@ -39,7 +39,7 @@ class FsCreateSchemaCommand extends CreateSchemaCommand[FileSystemDataStore] wit
 
 object FsCreateSchemaCommand {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   @Parameters(commandDescription = "Create a GeoMesa feature type")
   class FsCreateSchemaParams

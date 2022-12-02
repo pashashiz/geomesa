@@ -20,7 +20,7 @@ import org.locationtech.geomesa.index.iterators.AggregatingScan.{AggregateCallba
 abstract class BaseAggregatingIterator[T <: AggregatingScan.Result]
     extends SortedKeyValueIterator[Key, Value] with AggregatingScan[T] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   var source: SortedKeyValueIterator[Key, Value] = _
 

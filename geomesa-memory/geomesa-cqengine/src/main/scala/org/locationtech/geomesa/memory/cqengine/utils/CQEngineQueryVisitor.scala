@@ -26,7 +26,7 @@ import org.opengis.filter.temporal._
 
 import java.util.Date
 import java.util.regex.Pattern
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.language._
 
 class CQEngineQueryVisitor(sft: SimpleFeatureType) extends AbstractFilterVisitor {

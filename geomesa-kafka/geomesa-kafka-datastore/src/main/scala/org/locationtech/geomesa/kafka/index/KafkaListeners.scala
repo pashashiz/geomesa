@@ -20,7 +20,7 @@ import scala.util.control.NonFatal
 
 trait KafkaListeners extends StrictLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // use a flag instead of checking listeners.isEmpty, which is slightly expensive for ConcurrentHashMap
   @volatile

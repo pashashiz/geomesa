@@ -127,7 +127,7 @@ class GeoMesaStreamsBuilder(
 
 object GeoMesaStreamsBuilder {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Create a streams builder

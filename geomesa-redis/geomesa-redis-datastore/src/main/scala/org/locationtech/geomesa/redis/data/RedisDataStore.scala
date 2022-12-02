@@ -33,7 +33,7 @@ class RedisDataStore(val connection: JedisPool, override val config: RedisDataSt
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val metadata: GeoMesaMetadata[String] =
     new RedisBackedMetadata(connection, config.catalog, MetadataStringSerializer)

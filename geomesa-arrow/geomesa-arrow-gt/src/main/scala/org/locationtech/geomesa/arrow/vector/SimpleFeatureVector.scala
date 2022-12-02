@@ -211,7 +211,7 @@ object SimpleFeatureVector {
   def getFeatureType(vector: StructVector): (SimpleFeatureType, SimpleFeatureEncoding) = {
     import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val attributes = ArrayBuffer.empty[String]
     var fidEncoding: Option[Encoding] = None
@@ -269,7 +269,7 @@ object SimpleFeatureVector {
                                 (implicit ct: ClassTag[T]): Option[FieldVector] = {
     import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     sft.getAttributeDescriptors.asScala.flatMap {
       case d if d.isList && ct.runtimeClass.isAssignableFrom(d.getListType()) =>

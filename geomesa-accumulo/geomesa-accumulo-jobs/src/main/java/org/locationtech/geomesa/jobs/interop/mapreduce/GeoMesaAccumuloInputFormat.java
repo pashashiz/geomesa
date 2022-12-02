@@ -9,19 +9,12 @@
 package org.locationtech.geomesa.jobs.interop.mapreduce;
 
 import org.apache.hadoop.io.Text;
-import org.apache.hadoop.mapreduce.InputFormat;
-import org.apache.hadoop.mapreduce.InputSplit;
-import org.apache.hadoop.mapreduce.Job;
-import org.apache.hadoop.mapreduce.JobContext;
-import org.apache.hadoop.mapreduce.RecordReader;
-import org.apache.hadoop.mapreduce.TaskAttemptContext;
+import org.apache.hadoop.mapreduce.*;
 import org.geotools.data.Query;
 import org.locationtech.geomesa.jobs.mapreduce.GeoMesaAccumuloInputFormat$;
 import org.opengis.feature.simple.SimpleFeature;
 import scala.Option;
-import scala.Predef;
-import scala.Tuple2;
-import scala.collection.JavaConverters;
+import scala.jdk.CollectionConverters;
 
 import java.io.IOException;
 import java.util.List;
@@ -50,9 +43,8 @@ public class GeoMesaAccumuloInputFormat extends InputFormat<Text, SimpleFeature>
 
     @SuppressWarnings("unchecked")
     public static void configure(Job job, Map<String, String> dataStoreParams, Query query) {
-        Object m = JavaConverters.mapAsScalaMapConverter(dataStoreParams).asScala();
         scala.collection.immutable.Map<String, String> scalaParams =
-                ((scala.collection.mutable.Map<String, String>) m).toMap(Predef.<Tuple2<String, String>>conforms());
+                scala.collection.immutable.Map.from(CollectionConverters.MapHasAsScala(dataStoreParams).asScala());
         GeoMesaAccumuloInputFormat$.MODULE$.configure(job, scalaParams, query);
     }
 
@@ -63,9 +55,8 @@ public class GeoMesaAccumuloInputFormat extends InputFormat<Text, SimpleFeature>
                                  String featureTypeName,
                                  String filter,
                                  String[] transform) {
-        Object m = JavaConverters.mapAsScalaMapConverter(dataStoreParams).asScala();
         scala.collection.immutable.Map<String, String> scalaParams =
-                ((scala.collection.mutable.Map<String, String>) m).toMap(Predef.<Tuple2<String, String>>conforms());
+                scala.collection.immutable.Map.from(CollectionConverters.MapHasAsScala(dataStoreParams).asScala());
         Option<String> f = Option.apply(filter);
         Option<String[]> t = Option.apply(transform);
         GeoMesaAccumuloInputFormat$.MODULE$.configure(job, scalaParams, featureTypeName, f, t);
