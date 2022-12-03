@@ -9,7 +9,7 @@
 package org.locationtech.geomesa.utils.bin
 
 import java.io.{ByteArrayOutputStream, OutputStream}
-import java.nio.{ByteBuffer, ByteOrder}
+import java.nio.{Buffer, ByteBuffer, ByteOrder}
 
 /**
   * Callback interface to encode binary format. Call `apply` repeatedly, then call `result`
@@ -50,7 +50,7 @@ object BinaryEncodeCallback {
 
   private val buffers: ThreadLocal[ByteBuffer] = new ThreadLocal[ByteBuffer] {
     override def initialValue: ByteBuffer = ByteBuffer.allocate(24).order(ByteOrder.LITTLE_ENDIAN)
-    override def get: ByteBuffer = { val out = super.get; out.clear(); out }
+    override def get: ByteBuffer = { val out = super.get; (out: Buffer).clear(); out }
   }
 
   private val streams: ThreadLocal[ByteArrayOutputStream] = new ThreadLocal[ByteArrayOutputStream] {

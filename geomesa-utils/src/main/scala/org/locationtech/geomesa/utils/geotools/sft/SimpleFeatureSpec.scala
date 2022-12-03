@@ -62,7 +62,7 @@ object SimpleFeatureSpec {
       * @return a partial spec string
       */
     def toSpec: String = {
-      val opts = specOptions.map { case (k, v) =>
+      val opts = specOptions.toList.sortBy(_._1).map { case (k, v) =>
         if (simpleOptionPattern.matcher(v).matches()) {
           s":$k=$v"
         } else {

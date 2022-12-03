@@ -2695,9 +2695,9 @@
                         </dependency>
                     </dependencies>
                     <configuration>
-                        <forkCount>${test.fork.count}</forkCount>
-                        <reuseForks>${test.fork.reuse}</reuseForks>
-                        <forkedProcessTimeoutInSeconds>0</forkedProcessTimeoutInSeconds>
+<!--                        <forkCount>${test.fork.count}</forkCount>-->
+<!--                        <reuseForks>${test.fork.reuse}</reuseForks>-->
+<!--                        <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>-->
                         <rerunFailingTestsCount>1</rerunFailingTestsCount> <!-- re-try intermittent failures -->
                         <enableAssertions>${test.enable.assertions}</enableAssertions>
                         <includes>

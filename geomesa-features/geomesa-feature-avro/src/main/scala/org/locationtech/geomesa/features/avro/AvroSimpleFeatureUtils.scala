@@ -16,7 +16,7 @@ import org.locationtech.geomesa.utils.text.WKBUtils
 import org.locationtech.jts.geom.Geometry
 import org.opengis.feature.simple.SimpleFeatureType
 
-import java.nio.ByteBuffer
+import java.nio.{Buffer, ByteBuffer}
 import java.nio.charset.StandardCharsets
 import java.util.{Date, Locale, UUID}
 import scala.jdk.CollectionConverters._
@@ -150,11 +150,13 @@ object AvroSimpleFeatureUtils extends LazyLogging {
     }.toMap
   }
 
-  def encodeUUID(uuid: UUID) =
-    ByteBuffer.allocate(16)
+  def encodeUUID(uuid: UUID) = {
+    (ByteBuffer.allocate(16)
         .putLong(uuid.getMostSignificantBits)
-        .putLong(uuid.getLeastSignificantBits)
-        .flip.asInstanceOf[ByteBuffer]
+        .putLong(uuid.getLeastSignificantBits): Buffer)
+      .flip()
+      .asInstanceOf[ByteBuffer]
+  }
 
   def decodeUUID(bb: ByteBuffer): UUID = new UUID(bb.getLong, bb.getLong)
 
@@ -239,10 +241,10 @@ object AvroSimpleFeatureUtils extends LazyLogging {
   }
 
   private def encodeNullCollection: ByteBuffer =
-    ByteBuffer.allocate(4).putInt(-1).flip.asInstanceOf[ByteBuffer]
+    (ByteBuffer.allocate(4).putInt(-1): Buffer).flip().asInstanceOf[ByteBuffer]
 
   private def encodeEmptyCollection: ByteBuffer =
-    ByteBuffer.allocate(4).putInt(0).flip.asInstanceOf[ByteBuffer]
+    (ByteBuffer.allocate(4).putInt(0): Buffer).flip().asInstanceOf[ByteBuffer]
 
   /**
    * Encodes a list that has entries.
@@ -269,7 +271,7 @@ object AvroSimpleFeatureUtils extends LazyLogging {
     // put each item
     list.asScala.foreach(v => putMethod(bb, v))
     // flip (reset) the buffer so that it's ready for reading
-    bb.flip
+    (bb: Buffer).flip()
     bb
   }
 
@@ -312,7 +314,7 @@ object AvroSimpleFeatureUtils extends LazyLogging {
       valuePutMethod(bb, v)
     }
     // flip (reset) the buffer so that it's ready for reading
-    bb.flip
+    (bb: Buffer).flip
     bb
   }
 

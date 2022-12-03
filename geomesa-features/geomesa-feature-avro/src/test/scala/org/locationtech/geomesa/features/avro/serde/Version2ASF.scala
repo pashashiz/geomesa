@@ -216,7 +216,7 @@ object Version2ASF {
                 val bb = ByteBuffer.allocate(16)
                 bb.putLong(uuid.getMostSignificantBits)
                 bb.putLong(uuid.getLeastSignificantBits)
-                bb.flip
+                (bb: Buffer).flip()
                 bb
               }
 
