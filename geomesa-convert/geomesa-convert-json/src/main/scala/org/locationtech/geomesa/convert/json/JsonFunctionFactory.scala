@@ -22,7 +22,7 @@ import java.util.concurrent.ConcurrentHashMap
 
 class JsonFunctionFactory extends TransformerFunctionFactory with CollectionParsing {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val gson = new Gson()
 

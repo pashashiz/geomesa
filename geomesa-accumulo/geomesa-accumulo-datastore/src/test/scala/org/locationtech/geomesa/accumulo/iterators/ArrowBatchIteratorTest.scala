@@ -39,7 +39,7 @@ import scala.util.Try
 @RunWith(classOf[JUnitRunner])
 class ArrowBatchIteratorTest extends TestWithMultipleSfts with Mockito {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

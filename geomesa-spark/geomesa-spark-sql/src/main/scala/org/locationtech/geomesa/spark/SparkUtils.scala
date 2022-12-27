@@ -29,7 +29,7 @@ import java.util.Date
 
 object SparkUtils extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   @transient
   val ff: FilterFactory2 = CommonFactoryFinder.getFilterFactory2

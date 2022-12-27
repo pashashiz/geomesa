@@ -74,7 +74,7 @@ object ArrowExporter {
   def queryDictionaries(ds: DataStore, query: Query): Map[String, Array[AnyRef]] = {
     import org.locationtech.geomesa.index.conf.QueryHints.RichHints
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val hints = query.getHints
     val dictionaryFields = {

@@ -15,7 +15,7 @@ import org.locationtech.geomesa.utils.geotools.SimpleFeatureTypes
 
 class AccumuloDataStoreKeywordsTest extends TestWithMultipleSfts {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   "AccumuloDataStore" should {
 

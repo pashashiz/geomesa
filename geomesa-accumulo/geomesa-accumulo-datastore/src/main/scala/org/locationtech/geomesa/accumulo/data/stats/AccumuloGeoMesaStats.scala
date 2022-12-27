@@ -32,7 +32,7 @@ class AccumuloGeoMesaStats(ds: AccumuloDataStore, val metadata: AccumuloBackedMe
   import AccumuloGeoMesaStats._
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val compactionScheduled = new AtomicBoolean(false)
   private val lastCompaction = new AtomicLong(0L)

@@ -42,7 +42,7 @@ class FsManageMetadataCommand extends CommandWithSubCommands {
 
 object FsManageMetadataCommand {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   class CompactCommand extends FsDataStoreCommand {
 

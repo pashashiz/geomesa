@@ -46,7 +46,7 @@ import scala.collection.mutable.ArrayBuffer
   */
 class GeoMesaAccumuloInputFormat extends InputFormat[Text, SimpleFeature] with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val delegate = new AccumuloInputFormat()
 
@@ -105,7 +105,7 @@ class GeoMesaAccumuloInputFormat extends InputFormat[Text, SimpleFeature] with L
 
 object GeoMesaAccumuloInputFormat extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val SYS_PROP_SPARK_LOAD_CP = "org.locationtech.geomesa.spark.load-classpath"
 

@@ -50,7 +50,7 @@ to a FileSystem Datastore, discover the feature type names, get the schema and q
             import org.locationtech.geomesa.utils.geotools.SimpleFeatureTypes
             import org.locationtech.geomesa.features.ScalaSimpleFeature
             import org.locationtech.geomesa.utils.collection.SelfClosingIterator
-            import scala.collection.JavaConverters._
+            import scala.jdk.CollectionConverters._
 
             Welcome to Scala 2.11.8 (Java HotSpot(TM) 64-Bit Server VM, Java 1.8.0_101).
             Type in expressions for evaluation. Or try :help.

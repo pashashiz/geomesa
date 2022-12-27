@@ -55,7 +55,7 @@ trait ArrowAttributeReader {
 
 object ArrowAttributeReader {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Reads an ID

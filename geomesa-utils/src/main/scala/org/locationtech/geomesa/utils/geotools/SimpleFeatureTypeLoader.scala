@@ -23,7 +23,7 @@ import java.util.Collections
  */
 object SimpleFeatureTypeLoader {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private lazy val providers = ServiceLoader.load[SimpleFeatureTypeProvider]()
 

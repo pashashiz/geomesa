@@ -296,7 +296,7 @@ package object dialect {
 
     import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     def apply(original: SimpleFeatureType): Columns = {
       val sft = SimpleFeatureTypes.copy(original)

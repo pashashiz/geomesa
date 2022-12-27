@@ -33,7 +33,7 @@ class PartitionedPostgisDialect(store: JDBCDataStore) extends PostGISDialect(sto
 
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // order of calls from JDBCDataStore during create schema:
   //  encodeCreateTable

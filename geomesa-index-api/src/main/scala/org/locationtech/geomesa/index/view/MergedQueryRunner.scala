@@ -31,6 +31,9 @@ import org.locationtech.geomesa.utils.stats._
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 import org.opengis.filter.Filter
 
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
+
 /**
  * Query runner for merging results from multiple stores
  *
@@ -44,7 +47,7 @@ class MergedQueryRunner(
     stores: Seq[(Queryable, Option[Filter])],
     deduplicate: Boolean,
     parallel: Boolean
-  ) extends QueryRunner with LazyLogging {
+  )(implicit val ec: ExecutionContextExecutor) extends QueryRunner with LazyLogging {
 
   import org.locationtech.geomesa.index.conf.QueryHints.RichHints
 
@@ -278,7 +281,8 @@ class MergedQueryRunner(
       readers: Seq[FeatureReader[SimpleFeatureType, SimpleFeature]],
       single: FeatureReader[SimpleFeatureType, SimpleFeature] => CloseableIterator[SimpleFeature]): CloseableIterator[SimpleFeature] = {
     if (parallel) {
-      SelfClosingIterator(readers.par.map(single).iterator).flatMap(i => i)
+      val result = Future.traverse(readers)(reader => Future(single(reader)))
+      SelfClosingIterator(Await.result(result, Duration.Inf).iterator).flatMap(x => x)
     } else {
       SelfClosingIterator(readers.iterator).flatMap(single)
     }

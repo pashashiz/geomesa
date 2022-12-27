@@ -32,7 +32,7 @@ class QueryFilterSplitterTest extends Specification {
   import org.locationtech.geomesa.filter.ff
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SchemaBuilder.builder()
     .addString("attr1")
@@ -401,11 +401,11 @@ class QueryFilterSplitterTest extends Specification {
         val z3 = options.head.strategies.find(_.index.name == Z3Index.name)
         z3 must beSome
         z3.get.primary must beSome(f(dtg))
-        z3.get.secondary must beSome(not(geom))
+        z3.get.secondary must beNone
         val st = options.head.strategies.find(_.index.name == Z2Index.name)
         st must beSome
         st.get.primary must beSome(f(geom))
-        st.get.secondary must beNone
+        st.get.secondary must beSome(not(dtg))
       }
 
       "with multiple spatial clauses" >> {
@@ -424,10 +424,10 @@ class QueryFilterSplitterTest extends Specification {
         options must haveLength(1)
         options.head.strategies must haveLength(2)
         options.head.strategies.map(_.index.name) must containTheSameElementsAs(Seq(Z2Index.name, AttributeIndex.name))
-        options.head.strategies.find(_.index.name == Z2Index.name).get.primary must beSome(f(geom))
-        options.head.strategies.find(_.index.name == Z2Index.name).get.secondary must beNone
         options.head.strategies.find(_.index.name == AttributeIndex.name).get.primary must beSome(f(indexedAttr))
-        options.head.strategies.find(_.index.name == AttributeIndex.name).get.secondary must beSome(not(geom))
+        options.head.strategies.find(_.index.name == AttributeIndex.name).get.secondary must beNone
+        options.head.strategies.find(_.index.name == Z2Index.name).get.primary must beSome(f(geom))
+        options.head.strategies.find(_.index.name == Z2Index.name).get.secondary must beSome(not(indexedAttr))
       }
 
       "and collapse overlapping query filters" >> {

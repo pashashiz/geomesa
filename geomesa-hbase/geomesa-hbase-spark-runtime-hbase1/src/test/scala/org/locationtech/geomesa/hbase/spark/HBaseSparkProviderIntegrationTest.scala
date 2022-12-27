@@ -24,7 +24,7 @@ class HBaseSparkProviderIntegrationTest extends Specification with LazyLogging {
 
   import org.locationtech.geomesa.filter.ff
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

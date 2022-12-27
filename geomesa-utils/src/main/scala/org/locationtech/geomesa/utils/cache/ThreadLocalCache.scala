@@ -15,6 +15,7 @@ import java.io.Closeable
 import java.lang.ref.WeakReference
 import java.util.concurrent._
 import scala.concurrent.duration.Duration
+import scala.collection.mutable
 
 /**
  * Creates a per-thread cache of values with a timed expiration.
@@ -33,12 +34,12 @@ class ThreadLocalCache[K <: AnyRef, V <: AnyRef](
     expiry: Duration,
     executor: ScheduledExecutorService = ThreadLocalCache.executor,
     ticker: Option[Ticker] = None
-  ) extends scala.collection.mutable.Map[K, V]
-    with scala.collection.mutable.MapLike[K, V, ThreadLocalCache[K, V]]
+  ) extends mutable.Map[K, V]
+    with mutable.MapOps[K, V, mutable.Map, ThreadLocalCache[K, V]]
     with Runnable
     with Closeable {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // weak references to our current caches, to allow cleanup + GC
   private val references = new ConcurrentLinkedQueue[(Long, WeakReference[Cache[K, V]])]()
@@ -70,12 +71,12 @@ class ThreadLocalCache[K <: AnyRef, V <: AnyRef](
     }
   }
 
-  override def +=(kv: (K, V)): this.type = {
+  override def addOne(kv: (K, V)) = {
     caches.get.put(kv._1, kv._2)
     this
   }
 
-  override def -=(key: K): this.type = {
+  override def subtractOne(key: K) = {
     caches.get.invalidate(key)
     this
   }
@@ -83,6 +84,16 @@ class ThreadLocalCache[K <: AnyRef, V <: AnyRef](
   override def empty: ThreadLocalCache[K, V] = new ThreadLocalCache[K, V](expiry)
 
   override def iterator: Iterator[(K, V)] = caches.get.asMap.asScala.iterator
+
+  protected override def fromSpecific(source: IterableOnce[(K, V)]): ThreadLocalCache[K, V] = {
+    source match {
+      case pm: ThreadLocalCache[K @unchecked, V @unchecked] => pm
+      case _ => (newSpecificBuilder ++= source).result()
+    }
+  }
+
+  protected override def newSpecificBuilder: mutable.Builder[(K, V), ThreadLocalCache[K, V]] =
+    new mutable.GrowableBuilder[(K, V), ThreadLocalCache[K, V]](empty)
 
   /**
    * Gets an iterator across all thread-local values, not just the current thread

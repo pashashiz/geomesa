@@ -50,8 +50,8 @@ object AvroPath extends BasicParser {
   }
 
   private def convertBytes(x: ByteBuffer): Array[Byte] = {
-    val start = x.position
-    val length = x.limit - start
+    val start = x.position()
+    val length = x.limit() - start
     val bytes = Array.ofDim[Byte](length)
     x.get(bytes, 0, length)
     x.position(start)
@@ -83,7 +83,7 @@ object AvroPath extends BasicParser {
 
   case class ArrayRecordExpr(field: String, matched: String) extends AvroPath {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def eval(r: Any): Option[Any] = r match {
       case a: java.util.List[GenericRecord] => a.asScala.find(predicate)

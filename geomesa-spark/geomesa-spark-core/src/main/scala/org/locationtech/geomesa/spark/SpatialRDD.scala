@@ -41,7 +41,7 @@ class SpatialRDD(rdd: RDD[SimpleFeature], sft: SimpleFeatureType) extends RDD[Si
 
 object SpatialRDD {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   GeoMesaSparkKryoRegistratorEndpoint.init()
 

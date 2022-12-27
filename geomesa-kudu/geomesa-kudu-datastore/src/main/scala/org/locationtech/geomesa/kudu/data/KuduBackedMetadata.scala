@@ -24,7 +24,7 @@ class KuduBackedMetadata[T](val client: KuduClient, val catalog: String, val ser
 
   import org.locationtech.geomesa.kudu.utils.RichKuduClient.RichScanner
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy private val table = client.openTable(catalog)
 

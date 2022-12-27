@@ -26,7 +26,7 @@ import scala.concurrent.duration.Duration
 class NailgunServer(addr: InetAddress, port: Int, sessionPoolSize: Int, timeoutMillis: Int, idleTimeoutMillis: Long)
     extends NGServer(addr, port, sessionPoolSize, timeoutMillis) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val registry = new MetricRegistry()
   private val requests = new Phaser(1) // 1 for the idle timer

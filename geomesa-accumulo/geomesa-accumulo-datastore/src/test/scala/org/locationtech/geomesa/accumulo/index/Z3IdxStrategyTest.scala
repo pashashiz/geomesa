@@ -32,7 +32,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class Z3IdxStrategyTest extends Specification with TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential // note: test doesn't need to be sequential but it actually runs faster this way
 

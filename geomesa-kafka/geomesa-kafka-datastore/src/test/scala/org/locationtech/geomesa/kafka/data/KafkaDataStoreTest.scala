@@ -52,7 +52,7 @@ import java.util.{Collections, Date}
 @RunWith(classOf[JUnitRunner])
 class KafkaDataStoreTest extends Specification with Mockito with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
   import scala.concurrent.duration._
 
   sequential // this doesn't really need to be sequential, but we're trying to reduce zk load
@@ -265,7 +265,7 @@ class KafkaDataStoreTest extends Specification with Mockito with LazyLogging {
       foreach(Seq(true, false)) { cqEngine =>
         var auths: Set[String] = null
         val provider = new AuthorizationsProvider() {
-          import scala.collection.JavaConverters._
+          import scala.jdk.CollectionConverters._
           override def getAuthorizations: java.util.List[String] = auths.toList.asJava
           override def configure(params: java.util.Map[String, _ <: java.io.Serializable]): Unit = {}
         }
@@ -1009,7 +1009,7 @@ class KafkaDataStoreTest extends Specification with Mockito with LazyLogging {
         consumer.metadata.resetCache()
         val fs = consumer.getFeatureSource(sft.getTypeName)
         val q = new Query(null, Filter.INCLUDE)
-        fs.getFeatures(q).features().close() must not throwA[NullPointerException]()
+        fs.getFeatures(q).features().close() must not(throwA[NullPointerException]())
       } finally {
         producer.dispose()
         consumer.dispose()

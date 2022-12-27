@@ -17,7 +17,7 @@ package object tools {
   import org.slf4j.{Logger, LoggerFactory}
 
   import java.io.File
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Abstract superclass for all top-level GeoMesa JCommander commands

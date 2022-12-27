@@ -35,7 +35,7 @@ import scala.collection.mutable.ArrayBuffer
   */
 class StreamingSimpleFeatureArrowFileReader(is: () => InputStream) extends SimpleFeatureArrowFileReader  {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val allocator = ArrowAllocator("streaming-file-reader")
 
@@ -115,7 +115,7 @@ class StreamingSimpleFeatureArrowFileReader(is: () => InputStream) extends Simpl
 
 object StreamingSimpleFeatureArrowFileReader {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Reads a single logical arrow 'file' from the stream, which may contain multiple record batches

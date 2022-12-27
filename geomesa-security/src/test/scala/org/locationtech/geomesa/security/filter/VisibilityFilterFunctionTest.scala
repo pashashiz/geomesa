@@ -23,7 +23,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class VisibilityFilterFunctionTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val ff2 = CommonFactoryFinder.getFilterFactory2()
 

@@ -83,7 +83,7 @@ abstract class AbstractConverterFactory[S <: AbstractConverter[_, C, F, O]: Clas
 
 object AbstractConverterFactory extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val InferSampleSize: SystemProperty = SystemProperty("geomesa.convert.infer.sample", "100")
 
@@ -118,7 +118,7 @@ object AbstractConverterFactory extends LazyLogging {
     * @return
     */
   def standardDefaults(conf: Config, logger: => Logger): Config = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val updates = ArrayBuffer.empty[Config => Config]
     if (conf.hasPath("options.validation-mode")) {

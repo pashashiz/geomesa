@@ -97,7 +97,7 @@ class BinConversionProcess extends GeoMesaProcess with LazyLogging {
 class BinVisitor(sft: SimpleFeatureType, options: EncodingOptions)
     extends GeoMesaProcessVisitor with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // for collecting results manually
   private val manualResults = scala.collection.mutable.Queue.empty[Array[Byte]]

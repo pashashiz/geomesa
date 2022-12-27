@@ -14,7 +14,7 @@ import scala.reflect.ClassTag
 
 object FilterFunctions {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Create a function parameter

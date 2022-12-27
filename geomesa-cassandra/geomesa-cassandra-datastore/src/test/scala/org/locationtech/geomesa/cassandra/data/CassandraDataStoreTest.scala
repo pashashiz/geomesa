@@ -36,7 +36,7 @@ import java.nio.file.{Files, Path}
 @RunWith(classOf[JUnitRunner])
 class CassandraDataStoreTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

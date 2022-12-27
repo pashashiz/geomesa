@@ -30,7 +30,7 @@ import java.util.concurrent.atomic.AtomicBoolean
   */
 trait TableBasedMetadata[T] extends GeoMesaMetadata[T] with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Serializer
@@ -72,7 +72,7 @@ trait TableBasedMetadata[T] extends GeoMesaMetadata[T] with LazyLogging {
     * @param typeName simple feature type name
     * @param keys keys
     */
-  protected def delete(typeName: String, keys: Seq[String])
+  protected def delete(typeName: String, keys: Seq[String]): Unit
 
   /**
     * Reads a value from the underlying table

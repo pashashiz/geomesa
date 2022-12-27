@@ -163,7 +163,7 @@ object KafkaCacheLoader extends LazyLogging {
     override def run(): Unit = {
       LoaderStatus.startLoad()
 
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val partitions = consumers.head.partitionsFor(topic).asScala.map(_.partition)
       try {

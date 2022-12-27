@@ -38,7 +38,7 @@ import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
 
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @RunWith(classOf[JUnitRunner])
 class AttributeIndexStrategyTest extends Specification with TestWithFeatureType {

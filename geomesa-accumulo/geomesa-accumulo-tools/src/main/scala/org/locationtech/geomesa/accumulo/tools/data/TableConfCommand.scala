@@ -16,7 +16,7 @@ import org.locationtech.geomesa.tools.{Command, CommandWithSubCommands, Required
 import org.opengis.feature.simple.SimpleFeatureType
 
 import java.util.regex.Pattern
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class TableConfCommand extends CommandWithSubCommands {
 

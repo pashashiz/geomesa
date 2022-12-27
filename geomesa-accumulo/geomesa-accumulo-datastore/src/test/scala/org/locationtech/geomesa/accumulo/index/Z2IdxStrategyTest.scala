@@ -33,7 +33,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class Z2IdxStrategyTest extends Specification with TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val spec = "name:String,track:String,dtg:Date,*geom:Point:srid=4326"
 

@@ -23,7 +23,7 @@ import java.util
 @RunWith(classOf[JUnitRunner])
 class AvroSimpleFeatureWriterTest extends Specification with Mockito with AbstractAvroSimpleFeatureTest {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

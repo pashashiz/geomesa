@@ -126,7 +126,7 @@ class GeohashUtilsTest extends Specification with LazyLogging {
     }
   })
 
-  def validateGeohashSubstrings(geom: Geometry, offset: Int, bits: Int, subs: Seq[String]) {
+  def validateGeohashSubstrings(geom: Geometry, offset: Int, bits: Int, subs: Seq[String]): Unit = {
     import java.io._
     val file = File.createTempFile("subhashes_", ".txt")
     file.deleteOnExit()
@@ -284,7 +284,7 @@ class GeohashUtilsTimeTest extends Specification with LazyLogging {
 
       logger.debug(s"[TIMING POLYGON $label] $poly")
 
-      def runTest() {
+      def runTest(): Unit = {
         val substrings = fnx()
         val runCount = substrings.size
         if (runCount != expectedCount)
@@ -322,7 +322,7 @@ class GeohashUtilsTimeTest extends Specification with LazyLogging {
                  bits: Int,
                  expectedCount: Int,
                  useFoil: Boolean = false,
-                 useDotted: Boolean = false) {
+                 useDotted: Boolean = false): Unit = {
 
       val fnxRGHI: () => Seq[String] = () => {
         val rghi = RectangleGeoHashIterator(poly, (offset + bits) * 5)

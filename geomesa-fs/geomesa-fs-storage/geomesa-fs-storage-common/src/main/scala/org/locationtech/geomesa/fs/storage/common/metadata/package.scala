@@ -23,7 +23,7 @@ import scala.reflect.ClassTag
 
 package object metadata {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Creates a new simple feature type with the namespace in the simple feature type name

@@ -26,7 +26,7 @@ class FeatureToFeatureConverterFactory extends SimpleFeatureConverterFactory wit
 
   import FeatureToFeatureConverterFactory.TypeToProcess
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private implicit def configConvert: ConverterConfigConvert[FeatureToFeatureConfig] =
     FeatureToFeatureConfigConvert

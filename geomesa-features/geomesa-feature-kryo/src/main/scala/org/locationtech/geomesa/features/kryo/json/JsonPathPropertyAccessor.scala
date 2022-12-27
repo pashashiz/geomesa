@@ -35,7 +35,7 @@ trait JsonPathPropertyAccessor extends PropertyAccessor {
 
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def canHandle(obj: AnyRef, xpath: String, target: Class[_]): Boolean = {
     val path = try { pathFor(xpath) } catch { case NonFatal(_) => Seq.empty }

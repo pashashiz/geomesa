@@ -33,7 +33,7 @@ import scala.util.control.NonFatal
  */
 trait CoprocessorScan extends StrictLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Gets a scanner for the current region

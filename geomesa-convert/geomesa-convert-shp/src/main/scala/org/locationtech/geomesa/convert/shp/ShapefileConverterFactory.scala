@@ -26,7 +26,7 @@ class ShapefileConverterFactory
 
   import org.locationtech.geomesa.utils.conversions.ScalaImplicits._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override protected val typeToProcess: String = ShapefileConverterFactory.TypeToProcess
 
@@ -66,7 +66,7 @@ class ShapefileConverterFactory
         val shpConfig = BasicConfig(TypeToProcess, Some(Column(0)), Map.empty, Map.empty)
 
         val config = BasicConfigConvert.to(shpConfig)
-            .withFallback(BasicFieldConvert.to(fields))
+            .withFallback(BasicFieldConvert.to(fields.toList))
             .withFallback(BasicOptionsConvert.to(BasicOptions.default))
             .toConfig
 

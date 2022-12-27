@@ -27,7 +27,7 @@ import java.util.concurrent.atomic.AtomicLong
 class GeoCQEngineFeatureStore(engine: GeoCQEngine, entry: ContentEntry, query: Query) extends
   ContentFeatureStore(entry, query) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def getWriterInternal(query: Query, flags: Int): FeatureWriter[SimpleFeatureType, SimpleFeature] =
     new GeoCQEngineFeatureWriter(engine)

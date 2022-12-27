@@ -20,7 +20,7 @@ import java.io.IOException
 @RunWith(classOf[JUnitRunner])
 class AccumuloDataStoreFactoryTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // we use class name to prevent spillage between unit tests
   lazy val catalog = s"${MiniCluster.namespace}.${getClass.getSimpleName}"

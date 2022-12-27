@@ -25,7 +25,7 @@ import scala.util.control.NonFatal
 
 object ViewParams extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val QueryHintMap: Map[String, Hints.Key] = buildHintsMap(QueryHints)
   private val AllHintsMap: Map[String, Hints.Key] = QueryHintMap ++ buildHintsMap(QueryHints.Internal)

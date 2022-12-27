@@ -68,7 +68,7 @@ class AvroConverter(sft: SimpleFeatureType, config: AvroConfig, fields: Seq[Basi
 
 object AvroConverter {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val BytesField = "__bytes__"
 

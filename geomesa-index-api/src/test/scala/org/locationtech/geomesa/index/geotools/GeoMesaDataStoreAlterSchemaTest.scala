@@ -28,7 +28,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class GeoMesaDataStoreAlterSchemaTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   "GeoMesaDataStore" should {
     "update schemas" in {

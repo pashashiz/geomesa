@@ -31,7 +31,7 @@ import scala.util.control.NonFatal
 abstract class AbstractBatchScan[T, R <: AnyRef](ranges: Seq[T], threads: Int, buffer: Int, sentinel: R)
     extends CloseableIterator[R] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   require(threads > 0, "Thread count must be greater than 0")
 

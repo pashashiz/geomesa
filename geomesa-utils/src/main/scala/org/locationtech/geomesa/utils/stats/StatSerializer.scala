@@ -387,7 +387,7 @@ object StatSerializer {
         val counters = (0 until size).map(_ => (read(), input.readLong(true)))
         StreamSummary[Any](TopK.StreamCapacity, counters)
       } else {
-        import scala.collection.JavaConverters._
+        import scala.jdk.CollectionConverters._
         val summaryBytes = input.readBytes(input.readInt(true))
         val clearspring = new com.clearspring.analytics.stream.StreamSummary[Any](summaryBytes)
         val geomesa = StreamSummary[Any](TopK.StreamCapacity)

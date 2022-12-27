@@ -75,7 +75,7 @@ See the links in :ref:`geomesa_data_stores` for an explanation of the parameters
         import org.geotools.data.DataStoreFinder
         import org.locationtech.geomesa.hbase.data.HBaseDataStoreParams
 
-        import scala.collection.JavaConverters._
+        import scala.jdk.CollectionConverters._
 
         // HBaseDataStoreParams.HBaseCatalogParam.key is the string "hbase.catalog"
         // the GeoMesa HBase data store will recognize the key and attempt to load itself

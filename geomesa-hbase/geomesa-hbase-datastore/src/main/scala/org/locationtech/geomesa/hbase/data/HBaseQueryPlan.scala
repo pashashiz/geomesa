@@ -79,7 +79,7 @@ sealed trait HBaseQueryPlan extends QueryPlan[HBaseDataStore] {
 
 object HBaseQueryPlan {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private def rangeToString(range: RowRange): String =
     s"[${ByteArrays.printable(range.getStartRow)}::${ByteArrays.printable(range.getStopRow)}]"

@@ -39,7 +39,7 @@ class KafkaMetadata[T](val config: KafkaDataStoreConfig, val serializer: Metadat
 
   import org.apache.kafka.clients.consumer.ConsumerConfig.{AUTO_OFFSET_RESET_CONFIG, GROUP_ID_CONFIG}
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val producer = new LazyProducer(KafkaDataStore.producer(config.brokers, config.producers.properties))
   private lazy val consumer = new TopicMap()

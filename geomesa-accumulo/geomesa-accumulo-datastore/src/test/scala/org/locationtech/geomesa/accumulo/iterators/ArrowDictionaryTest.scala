@@ -29,7 +29,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 @RunWith(classOf[JUnitRunner])
 class ArrowDictionaryTest extends TestWithFeatureType with Mockito with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val spec = "team:String,name:String:index=true,age:Int,weight:Float,dtg:Date,*geom:Point:srid=4326;geomesa.stats.enable=false"
 

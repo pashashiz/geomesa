@@ -19,7 +19,7 @@ import org.locationtech.geomesa.utils.geotools.SimpleFeatureTypes
 import org.opengis.feature.simple.SimpleFeatureType
 
 import java.util.concurrent.TimeUnit
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.control.NonFatal
 
 class ConfluentMetadata(schemaRegistry: SchemaRegistryClient, sftOverrides: Map[String, SimpleFeatureType] = Map.empty)

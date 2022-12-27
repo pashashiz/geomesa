@@ -102,7 +102,7 @@ object RedisQueryPlan {
       projection: Option[QueryReferenceSystems]
     ) extends RedisQueryPlan {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def scan(ds: RedisDataStore): CloseableIterator[Array[Byte]] = {
       val iter = tables.iterator.map(_.getBytes(StandardCharsets.UTF_8))

@@ -29,7 +29,7 @@ class HBaseStatsAggregatorTest extends Specification with LazyLogging {
 
   import org.locationtech.geomesa.index.iterators.StatsScan.decodeStat
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
   sequential
 
   val TEST_FAMILY = "idt:java.lang.Integer:index=full,attr:java.lang.Long:index=true,dtg:Date,*geom:Point:srid=4326"

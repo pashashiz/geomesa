@@ -39,7 +39,7 @@ object FsCompactCommand {
 
   trait CompactCommand extends FsDataStoreCommand with DistributedCommand with LazyLogging {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override val name: String = "compact"
     override val params = new CompactParams

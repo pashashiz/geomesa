@@ -26,7 +26,7 @@ import java.util.Collections
 @RunWith(classOf[JUnitRunner])
 class ArrowConversionProcessTest extends TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

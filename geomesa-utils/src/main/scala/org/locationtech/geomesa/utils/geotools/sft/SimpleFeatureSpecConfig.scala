@@ -20,7 +20,7 @@ import org.opengis.feature.simple.SimpleFeatureType
   */
 object SimpleFeatureSpecConfig {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val TypeNamePath   = "type-name"
   val AttributesPath = "attributes"

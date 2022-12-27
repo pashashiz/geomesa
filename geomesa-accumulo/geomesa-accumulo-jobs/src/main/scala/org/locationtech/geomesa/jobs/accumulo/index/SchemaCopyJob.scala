@@ -25,7 +25,7 @@ import org.locationtech.geomesa.utils.geotools.SimpleFeatureTypes
 import org.locationtech.geomesa.utils.io.WithStore
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * Class to copy a schema and all data from one data store to another.
@@ -82,7 +82,7 @@ object SchemaCopyJob {
 
     override protected def cleanup(context: Context): Unit = {}
 
-    override def map(key: Text, value: SimpleFeature, context: Context) {
+    override def map(key: Text, value: SimpleFeature, context: Context): Unit = {
       context.write(text, ScalaSimpleFeature.copy(sftOut, value))
       counter.increment(1)
     }

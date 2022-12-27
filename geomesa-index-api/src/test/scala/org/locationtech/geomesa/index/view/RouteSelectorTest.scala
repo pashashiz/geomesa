@@ -19,7 +19,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class RouteSelectorTest extends Specification with Mockito {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   "RouteSelector" should {
     "route queries based on filter attributes" in {

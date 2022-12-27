@@ -24,7 +24,7 @@ import org.locationtech.geomesa.index.filters.RowFilter.RowFilterFactory
 abstract class RowFilterIterator[T <: RowFilter](factory: RowFilterFactory[T])
     extends SortedKeyValueIterator[Key, Value] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private var source: SortedKeyValueIterator[Key, Value] = _
 

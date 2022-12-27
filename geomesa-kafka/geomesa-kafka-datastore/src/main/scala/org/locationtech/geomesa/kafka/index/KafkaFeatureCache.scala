@@ -136,7 +136,7 @@ object KafkaFeatureCache extends LazyLogging {
     override def query(id: String): Option[SimpleFeature] = Option(state.get(id))
 
     override def query(filter: Filter): Iterator[SimpleFeature] = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val features = state.asScala.valuesIterator
       if (filter == Filter.INCLUDE) { features } else {
         features.filter(filter.evaluate)
@@ -183,7 +183,7 @@ object KafkaFeatureCache extends LazyLogging {
     override def query(id: String): Option[SimpleFeature] = Option(state.get(id)).map(_._1)
 
     override def query(filter: Filter): Iterator[SimpleFeature] = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val features = state.asScala.valuesIterator.map(_._1)
       if (filter == Filter.INCLUDE) { features } else {
         features.filter(filter.evaluate)

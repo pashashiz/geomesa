@@ -23,7 +23,7 @@ import scala.util.Random
 
 object SparkSQLTestUtils {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def createSparkSession(): SparkSession = {
     SparkSession.builder()

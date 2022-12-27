@@ -19,7 +19,7 @@ import org.locationtech.geomesa.utils.date.DateUtils.toInstant
 import java.time._
 import java.time.format.DateTimeParseException
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @DescribeProcess(
   title = "Date Offset Process",

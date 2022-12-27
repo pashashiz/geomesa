@@ -17,9 +17,10 @@ import org.opengis.feature.simple.SimpleFeatureType
 
 import java.nio.ByteBuffer
 import java.time.format.DateTimeFormatter
+import java.util
 import java.util.{Date, Locale}
 import scala.annotation.tailrec
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.reflect.{ClassTag, classTag}
 import scala.util.control.NonFatal
 
@@ -41,7 +42,9 @@ object AvroSimpleFeatureTypeParser {
     builder.setName(name.getOrElse(schema.getName))
 
     // any extra props on the schema go in the SFT user data
-    val sftUserData = schema.getProps
+    val sftUserData = schema.getObjectProps.asScala
+      .collect { case (key, value: String) => (key, value) }
+      .asJava
 
     var defaultGeomField: Option[String] = None
     var visibilityField: Option[String] = None
@@ -142,9 +145,10 @@ object AvroSimpleFeatureTypeParser {
       }
 
     // any field properties that are not one of the defined geomesa avro properties will go in the attribute user data
-    val extraProps = field.getProps.asScala.filterNot {
-      case (key, _) => reservedPropertyKeys.contains(key)
-    }.toMap
+    val extraProps = field.getObjectProps.asScala
+      .collect { case (key, value: String) => (key, value) }
+      .filterNot { case (key, _) => reservedPropertyKeys.contains(key) }
+      .toMap
 
     val exclude = GeoMesaAvroExcludeField.parse(field).getOrElse(false)
 

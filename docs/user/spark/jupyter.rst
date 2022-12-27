@@ -145,7 +145,7 @@ The following sample notebook shows how you can use Leaflet for data visualizati
 
    implicit val displayer: String => Unit = display.html(_)
 
-   import scala.collection.JavaConverters._
+   import scala.jdk.CollectionConverters._
    import org.locationtech.geomesa.accumulo.data.AccumuloDataStoreParams._
    import org.locationtech.geomesa.utils.geotools.Conversions._
 

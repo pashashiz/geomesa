@@ -43,7 +43,7 @@ object ParquetSimpleFeatureOutputFormat {
       extends FileOutputCommitter(outputPath, context) with LazyLogging {
     // based on parquetOutputCommitter, but for multiple output files
     @throws[IOException]
-    override def commitJob(jobContext: JobContext) {
+    override def commitJob(jobContext: JobContext): Unit = {
       super.commitJob(jobContext)
       val conf = ContextUtil.getConfiguration(jobContext)
       listFiles(outputPath, conf, extension).map(_.getParent).distinct.foreach { path =>

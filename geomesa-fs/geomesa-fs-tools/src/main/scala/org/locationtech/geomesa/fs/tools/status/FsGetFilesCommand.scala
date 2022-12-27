@@ -22,7 +22,7 @@ class FsGetFilesCommand extends FsDataStoreCommand {
 
   import org.locationtech.geomesa.utils.geotools.GeoToolsDateFormat
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val params = new FSGetFilesParams
 

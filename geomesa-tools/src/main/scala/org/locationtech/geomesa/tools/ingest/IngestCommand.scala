@@ -41,13 +41,12 @@ import java.io.{File, FileWriter, InputStream, PrintWriter}
 import java.nio.charset.StandardCharsets
 import java.util.{Collections, Locale}
 import scala.collection.mutable.ListBuffer
+import scala.jdk.CollectionConverters._
 import scala.util.control.NonFatal
 import scala.util.{Success, Try}
 
 trait IngestCommand[DS <: DataStore]
     extends DataStoreCommand[DS] with DistributedCommand with InteractiveCommand with SchemaOptionsCommand {
-
-  import scala.collection.JavaConverters._
 
   override val name = "ingest"
   override def params: IngestParams
@@ -353,8 +352,6 @@ object IngestCommand extends LazyLogging {
 
     import Inputs.StdInInputs
 
-    import scala.collection.JavaConverters.asScalaIteratorConverter
-
     val stdin: Boolean = paths.isEmpty || paths == StdInInputs
 
     /**
@@ -421,7 +418,7 @@ object IngestCommand extends LazyLogging {
   }
 
   private def writeInferredConverter(typeName: String, converterString: String, schemaString: Option[String]): Unit = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     try {
       val conf = this.getClass.getClassLoader.getResources("reference.conf").asScala.find { u =>

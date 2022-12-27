@@ -13,7 +13,7 @@ import org.geotools.data.DataStore
 import org.opengis.feature.simple.SimpleFeatureType
 
 import java.util.concurrent.ConcurrentHashMap
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 object GeoMesaServletCatalog extends LazyLogging {
 

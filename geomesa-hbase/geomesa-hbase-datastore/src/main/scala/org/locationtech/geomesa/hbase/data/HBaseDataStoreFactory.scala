@@ -123,7 +123,7 @@ object HBaseDataStoreFactory extends GeoMesaDataStoreInfo with LazyLogging {
 
   import HBaseDataStoreParams._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val HBaseGeoMesaPrincipal = "hbase.geomesa.principal"
   val HBaseGeoMesaKeyTab    = "hbase.geomesa.keytab"

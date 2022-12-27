@@ -28,7 +28,7 @@ trait SamplingIterator {
     * @return sampling function, if defined
     */
   def sample(options: jMap[String, String]): Option[SimpleFeature => Boolean] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     sample(options.asScala.toMap)
   }
 

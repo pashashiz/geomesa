@@ -36,7 +36,7 @@ class AccumuloCompactCommand extends AccumuloDataStoreCommand {
   import org.locationtech.geomesa.filter.ff
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val name = "compact"
   override val params = new CompactParams

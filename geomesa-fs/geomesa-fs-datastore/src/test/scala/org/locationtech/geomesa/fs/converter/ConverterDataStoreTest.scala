@@ -23,7 +23,7 @@ import scala.collection.mutable
 @RunWith(classOf[JUnitRunner])
 class ConverterDataStoreTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

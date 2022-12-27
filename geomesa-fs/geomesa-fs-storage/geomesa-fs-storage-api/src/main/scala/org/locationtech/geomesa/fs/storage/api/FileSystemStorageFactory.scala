@@ -34,7 +34,7 @@ trait FileSystemStorageFactory {
 
 object FileSystemStorageFactory {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy private val factories = ServiceLoader.load(classOf[FileSystemStorageFactory]).asScala.toSeq
 

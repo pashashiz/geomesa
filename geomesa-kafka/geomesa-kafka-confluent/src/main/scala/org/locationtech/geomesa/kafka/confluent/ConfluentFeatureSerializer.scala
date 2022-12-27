@@ -27,7 +27,7 @@ import java.io.{InputStream, OutputStream}
 import java.net.URL
 import java.util.Date
 import java.util.concurrent.atomic.AtomicBoolean
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 import scala.util.control.NonFatal
 

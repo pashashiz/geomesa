@@ -34,7 +34,7 @@ import scala.util.Try
 class Version1ASF(id: FeatureId, sft: SimpleFeatureType) extends SimpleFeature {
   import Version1ASF._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val values    = Array.ofDim[AnyRef](sft.getAttributeCount)
   val userData  = collection.mutable.HashMap.empty[AnyRef, AnyRef]
@@ -43,7 +43,7 @@ class Version1ASF(id: FeatureId, sft: SimpleFeatureType) extends SimpleFeature {
   val nameIndex = nameIndexCache.get(sft)
   val schema    = avroSchemaCache.get(sft)
 
-  def write(datumWriter: GenericDatumWriter[GenericRecord], encoder: BinaryEncoder){
+  def write(datumWriter: GenericDatumWriter[GenericRecord], encoder: BinaryEncoder): Unit ={
     val record = new GenericData.Record(schema)
     record.put(Version1ASF.AVRO_SIMPLE_FEATURE_VERSION, Version1ASF.VERSION)
     record.put(Version1ASF.FEATURE_ID_AVRO_FIELD_NAME, getID)
@@ -62,7 +62,7 @@ class Version1ASF(id: FeatureId, sft: SimpleFeatureType) extends SimpleFeature {
 
   val gdw = new GenericDatumWriter[GenericRecord](schema)
   var encoder: BinaryEncoder = null
-  def write(os: OutputStream) {
+  def write(os: OutputStream): Unit = {
     encoder = EncoderFactory.get.binaryEncoder(os, null)
     write(gdw, encoder)
   }
@@ -149,7 +149,7 @@ class Version1ASF(id: FeatureId, sft: SimpleFeatureType) extends SimpleFeature {
 
 object Version1ASF {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def apply(sf: SimpleFeature) = {
     val asf = new Version1ASF(sf.getIdentifier, sf.getFeatureType)

@@ -75,7 +75,7 @@ class AttributeIndexValuesTest extends TestWithFeatureType {
       }
     }
     "work with arrow queries" in {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       foreach(filters) { case (filter, expectation) =>
         foreach(transforms) { transform =>
           val dicts = transform.filter(t => t != "dtg" && t != "geom")

@@ -36,7 +36,7 @@ object AttributeIndexKey {
 
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val TypeRegistry = new TypeRegistry[String](LexiTypeEncoders.LEXI_TYPES, TimestampEncoder)
 

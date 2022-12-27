@@ -22,7 +22,7 @@ import org.locationtech.geomesa.utils.stats.MethodProfiling
 
 import java.io.File
 import java.nio.charset.StandardCharsets
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.control.NonFatal
 
 trait Runner extends MethodProfiling with LazyLogging {

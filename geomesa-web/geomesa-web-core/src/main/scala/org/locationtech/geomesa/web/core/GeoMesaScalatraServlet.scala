@@ -18,7 +18,7 @@ import scala.beans.BeanProperty
 
 trait GeoMesaScalatraServlet extends ScalatraServlet with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   @BeanProperty
   var debug: Boolean = false

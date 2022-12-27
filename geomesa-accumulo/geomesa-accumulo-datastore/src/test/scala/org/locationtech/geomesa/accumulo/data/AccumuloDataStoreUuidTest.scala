@@ -32,7 +32,7 @@ import java.io.{ByteArrayInputStream, ByteArrayOutputStream}
 @RunWith(classOf[JUnitRunner])
 class AccumuloDataStoreUuidTest extends Specification with TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val spec =
     s"name:String:index=true,age:Int:index=join,dtg:Date,*geom:Point:srid=4326;${Configs.FidsAreUuids}=true"

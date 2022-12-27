@@ -120,7 +120,7 @@ object LocalQueryRunner extends LazyLogging {
   import org.locationtech.geomesa.index.conf.QueryHints.RichHints
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   case class ArrowDictionaryHook(stats: GeoMesaStats, filter: Option[Filter])
 

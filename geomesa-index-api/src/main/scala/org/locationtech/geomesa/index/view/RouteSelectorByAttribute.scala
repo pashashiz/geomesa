@@ -21,7 +21,7 @@ class RouteSelectorByAttribute extends RouteSelector {
 
   import RouteSelectorByAttribute.RouteAttributes
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private var mappings: Seq[(Set[String], DataStore)] = Seq.empty
   private var id: Option[DataStore] = None

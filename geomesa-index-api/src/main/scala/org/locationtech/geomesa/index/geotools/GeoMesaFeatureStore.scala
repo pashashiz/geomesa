@@ -23,8 +23,11 @@ import org.opengis.filter.identity.FeatureId
 
 import java.util.Collections
 import scala.collection.mutable.ArrayBuffer
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, Future}
 
 class GeoMesaFeatureStore(ds: DataStore with HasGeoMesaStats, sft: SimpleFeatureType, runner: QueryRunner)
+                         (implicit val ec: ExecutionContext)
     extends GeoMesaFeatureSource(ds, sft, runner) with SimpleFeatureStore {
 
   private var transaction: Transaction = Transaction.AUTO_COMMIT
@@ -107,16 +110,18 @@ class GeoMesaFeatureStore(ds: DataStore with HasGeoMesaStats, sft: SimpleFeature
   override def removeFeatures(filter: Filter): Unit = {
     ds match {
       case gm: GeoMesaDataStore[_] if filter == Filter.INCLUDE =>
-        if (TablePartition.partitioned(sft)) {
-          gm.manager.indices(sft).par.foreach(index => gm.adapter.deleteTables(index.deleteTableNames(None)))
+        val result = if (TablePartition.partitioned(sft)) {
+          Future.traverse(gm.manager.indices(sft)) { index =>
+            Future(gm.adapter.deleteTables(index.deleteTableNames(None)))
+          }
         } else {
-          gm.manager.indices(sft).par.foreach { index =>
+          Future.traverse(gm.manager.indices(sft)) { index =>
             val prefix = Some(index.keySpace.sharing).filterNot(_.isEmpty)
-            gm.adapter.clearTables(index.getTableNames(None), prefix)
+            Future(gm.adapter.clearTables(index.getTableNames(None), prefix))
           }
         }
+        Await.result(result, Duration.Inf)
         gm.stats.writer.clear(sft)
-
       case _ =>
         WithClose(writer(Some(filter))) { writer =>
           while (writer.hasNext) {

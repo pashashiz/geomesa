@@ -170,7 +170,7 @@ object FileSystemConverterJob {
 
   class DummyReducer extends Reducer[Text, BytesWritable, Void, SimpleFeature] {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     type Context = Reducer[Text, BytesWritable, Void, SimpleFeature]#Context
 

@@ -29,7 +29,7 @@ class JdbcMetadataTest extends Specification with AllExpectations {
 
   sequential
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy val conf = new Configuration()
   lazy val fc = FileContext.getFileContext(conf)

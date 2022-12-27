@@ -20,7 +20,7 @@ import java.sql.Timestamp
 
 object OrcSearchArguments {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Creates a push-down predicate for Orc files based on a CQL filter

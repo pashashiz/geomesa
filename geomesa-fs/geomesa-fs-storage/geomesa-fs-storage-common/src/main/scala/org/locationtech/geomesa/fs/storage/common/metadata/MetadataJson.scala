@@ -115,7 +115,7 @@ object MetadataJson extends MethodProfiling {
     * @return
     */
   private def transitionMetadata(context: FileSystemContext, config: Config): Option[NamedOptions] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     try {
       val sft = SimpleFeatureTypes.createType(config.getConfig("featureType"), path = None)

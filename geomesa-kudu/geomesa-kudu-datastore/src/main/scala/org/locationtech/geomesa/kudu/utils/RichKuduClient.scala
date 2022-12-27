@@ -52,7 +52,7 @@ object RichKuduClient {
     override def flush(): Unit = handleErrors(session.flush())
 
     private def handleErrors(response: java.util.List[OperationResponse]): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val errors = response.asScala.collect { case row if row.hasRowError => row.getRowError }
       if (errors.nonEmpty) {

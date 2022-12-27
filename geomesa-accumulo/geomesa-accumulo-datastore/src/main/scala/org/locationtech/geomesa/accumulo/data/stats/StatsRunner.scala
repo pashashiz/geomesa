@@ -71,7 +71,7 @@ class StatsRunner(ds: AccumuloDataStore) extends Runnable with Closeable {
     * Updates metadata accordingly.
     */
   override def run(): Unit = {
-    import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichTraversableOnce
+    import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichIterableOnce
 
     // convert to iterator so we check shutdown before each update
     val sfts = ds.getTypeNames.map(ds.getSchema).iterator.filter(_ => !shutdown.get())

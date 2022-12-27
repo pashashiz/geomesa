@@ -26,7 +26,7 @@ trait Explainer {
   def pushLevel(s: => String): Explainer = { apply(s); pushLevel(); this }
   def popLevel(): Explainer = { indent = indent.substring(2); this }
   def popLevel(s: => String): Explainer = { popLevel(); apply(s); this }
-  protected def output(s: => String)
+  protected def output(s: => String): Unit
 }
 
 class ExplainPrintln(out: PrintStream = System.out) extends Explainer {

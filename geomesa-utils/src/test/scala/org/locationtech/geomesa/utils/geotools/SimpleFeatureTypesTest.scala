@@ -23,7 +23,7 @@ import org.specs2.mutable.Specification
 import org.specs2.runner.JUnitRunner
 
 import java.util.regex.Pattern
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Try
 
 @RunWith(classOf[JUnitRunner])
@@ -604,7 +604,7 @@ class SimpleFeatureTypesTest extends Specification {
     }
 
     "render SFTs as config again" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val conf = ConfigFactory.parseString(
         """
           |{
@@ -649,7 +649,7 @@ class SimpleFeatureTypesTest extends Specification {
     }
 
     "render sfts as config with table sharing" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val sft = SimpleFeatureTypes.createType("geolife",
         "userId:String,trackId:String,altitude:Double,dtg:Date,*geom:Point:srid=4326;" +
             "geomesa.index.dtg='dtg',geomesa.table.sharing='true',geomesa.indices='z3:4:3,z2:3:3,id:2:3'," +

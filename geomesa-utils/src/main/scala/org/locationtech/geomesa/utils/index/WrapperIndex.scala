@@ -11,7 +11,7 @@ package org.locationtech.geomesa.utils.index
 import org.locationtech.jts.geom.{Envelope, Geometry}
 import org.locationtech.jts.index.{SpatialIndex => JSTSpatialIndex}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class WrapperIndex[T, Index <: JSTSpatialIndex](val indexBuider : () => Index) extends SpatialIndex[T] with Serializable {
 

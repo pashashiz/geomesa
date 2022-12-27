@@ -67,7 +67,7 @@ object AccumuloDataStoreFactory extends GeoMesaDataStoreInfo {
 
   import AccumuloDataStoreParams._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val RemoteArrowProperty   : SystemProperty = SystemProperty("geomesa.accumulo.remote.arrow.enable")
   val RemoteBinProperty     : SystemProperty = SystemProperty("geomesa.accumulo.remote.bin.enable")

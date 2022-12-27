@@ -23,7 +23,7 @@ import java.nio.ByteBuffer
 import java.nio.charset.StandardCharsets
 import java.util
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 sealed trait AttributeAccessor[T <: AnyRef] {
   def getAttribute(buf: ByteBuffer): T

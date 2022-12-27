@@ -19,7 +19,7 @@ import scala.util.control.NonFatal
 
 trait JobWithLibJars {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def setLibJars(job: Job, fileNames: Seq[String], searchPath: Iterator[() => Seq[File]]): Unit =
     JobUtils.setLibJars(job.getConfiguration, fileNames.flatMap(readLibJars), searchPath)

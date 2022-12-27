@@ -15,7 +15,7 @@ import org.geotools.util.factory.Hints
 import org.opengis.feature.`type`.AttributeDescriptor
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class ScalaSimpleFeatureFactory extends AbstractFeatureFactoryImpl {
 

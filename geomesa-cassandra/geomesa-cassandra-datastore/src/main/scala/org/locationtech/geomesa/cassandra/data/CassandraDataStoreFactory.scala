@@ -118,7 +118,7 @@ class CassandraDataStoreFactory extends DataStoreFactorySpi {
 
 object CassandraDataStoreFactory extends GeoMesaDataStoreInfo {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // used to handle geoserver password encryption in persisted ds params
   private val DeprecatedGeoServerPasswordParam =

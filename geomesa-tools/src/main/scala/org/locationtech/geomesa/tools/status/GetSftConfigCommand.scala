@@ -27,7 +27,7 @@ trait GetSftConfigCommand[DS <: DataStore] extends DataStoreCommand[DS] {
   override def execute(): Unit = withDataStore(showSftConfig)
 
   protected def showSftConfig(ds: DS): Unit = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     for {
       p <- Option(params).collect { case p: ProvidedTypeNameParam => p }
       f <- Option(ds).collect { case f: FileDataStore => f }
@@ -73,7 +73,7 @@ trait GetSftConfigParams extends TypeNameParam {
 
 class FormatValidator extends IValueValidator[java.util.List[String]] {
   override def validate(name: String, value: util.List[String]): Unit = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     if (value == null || value.isEmpty || value.asScala.map(_.toLowerCase ).exists(v => v != Spec && v != TypeSafe)) {
       throw new ParameterException(s"Invalid value for format: ${Option(value).map(_.asScala.mkString(",")).orNull}")
     }

@@ -26,7 +26,7 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
 import java.time.{Instant, ZoneOffset, ZonedDateTime}
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.Random
 
 object TestData extends LazyLogging {

@@ -17,7 +17,7 @@ import scala.reflect.ClassTag
   */
 object ServiceLoader extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Load all services

@@ -101,7 +101,7 @@ trait GeoMesaMetadata[T] extends Closeable {
    *
    * @param typeName simple feature type name
    */
-  def delete(typeName: String)
+  def delete(typeName: String): Unit
 
   /**
     * Create a back up of this metadata

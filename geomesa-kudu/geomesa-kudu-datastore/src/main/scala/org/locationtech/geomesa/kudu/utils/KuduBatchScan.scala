@@ -15,7 +15,7 @@ import org.locationtech.geomesa.index.utils.AbstractBatchScan
 import org.locationtech.geomesa.kudu.utils.KuduBatchScan.KuduAbstractBatchScan
 import org.locationtech.geomesa.utils.collection.CloseableIterator
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
   * Batch scanner for Kudu

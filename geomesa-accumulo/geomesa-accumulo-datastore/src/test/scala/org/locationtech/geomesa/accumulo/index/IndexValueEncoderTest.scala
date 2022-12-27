@@ -26,7 +26,7 @@ import java.util.{Date, UUID}
 @RunWith(classOf[JUnitRunner])
 class IndexValueEncoderTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val defaultSchema = "*geom:Point,dtg:Date,s:String,i:Int,d:Double,f:Float,u:UUID,l:List[String]"
   val allSchema = s"*geom:Point:$OptIndexValue=true,dtg:Date:$OptIndexValue=true,s:String:$OptIndexValue=true,i:Int:$OptIndexValue=true,d:Double:$OptIndexValue=true,f:Float:$OptIndexValue=true,u:UUID:$OptIndexValue=true,l:List[String]"
@@ -40,7 +40,7 @@ class IndexValueEncoderTest extends Specification {
     SimpleFeatureTypes.createType("IndexValueEncoderTest" + index.getAndIncrement, schema)
 
   def getIndexValueFields(sft: SimpleFeatureType): Seq[String] =
-    IndexValueEncoder.getIndexSft(sft).getAttributeDescriptors.asScala.map(_.getLocalName)
+    IndexValueEncoder.getIndexSft(sft).getAttributeDescriptors.asScala.toList.map(_.getLocalName)
 
   "IndexValueEncoder" should {
     "default to id,geom,date" in {

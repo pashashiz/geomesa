@@ -37,12 +37,12 @@ import org.specs2.runner.JUnitRunner
 
 import java.time.{ZoneOffset, ZonedDateTime}
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @RunWith(classOf[JUnitRunner])
 class HBasePartitioningTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

@@ -46,7 +46,7 @@ class AvroReadSupport extends ReadSupport[GenericRecord] {
 
 object AvroReadSupport {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Schema-less implementation of GenericRecord

@@ -30,7 +30,7 @@ abstract class BatchConsumer(consumers: Seq[Consumer[Array[Byte], Array[Byte]]],
 
   import BatchResult.BatchResult
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val messages =
     Collections.newSetFromMap(

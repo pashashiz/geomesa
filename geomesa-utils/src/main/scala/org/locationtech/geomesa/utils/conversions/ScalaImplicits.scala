@@ -8,32 +8,31 @@
 
 package org.locationtech.geomesa.utils.conversions
 
-import scala.collection.generic.CanBuildFrom
-import scala.collection.{GenTraversableOnce, Iterator, TraversableLike}
+import scala.collection.{IterableOnce, IterableOps, Iterator}
+import scala.math.BigDecimal.RoundingMode.{FLOOR, HALF_UP}
 import scala.reflect.ClassTag
 
 object ScalaImplicits {
 
-  implicit class RichTraversableOnce[T](val seq: TraversableOnce[T]) extends AnyVal {
-    def minOption(implicit cmp: Ordering[T]): Option[T] = if (seq.isEmpty) { None } else { Some(seq.min) }
-    def minOrElse(or: => T)(implicit cmp: Ordering[T]): T = if (seq.isEmpty) { or } else { seq.min }
+  implicit class RichIterableOnce[T](val seq: IterableOnce[T]) extends AnyVal {
+    def minOption(implicit cmp: Ordering[T]): Option[T] = if (seq.iterator.isEmpty) { None } else { Some(seq.min) }
+    def minOrElse(or: => T)(implicit cmp: Ordering[T]): T = if (seq.iterator.isEmpty) { or } else { seq.min }
 
-    def maxOption(implicit cmp: Ordering[T]): Option[T] = if (seq.isEmpty) { None } else Some(seq.max)
-    def maxOrElse(or: => T)(implicit cmp: Ordering[T]): T = if (seq.isEmpty) { or } else seq.max
+    def maxOption(implicit cmp: Ordering[T]): Option[T] = if (seq.iterator.isEmpty) { None } else Some(seq.max)
+    def maxOrElse(or: => T)(implicit cmp: Ordering[T]): T = if (seq.iterator.isEmpty) { or } else seq.max
 
-    def sumOption(implicit num: Numeric[T]): Option[T] = if (seq.isEmpty) { None } else Some(seq.sum)
-    def sumOrElse(or: => T)(implicit num: Numeric[T]): T = if (seq.isEmpty) { or } else seq.sum
+    def sumOption(implicit num: Numeric[T]): Option[T] = if (seq.iterator.isEmpty) { None } else Some(seq.sum)
+    def sumOrElse(or: => T)(implicit num: Numeric[T]): T = if (seq.iterator.isEmpty) { or } else seq.sum
 
     def foreachIndex[U](f: (T, Int) => U): Unit = {
       var i = 0
-      seq.foreach { v => f(v, i); i += 1 }
+      seq.iterator.foreach { v => f(v, i); i += 1 }
     }
   }
 
-  implicit class RichTraversableLike[+A, +Repr](val seq: TraversableLike[A, Repr]) extends AnyVal {
-    def tailOption: Repr = if (seq.isEmpty) { seq.asInstanceOf[Repr] } else { seq.tail }
-
-    def mapWithIndex[B, That](f: (A, Int) => B)(implicit bf: CanBuildFrom[Repr, B, That]): That = {
+  implicit class RichTraversableLike[+A, +CC[_], +C](val seq: IterableOps[A, CC, C]) extends AnyVal {
+    def tailOption: C = if (seq.isEmpty) { seq.asInstanceOf[C] } else { seq.tail }
+    def mapWithIndex[B](f: (A, Int) => B): CC[B] = {
       var i = -1
       seq.map { v => i += 1; f(v, i) }
     }
@@ -62,9 +61,18 @@ object ScalaImplicits {
       array.map { v => i += 1; f(v, i) }
     }
 
-    def flatMapWithIndex[B](f: (T, Int) => GenTraversableOnce[B])(implicit ct: ClassTag[B]): Array[B] = {
+    def flatMapWithIndex[B](f: (T, Int) => IterableOnce[B])(implicit ct: ClassTag[B]): Array[B] = {
       var i = -1
       array.flatMap { v => i += 1; f(v, i) }
     }
+  }
+
+  implicit class RichDouble(val value: Double) extends AnyVal {
+
+    def roundAt(precision: Int): Double =
+      BigDecimal(value).setScale(precision, HALF_UP).doubleValue
+
+    def truncateAt(precision: Int): Double =
+      BigDecimal(value).setScale(precision, FLOOR).doubleValue
   }
 }

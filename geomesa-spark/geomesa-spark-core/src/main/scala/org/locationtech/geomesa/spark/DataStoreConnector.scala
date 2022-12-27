@@ -16,7 +16,7 @@ import org.geotools.data.{DataStore, DataStoreFinder}
   */
 object DataStoreConnector {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def apply[T <: DataStore](params: Map[String, String]): T = loadingMap.get(params).asInstanceOf[T]
 

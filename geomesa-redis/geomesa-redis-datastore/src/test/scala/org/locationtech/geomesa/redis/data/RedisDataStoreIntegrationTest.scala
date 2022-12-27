@@ -25,7 +25,7 @@ import java.util.{Collections, Date}
 @RunWith(classOf[JUnitRunner])
 class RedisDataStoreIntegrationTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

@@ -247,7 +247,7 @@ object KafkaStore {
     override def onPartitionsRevoked(topicPartitions: java.util.Collection[TopicPartition]): Unit = {}
 
     override def onPartitionsAssigned(topicPartitions: java.util.Collection[TopicPartition]): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       // ensure we have queues for each partition
       // read our last committed offsets and seek to them

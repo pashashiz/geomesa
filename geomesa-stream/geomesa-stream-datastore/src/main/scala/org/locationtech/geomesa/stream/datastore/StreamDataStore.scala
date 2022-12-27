@@ -41,7 +41,7 @@ import java.util.concurrent.{CopyOnWriteArrayList, Executors, TimeUnit}
 import java.util.function.Function
 import java.util.logging.Level
 import java.{util => ju}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 case class FeatureHolder(sf: SimpleFeature, geom: Geometry) {
   override def hashCode(): Int = sf.hashCode()

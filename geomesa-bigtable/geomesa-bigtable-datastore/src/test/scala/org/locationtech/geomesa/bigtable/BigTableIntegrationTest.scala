@@ -26,7 +26,7 @@ import org.specs2.runner.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class BigTableIntegrationTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // note: make sure you update src/test/resources/hbase-site.xml to point to your bigtable instance
 

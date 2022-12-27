@@ -33,7 +33,7 @@ object AttributeDetails {
 @deprecated("replaced with GenerateRichFeatureModels")
 object GenerateFeatureWrappers {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val className = "SimpleFeatureWrappers"
 
@@ -75,7 +75,7 @@ object GenerateFeatureWrappers {
     sb.append(
       s"""
         |$tab  def debug(): String = {
-        |$tab    import scala.collection.JavaConverters._
+        |$tab    import scala.jdk.CollectionConverters._
         |$tab    val sb = new StringBuilder(s"$${sf.getType.getTypeName}:$${sf.getID}")
         |$tab    sf.getProperties.asScala.foreach(p => sb.append(s"|$${p.getName.getLocalPart}=$${p.getValue}"))
         |$tab    sb.toString()

@@ -46,7 +46,7 @@ class ConvertCommand extends Command with MethodProfiling with LazyLogging {
   private def convertAndExport(): Option[Long] = {
     import org.locationtech.geomesa.index.conf.QueryHints.RichHints
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     if (params.files.isEmpty && !StdInHandle.isAvailable) {
       throw new ParameterException("Missing option: <files>... is required")

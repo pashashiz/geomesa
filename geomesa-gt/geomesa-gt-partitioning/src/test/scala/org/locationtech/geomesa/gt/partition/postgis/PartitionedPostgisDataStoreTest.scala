@@ -31,7 +31,7 @@ import scala.util.control.NonFatal
 @RunWith(classOf[JUnitRunner])
 class PartitionedPostgisDataStoreTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val hours = 1
   val spec =

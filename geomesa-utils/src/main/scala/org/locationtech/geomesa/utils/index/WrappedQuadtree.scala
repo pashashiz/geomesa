@@ -10,7 +10,7 @@ package org.locationtech.geomesa.utils.index
 
 import org.locationtech.jts.index.quadtree.Quadtree
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * Spatial index wrapper for un-synchronized quad tree

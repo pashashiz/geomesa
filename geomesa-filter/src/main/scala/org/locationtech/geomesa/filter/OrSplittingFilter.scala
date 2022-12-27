@@ -11,7 +11,7 @@ package org.locationtech.geomesa.filter
 import org.geotools.filter.visitor.DefaultFilterVisitor
 import org.opengis.filter._
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class OrSplittingFilter extends DefaultFilterVisitor {
 
@@ -24,7 +24,7 @@ class OrSplittingFilter extends DefaultFilterVisitor {
 
   def visit(filter: Filter, data: scala.Any): Seq[Filter] = {
     filter match {
-      case o: Or => visit(o, data).asInstanceOf[Seq[Filter]]
+      case o: Or => visit(o, data).asInstanceOf[scala.collection.Seq[Filter]].toList
       case _     => Seq(filter)
     }
   }

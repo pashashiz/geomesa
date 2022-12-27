@@ -18,7 +18,7 @@ import org.opengis.feature.simple.SimpleFeatureType
 import org.opengis.filter.Filter
 
 class KafkaFeatureStore(ds: KafkaDataStore, sft: SimpleFeatureType, runner: QueryRunner, listeners: KafkaListeners)
-    extends GeoMesaFeatureStore(ds, sft, runner) {
+    extends GeoMesaFeatureStore(ds, sft, runner)(ds.ec) {
 
   override def removeFeatures(filter: Filter): Unit = filter match {
     case Filter.INCLUDE => clearFeatures()

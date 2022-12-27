@@ -51,7 +51,7 @@ class FindConvertersTest extends Specification {
     }
 
     "register all the converters" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       ServiceLoader.load(classOf[SimpleFeatureConverterFactory]).asScala.map(_.getClass) must containAllOf(
         Seq(

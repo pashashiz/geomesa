@@ -27,7 +27,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class CQIndexingOptionsTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val spec = "Who:String:cq-index=default," +
              "What:Integer:cq-index=unique," +

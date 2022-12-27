@@ -27,7 +27,7 @@ class StreamDataStoreTest extends Specification {
 
   import org.locationtech.geomesa.filter.ff
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
   import scala.concurrent.ExecutionContext.Implicits.global
 
   sequential

@@ -132,7 +132,7 @@ class JsonConverterFactory extends AbstractConverterFactory[JsonConverter, JsonC
         val schema = sft.getOrElse(TypeInference.schema("inferred-json", inferredTypes.toSeq))
 
         val jsonConfig = JsonConfig(typeToProcess, featurePath, idField, Map.empty, Map.empty)
-        val fieldConfig = fields :+ geomField
+        val fieldConfig = (fields :+ geomField).sortBy(_.name)
 
         val config = configConvert.to(jsonConfig)
             .withFallback(fieldConvert.to(fieldConfig))

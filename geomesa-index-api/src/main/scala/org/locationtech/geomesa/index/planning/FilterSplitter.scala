@@ -18,6 +18,7 @@ import org.opengis.feature.simple.SimpleFeatureType
 import org.opengis.filter._
 
 import scala.collection.mutable.ArrayBuffer
+import scala.math.Ordering.Implicits.seqOrdering
 
 /**
  * Class for splitting queries up based on Boolean clauses and the available query strategies.
@@ -26,7 +27,7 @@ class FilterSplitter(sft: SimpleFeatureType, indices: Seq[GeoMesaFeatureIndex[_,
 
   import FilterSplitter._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Splits the query up into different filter plans to be evaluated. Each filter plan will consist of one or
@@ -128,7 +129,11 @@ class FilterSplitter(sft: SimpleFeatureType, indices: Seq[GeoMesaFeatureIndex[_,
           (FilterHelper.propertyNames(f, sft), FilterHelper.hasIdFilter(f))
 
         // group and then recombine the OR'd filters by the attribute they operate on
-        val groups = o.getChildren.asScala.groupBy(getGroup).values.map(g => ff.or(g.asJava)).toSeq
+        val groups = o.getChildren.asScala
+          .groupBy(getGroup).toSeq
+          // make a stable order so we could reason about the expected result
+          .sortBy(_._1).map(_._2)
+          .map(g => ff.or(g.asJava))
         val perAttributeOptions = groups.flatMap { g =>
           val options = getSimpleQueryOptions(g, transform)
           require(options.length < 2, s"Expected only a single option for ${filterToString(g)} but got $options")

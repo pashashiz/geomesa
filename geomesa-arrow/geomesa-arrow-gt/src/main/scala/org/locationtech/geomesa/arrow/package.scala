@@ -14,7 +14,7 @@ import org.locationtech.geomesa.utils.geotools.SimpleFeatureTypes
 import org.locationtech.geomesa.utils.io.CloseWithLogging
 import org.opengis.feature.simple.SimpleFeatureType
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 package object arrow {
 

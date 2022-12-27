@@ -19,7 +19,7 @@ import org.opengis.filter.expression.PropertyName
 
 class CqlFunctionFactory extends TransformerFunctionFactory with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val functions: Seq[TransformerFunction] = {
     val builder = Seq.newBuilder[TransformerFunction]

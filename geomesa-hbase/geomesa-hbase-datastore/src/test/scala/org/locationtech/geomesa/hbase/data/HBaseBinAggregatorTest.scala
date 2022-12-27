@@ -28,7 +28,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class HBaseBinAggregatorTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

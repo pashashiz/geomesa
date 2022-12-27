@@ -24,6 +24,10 @@ import org.opengis.feature.`type`.Name
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 import org.opengis.filter.Filter
 
+import java.util.concurrent.Executors
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutor, Future}
+
 /**
   * Merged querying against multiple data stores
   *
@@ -39,6 +43,9 @@ class MergedDataStoreView(
 
   require(stores.nonEmpty, "No delegate stores configured")
 
+  private val blockingPool = Executors.newCachedThreadPool()
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.fromExecutor(blockingPool)
+
   private[view] val runner =
     new MergedQueryRunner(this, stores.map { case (ds, f) => DataStoreQueryable(ds) -> f }, deduplicate, parallel)
 
@@ -53,11 +60,14 @@ class MergedDataStoreView(
 
   override def getFeatureReader(query: Query, transaction: Transaction): SimpleFeatureReader =
     GeoMesaFeatureReader(getSchema(query.getTypeName), query, runner, None, None)
+
+  override def dispose() = CloseWithLogging(blockingPool)
 }
 
 object MergedDataStoreView {
 
-  class MergedStats(stores: Seq[(DataStore, Option[Filter])], parallel: Boolean) extends GeoMesaStats {
+  class MergedStats(stores: Seq[(DataStore, Option[Filter])], parallel: Boolean)
+                   (implicit val ec: ExecutionContextExecutor) extends GeoMesaStats {
 
     private val stats: Seq[(GeoMesaStats, Option[Filter])] = stores.map {
       case (s: HasGeoMesaStats, f) => (s.stats, f)
@@ -71,8 +81,12 @@ object MergedDataStoreView {
       def getSingle(statAndFilter: (GeoMesaStats, Option[Filter])): Option[Long] =
         statAndFilter._1.getCount(sft, mergeFilter(sft, filter, statAndFilter._2), exact, queryHints)
 
-      val seq = if (parallel) { stats.par } else { stats }
-      seq.flatMap(getSingle).reduceLeftOption(_ + _)
+      val result = if (parallel) {
+        Await.result(Future.traverse(stats)(pair => Future(getSingle(pair))), Duration.Inf).flatten
+      } else {
+        stats.flatMap(getSingle)
+      }
+      result.reduceLeftOption(_ + _)
     }
 
     override def getMinMax[T](
@@ -84,8 +98,12 @@ object MergedDataStoreView {
       def getSingle(statAndFilter: (GeoMesaStats, Option[Filter])): Option[MinMax[T]] =
         statAndFilter._1.getMinMax[T](sft, attribute, mergeFilter(sft, filter, statAndFilter._2), exact)
 
-      val seq = if (parallel) { stats.par } else { stats }
-      seq.flatMap(getSingle).reduceLeftOption(_ + _)
+      val result = if (parallel) {
+        Await.result(Future.traverse(stats)(pair => Future(getSingle(pair))), Duration.Inf).flatten
+      } else {
+        stats.flatMap(getSingle)
+      }
+      result.reduceLeftOption(_ + _)
     }
 
     override def getEnumeration[T](
@@ -147,7 +165,7 @@ object MergedDataStoreView {
 
     private def merge[T <: Stat](query: (GeoMesaStats, Option[Filter]) => Option[T]): Option[T] = {
       if (parallel) {
-        val all = stats.par.map { case (s, f) => query(s, f) }
+        val all = Await.result(Future.traverse(stats) { case (s, f) => Future(query(s, f)) }, Duration.Inf)
         all.reduceLeft((res, next) => for { r <- res; n <- next } yield { (r + n).asInstanceOf[T] })
       } else {
         // lazily evaluate each stat as we only return Some if all the child stores do

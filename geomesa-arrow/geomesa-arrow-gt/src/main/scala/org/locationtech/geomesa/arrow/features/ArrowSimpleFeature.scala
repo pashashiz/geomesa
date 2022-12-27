@@ -34,7 +34,7 @@ class ArrowSimpleFeature(sft: SimpleFeatureType,
                          idReader: ArrowAttributeReader,
                          attributeReaders: Array[ArrowAttributeReader],
                          private [arrow] var index: Int) extends SimpleFeature {
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private lazy val geomIndex = sft.indexOf(sft.getGeometryDescriptor.getLocalName)
 

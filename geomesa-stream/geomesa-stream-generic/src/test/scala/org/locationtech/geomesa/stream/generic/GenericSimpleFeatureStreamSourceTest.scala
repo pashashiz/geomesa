@@ -25,7 +25,7 @@ import scala.concurrent.Future
 @RunWith(classOf[JUnitRunner])
 class GenericSimpleFeatureStreamSourceTest extends Specification  {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
   import scala.concurrent.ExecutionContext.Implicits.global
 
   "GenericSimpleFeatureStreamSource" should {

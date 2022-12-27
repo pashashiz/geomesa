@@ -217,7 +217,7 @@ object RouteVisitor {
       override def initialValue(): GeodeticCalculator = new GeodeticCalculator
     }
     val headingCache = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       new ConcurrentHashMap[(LineString, Int), Double].asScala
     }
 

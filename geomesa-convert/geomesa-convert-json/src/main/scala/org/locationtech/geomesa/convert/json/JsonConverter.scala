@@ -26,7 +26,7 @@ import java.nio.charset.Charset
 class JsonConverter(sft: SimpleFeatureType, config: JsonConverter.JsonConfig, fields: Seq[JsonConverter.JsonField], options: BasicOptions)
     extends AbstractConverter[JsonElement, JsonConverter.JsonConfig, JsonConverter.JsonField, BasicOptions](sft, config, fields, options) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val featurePath = config.featurePath.map(JsonPath.compile(_))
 

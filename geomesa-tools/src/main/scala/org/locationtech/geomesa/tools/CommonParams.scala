@@ -213,7 +213,7 @@ trait RequiredIndexParam extends IndexParam {
 
 trait IndicesParam {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   @Parameter(names = Array("--index"), description = "Specify GeoMesa index(es) - comma-separate or use multiple flags", required = true)
   var indexNames: java.util.List[String] = _

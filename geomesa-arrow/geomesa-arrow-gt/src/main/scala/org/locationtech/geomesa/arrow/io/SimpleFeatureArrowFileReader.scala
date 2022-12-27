@@ -65,7 +65,7 @@ object SimpleFeatureArrowFileReader {
 
   import org.locationtech.geomesa.utils.geotools.RichAttributeDescriptors.RichAttributeDescriptor
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   type VectorToIterator = SimpleFeatureVector => Iterator[ArrowSimpleFeature]
 

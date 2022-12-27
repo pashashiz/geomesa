@@ -12,7 +12,7 @@ import com.github.benmanes.caffeine.cache.{AsyncCacheLoader, AsyncLoadingCache, 
 import com.typesafe.scalalogging.LazyLogging
 import org.geotools.data._
 import org.locationtech.geomesa.index.FlushableFeatureWriter
-import org.locationtech.geomesa.index.api.{IndexManager, _}
+import org.locationtech.geomesa.index.api._
 import org.locationtech.geomesa.index.conf.partition.TablePartition
 import org.locationtech.geomesa.index.geotools.GeoMesaDataStore.{SchemaCompatibility, VersionKey}
 import org.locationtech.geomesa.index.geotools.GeoMesaDataStoreFactory.GeoMesaDataStoreConfig
@@ -35,7 +35,9 @@ import org.opengis.filter.Filter
 
 import java.io.IOException
 import java.util.Collections
-import java.util.concurrent.{ConcurrentHashMap, TimeUnit}
+import java.util.concurrent.{ConcurrentHashMap, Executors, TimeUnit}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutor, Future}
 import scala.util.Try
 import scala.util.control.NonFatal
 
@@ -50,11 +52,14 @@ abstract class GeoMesaDataStore[DS <: GeoMesaDataStore[DS]](val config: GeoMesaD
 
   this: DS =>
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val queryPlanner: QueryPlanner[DS] = new QueryPlanner(this)
 
   val manager: IndexManager = new IndexManager(this)
+
+  private val blockingPool = Executors.newCachedThreadPool()
+  implicit val ec: ExecutionContextExecutor = ExecutionContext.fromExecutor(blockingPool)
 
   // abstract methods to be implemented by subclasses
 
@@ -261,17 +266,18 @@ abstract class GeoMesaDataStore[DS <: GeoMesaDataStore[DS]](val config: GeoMesaD
   // delete the index tables
   override protected def onSchemaDeleted(sft: SimpleFeatureType): Unit = {
     // noinspection ScalaDeprecation
-    if (sft.isTableSharing && getTypeNames.exists(t => t != sft.getTypeName && getSchema(t).isTableSharing)) {
-      manager.indices(sft).par.foreach { index =>
+    val result = if (sft.isTableSharing && getTypeNames.exists(t => t != sft.getTypeName && getSchema(t).isTableSharing)) {
+      Future.traverse(manager.indices(sft)) { index =>
         if (index.keySpace.sharing.isEmpty) {
-          adapter.deleteTables(index.deleteTableNames(None))
+          Future(adapter.deleteTables(index.deleteTableNames(None)))
         } else {
-          adapter.clearTables(index.deleteTableNames(None), Some(index.keySpace.sharing))
+          Future(adapter.clearTables(index.deleteTableNames(None), Some(index.keySpace.sharing)))
         }
       }
     } else {
-      manager.indices(sft).par.foreach(index => adapter.deleteTables(index.deleteTableNames(None)))
+      Future.traverse(manager.indices(sft))(index => Future(adapter.deleteTables(index.deleteTableNames(None))))
     }
+    Await.result(result, Duration.Inf)
     if (sft.statsEnabled) {
       stats.writer.clear(sft)
     }
@@ -401,7 +407,7 @@ abstract class GeoMesaDataStore[DS <: GeoMesaDataStore[DS]](val config: GeoMesaD
    */
   override def dispose(): Unit = {
     Try(GeoMesaDataStore.liveStores.get(VersionKey(config.catalog, getClass)).remove(this))
-    CloseWithLogging(stats)
+    CloseWithLogging(stats, blockingPool)
     config.audit.foreach { case (writer, _, _) => CloseWithLogging(writer) }
     super.dispose()
   }
@@ -563,7 +569,7 @@ object GeoMesaDataStore extends LazyLogging {
 
   import org.locationtech.geomesa.index.conf.SchemaProperties.{CheckDistributedVersion, ValidateDistributedClasspath}
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val liveStores = new ConcurrentHashMap[VersionKey, java.util.Set[GeoMesaDataStore[_]]]()
 

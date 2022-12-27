@@ -37,7 +37,7 @@ import java.util.UUID
 @RunWith(classOf[JUnitRunner])
 class OrcFileSystemStorageTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val config = new Configuration()
 

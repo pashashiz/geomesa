@@ -49,7 +49,7 @@ trait TablePartition {
 
 object TablePartition extends StrictLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val factories = ServiceLoader.load(classOf[TablePartitionFactory]).asScala.toList
 

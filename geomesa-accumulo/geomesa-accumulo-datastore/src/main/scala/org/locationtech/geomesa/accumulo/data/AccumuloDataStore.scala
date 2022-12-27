@@ -56,7 +56,7 @@ import scala.util.control.NonFatal
 class AccumuloDataStore(val connector: Connector, override val config: AccumuloDataStoreConfig)
     extends GeoMesaDataStore[AccumuloDataStore](config) with ZookeeperLocking {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val metadata = new AccumuloBackedMetadata(connector, config.catalog, MetadataStringSerializer)
 
@@ -362,7 +362,7 @@ class AccumuloDataStore(val connector: Connector, override val config: AccumuloD
 
 object AccumuloDataStore extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val DeprecatedSchemaVersionKey = "geomesa.version"
 

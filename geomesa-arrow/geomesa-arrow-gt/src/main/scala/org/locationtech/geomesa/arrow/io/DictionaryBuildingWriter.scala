@@ -140,7 +140,7 @@ class DictionaryBuildingWriter(
 
 object DictionaryBuildingWriter {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Gets an attribute writer or a dictionary building writer, as appropriate

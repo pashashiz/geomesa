@@ -37,7 +37,7 @@ abstract class MetadataBackedStats(ds: DataStore, metadata: GeoMesaMetadata[Stat
 
   import MetadataBackedStats._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val writer: GeoMesaStatWriter = new MetadataStatWriter()
 

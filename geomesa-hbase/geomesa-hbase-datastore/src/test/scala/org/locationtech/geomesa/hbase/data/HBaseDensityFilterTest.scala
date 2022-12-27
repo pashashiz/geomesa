@@ -35,7 +35,7 @@ import scala.util.Random
 @RunWith(classOf[JUnitRunner])
 class HBaseDensityFilterTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

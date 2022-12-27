@@ -51,7 +51,7 @@ import java.util.{Collections, Date}
 @RunWith(classOf[JUnitRunner])
 class ExportCommandTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val excludes = Seq(ExportFormat.Null)
   val formats = ExportFormat.Formats.filterNot(excludes.contains)
@@ -226,7 +226,13 @@ class ExportCommandTest extends Specification {
   }
 
   def readAvro(file: String): Seq[SimpleFeature] =
-    WithClose(new AvroDataFileReader(new FileInputStream(file)))(_.toList)
+    WithClose(new AvroDataFileReader(new FileInputStream(file))) { features =>
+      features.toList.map { feature =>
+        // todo: looks like AvroDataFileReader never sets USE_PROVIDED_FID, check in PR why!
+        feature.getUserData.put(Hints.USE_PROVIDED_FID, java.lang.Boolean.TRUE)
+        feature
+      }
+    }
 
   def readBin(file: String, sft: SimpleFeatureType): Seq[SimpleFeature] = {
     val bytes = IOUtils.toByteArray(new FileInputStream(file))
@@ -234,7 +240,7 @@ class ExportCommandTest extends Specification {
     bytes.grouped(16).map(BinaryOutputEncoder.decode).toSeq.map { values =>
       val dtg = new Date(values.dtg)
       val f1 = features.find(_.getAttribute("dtg") == dtg).get
-      val attributes = sft.getAttributeDescriptors.asScala.map(_.getLocalName).map {
+      val attributes = sft.getAttributeDescriptors.asScala.toList.map(_.getLocalName).map {
         case "geom" => s"POINT (${values.lon} ${values.lat})"
         case "dtg"  => dtg
         case "name" => f1.getAttribute("name")
@@ -291,7 +297,11 @@ class ExportCommandTest extends Specification {
     val conf = new Configuration()
     StorageConfiguration.setSft(conf, sft)
     WithClose(new ParquetPathReader(conf, sft, FilterCompat.NOOP, None, None).read(path)) { iter =>
-      iter.map(ScalaSimpleFeature.copy).toList
+      iter.map(ScalaSimpleFeature.copy).toList.map { feature =>
+        // todo: looks like ParquetPathReader never sets USE_PROVIDED_FID, check in PR why!
+        feature.getUserData.put(Hints.USE_PROVIDED_FID, java.lang.Boolean.TRUE)
+        feature
+      }
     }
   }
 
@@ -301,7 +311,7 @@ class ExportCommandTest extends Specification {
       SelfClosingIterator(ds.getFeatureReader).toList.map { f =>
         val dtg = f.getAttribute("dtg")
         val f1 = features.find(_.getAttribute("dtg") == dtg).get
-        val attributes = sft.getAttributeDescriptors.asScala.map(_.getLocalName).map {
+        val attributes = sft.getAttributeDescriptors.asScala.toList.map(_.getLocalName).map {
           case "geom" => f.getAttribute(0)
           case "dtg"  => dtg
           case "name" => f.getAttribute("name")

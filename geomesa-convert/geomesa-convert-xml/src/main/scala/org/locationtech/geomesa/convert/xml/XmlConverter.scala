@@ -79,7 +79,7 @@ class XmlConverter(sft: SimpleFeatureType, config: XmlConfig, fields: Seq[XmlFie
 
 object XmlConverter extends StrictLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def createXPath(factory: String, namespaces: Map[String, String] = Map.empty): XPath = {
     val fact = try {
@@ -96,7 +96,7 @@ object XmlConverter extends StrictLogging {
     if (namespaces.nonEmpty) {
       xpath.setNamespaceContext(new NamespaceContext() {
         override def getPrefix(namespaceURI: String): String = null
-        override def getPrefixes(namespaceURI: String): java.util.Iterator[_] = null
+        override def getPrefixes(namespaceURI: String) = null
         override def getNamespaceURI(prefix: String): String = namespaces.getOrElse(prefix, null)
       })
     }

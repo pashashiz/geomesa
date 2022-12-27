@@ -111,7 +111,7 @@ object GraduatedQueryGuard extends LazyLogging {
   }
 
   def buildLimits(guardConfig: java.util.List[_ <: Config]): Seq[SizeAndDuration] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     val confs = guardConfig.asScala.map { durationConfig =>
       val size: Int = if (durationConfig.hasPath("size")) {
         durationConfig.getInt("size")

@@ -9,7 +9,7 @@
 package org.locationtech.geomesa.security
 
 import java.util
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 /**
  * AuthorizationsProvider that wraps another provider and ensures that the auths returned do not exceed a pre-set list

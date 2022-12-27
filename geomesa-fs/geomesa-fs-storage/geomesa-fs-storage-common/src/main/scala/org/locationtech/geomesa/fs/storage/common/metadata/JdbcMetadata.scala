@@ -79,7 +79,7 @@ class JdbcMetadata(
 
   import JdbcMetadata.PartitionsTable
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val scheme: PartitionScheme = PartitionSchemeFactory.load(sft, meta.scheme)
   override val encoding: String = meta.config(Metadata.Encoding)

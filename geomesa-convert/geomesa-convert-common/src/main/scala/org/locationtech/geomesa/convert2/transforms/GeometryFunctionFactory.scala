@@ -118,7 +118,7 @@ class GeometryFunctionFactory extends TransformerFunctionFactory {
 
   private val projectFromParserFn: TransformerFunction = new NamedTransformerFunction(Seq("projectFrom"), pure = true) {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val cache = new ConcurrentHashMap[String, MathTransform].asScala
 

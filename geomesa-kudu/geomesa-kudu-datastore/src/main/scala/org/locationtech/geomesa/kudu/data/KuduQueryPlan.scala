@@ -80,7 +80,7 @@ object KuduQueryPlan {
       numThreads: Int
     ) extends KuduQueryPlan {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     // TODO results to features and reducing are done in the kudu result adapter
     override val resultsToFeatures: ResultsToFeatures[SimpleFeature] = ResultsToFeatures.identity(adapter.result)

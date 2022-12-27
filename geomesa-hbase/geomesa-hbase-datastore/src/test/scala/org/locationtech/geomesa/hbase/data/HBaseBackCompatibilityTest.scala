@@ -35,7 +35,7 @@ import java.nio.charset.StandardCharsets
 @RunWith(classOf[JUnitRunner])
 class HBaseBackCompatibilityTest extends Specification with LazyLogging  {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

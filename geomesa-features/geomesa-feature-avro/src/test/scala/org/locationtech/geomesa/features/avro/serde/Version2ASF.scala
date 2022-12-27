@@ -42,7 +42,7 @@ class Version2ASF(id: FeatureId, sft: SimpleFeatureType)
   extends SimpleFeature
   with Serializable {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   import Version2ASF._
 
@@ -53,7 +53,7 @@ class Version2ASF(id: FeatureId, sft: SimpleFeatureType)
   @transient val nameIndex = nameIndexCache.get(sft)
   @transient val schema    = avroSchemaCache.get(sft)
 
-  def write(datumWriter: GenericDatumWriter[GenericRecord], encoder: BinaryEncoder) {
+  def write(datumWriter: GenericDatumWriter[GenericRecord], encoder: BinaryEncoder): Unit = {
     val record = new GenericData.Record(schema)
     record.put(Version2ASF.AVRO_SIMPLE_FEATURE_VERSION, Version2ASF.VERSION)
     record.put(Version2ASF.FEATURE_ID_AVRO_FIELD_NAME, getID)
@@ -75,7 +75,7 @@ class Version2ASF(id: FeatureId, sft: SimpleFeatureType)
 
   val gdw = new GenericDatumWriter[GenericRecord](schema)
   var encoder: BinaryEncoder = null
-  def write(os: OutputStream) {
+  def write(os: OutputStream): Unit = {
     encoder = EncoderFactory.get.binaryEncoder(os, null)
     write(gdw, encoder)
   }
@@ -167,7 +167,7 @@ class Version2ASF(id: FeatureId, sft: SimpleFeatureType)
 
 object Version2ASF {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def apply(sf: SimpleFeature) = {
     val asf = new Version2ASF(sf.getIdentifier, sf.getFeatureType)
@@ -216,7 +216,7 @@ object Version2ASF {
                 val bb = ByteBuffer.allocate(16)
                 bb.putLong(uuid.getMostSignificantBits)
                 bb.putLong(uuid.getLeastSignificantBits)
-                bb.flip
+                (bb: Buffer).flip()
                 bb
               }
 

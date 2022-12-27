@@ -23,7 +23,7 @@ import org.locationtech.geomesa.tools.{OptionalIndexParam, RequiredTypeNameParam
 
 class AccumuloExportCommand extends ExportCommand[AccumuloDataStore] with AccumuloDistributedCommand {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val params = new AccumuloExportParams
 

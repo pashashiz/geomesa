@@ -19,7 +19,7 @@ import org.locationtech.geomesa.utils.text.{ObjectPoolFactory, ObjectPoolUtils}
 import org.opengis.feature.`type`.AttributeDescriptor
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class AvroSimpleFeatureFactory extends AbstractFeatureFactoryImpl {
 

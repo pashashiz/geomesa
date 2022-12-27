@@ -35,7 +35,7 @@ class MockRedis extends Jedis {
 @RunWith(classOf[JUnitRunner])
 class RedisEnrichmentCacheTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

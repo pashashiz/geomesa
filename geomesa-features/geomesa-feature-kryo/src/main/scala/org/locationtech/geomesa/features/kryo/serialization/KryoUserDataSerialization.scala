@@ -65,7 +65,7 @@ object KryoUserDataSerialization extends LazyLogging {
       javaMap: java.util.Map[_ <: AnyRef, _ <: AnyRef],
       withoutFidHints: Boolean,
       writeAscii: Boolean): Unit = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     // write in sorted order to keep consistent output
     val toWrite = scala.collection.mutable.SortedSet.empty[(AnyRef, AnyRef)]

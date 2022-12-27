@@ -14,7 +14,7 @@ import org.opengis.feature.simple.SimpleFeatureType
 
 package object stats {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // gets attributes to run stats on, based on sft and input params
   def getAttributesFromParams(sft: SimpleFeatureType, params: AttributeStatsParams): Seq[String] = {

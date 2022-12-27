@@ -30,7 +30,7 @@ import java.nio.file.Files
 @RunWith(classOf[JUnitRunner])
 class FileBasedMetadataTest extends Specification with AllExpectations {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   lazy val conf = new Configuration()
   lazy val fc = FileContext.getFileContext(conf)

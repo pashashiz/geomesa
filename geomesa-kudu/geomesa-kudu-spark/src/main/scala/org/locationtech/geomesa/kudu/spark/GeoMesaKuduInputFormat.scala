@@ -48,7 +48,7 @@ import javax.naming.NamingException
   */
 class GeoMesaKuduInputFormat extends InputFormat[NullWritable, SimpleFeature] with Configurable with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private var conf: Configuration = _
 
@@ -282,7 +282,7 @@ object GeoMesaKuduInputFormat extends LazyLogging {
   class GeoMesaKuduRecordReader(params: Map[String, String])
       extends RecordReader[NullWritable, SimpleFeature] with LazyLogging {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     private val key = NullWritable.get()
 

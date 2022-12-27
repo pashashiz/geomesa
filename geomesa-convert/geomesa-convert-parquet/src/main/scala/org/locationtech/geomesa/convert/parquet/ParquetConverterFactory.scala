@@ -32,7 +32,7 @@ import scala.util.control.NonFatal
 class ParquetConverterFactory
     extends AbstractConverterFactory[ParquetConverter, BasicConfig, BasicField, BasicOptions] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override protected val typeToProcess: String = ParquetConverterFactory.TypeToProcess
 
@@ -118,7 +118,7 @@ class ParquetConverterFactory
 
 object ParquetConverterFactory {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val TypeToProcess = "parquet"
 

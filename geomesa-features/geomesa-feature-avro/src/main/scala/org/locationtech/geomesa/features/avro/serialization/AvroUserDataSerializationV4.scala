@@ -20,7 +20,7 @@ import java.util.{Date, UUID}
 @deprecated("does not match declared schema")
 object AvroUserDataSerializationV4 extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val NullMarkerString = "<null>"
 

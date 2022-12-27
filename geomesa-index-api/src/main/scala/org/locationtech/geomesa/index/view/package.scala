@@ -100,7 +100,7 @@ package object view extends LazyLogging {
   abstract class MergedDataStoreSchemas(stores: Seq[DataStore], namespace: Option[String])
       extends ReadOnlyDataStore {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     override def getTypeNames: Array[String] = stores.map(_.getTypeNames).reduceLeft(_ intersect _)
 

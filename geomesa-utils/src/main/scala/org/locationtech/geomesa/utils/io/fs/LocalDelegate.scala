@@ -27,7 +27,7 @@ class LocalDelegate extends FileSystemDelegate with LazyLogging {
 
   import ArchiveStreamFactory.{JAR, TAR, ZIP}
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def getHandle(path: String): FileHandle = createHandle(new File(path))
 

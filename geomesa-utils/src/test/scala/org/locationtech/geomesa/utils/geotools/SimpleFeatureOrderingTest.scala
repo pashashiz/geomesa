@@ -20,7 +20,7 @@ import scala.util.Random
 @RunWith(classOf[JUnitRunner])
 class SimpleFeatureOrderingTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft =
     SimpleFeatureTypes.createType("sort",

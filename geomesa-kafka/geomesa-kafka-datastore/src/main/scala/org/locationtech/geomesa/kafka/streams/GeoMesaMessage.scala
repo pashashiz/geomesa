@@ -19,14 +19,14 @@ import org.locationtech.geomesa.kafka.streams.MessageAction.MessageAction
  */
 case class GeoMesaMessage(action: MessageAction, attributes: Seq[AnyRef], userData: Map[String, String] = Map.empty) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def asJava(): java.util.List[AnyRef] = attributes.asJava
 }
 
 object GeoMesaMessage {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
    * Create an upsert message

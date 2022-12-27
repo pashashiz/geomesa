@@ -18,7 +18,7 @@ import java.util.concurrent.{ExecutorService, Executors, TimeUnit}
 abstract class BaseThreadedConsumer(consumers: Seq[Consumer[Array[Byte], Array[Byte]]])
     extends Closeable with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   @volatile
   private var open = true

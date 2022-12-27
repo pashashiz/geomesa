@@ -17,7 +17,7 @@ import org.locationtech.geomesa.tools.ingest.IngestCommand
 import org.locationtech.geomesa.tools.ingest.IngestCommand.IngestParams
 import org.locationtech.geomesa.utils.io.PathUtils
 
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class CassandraIngestCommand extends IngestCommand[CassandraDataStore] with CassandraDataStoreCommand {
 

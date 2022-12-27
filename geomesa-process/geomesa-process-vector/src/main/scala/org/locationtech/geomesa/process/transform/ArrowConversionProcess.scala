@@ -72,7 +72,7 @@ class ArrowConversionProcess extends GeoMesaProcess with LazyLogging {
               doublePass: java.lang.Boolean
              ): java.util.Iterator[Array[Byte]] = {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     logger.debug(s"Running arrow encoding for ${features.getClass.getName}")
 
@@ -115,7 +115,7 @@ object ArrowConversionProcess {
       doublePass: Boolean
     ) extends GeoMesaProcessVisitor with LazyLogging {
 
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     // for collecting results manually
     private lazy val manualVisitor: ArrowManualVisitor = {

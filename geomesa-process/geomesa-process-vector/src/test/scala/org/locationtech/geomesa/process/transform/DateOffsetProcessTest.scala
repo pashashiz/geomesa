@@ -24,7 +24,7 @@ import scala.util.Random
 @RunWith(classOf[JUnitRunner])
 class DateOffsetProcessTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val sft = SimpleFeatureTypes.createType("arrow", "name:String,dtg:Date,*geom:Point:srid=4326")
 

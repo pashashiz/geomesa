@@ -26,7 +26,7 @@ import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
 class LambdaQueryRunner(ds: LambdaDataStore, persistence: DataStore, transients: LoadingCache[String, TransientStore])
     extends MergedQueryRunner(
-      ds, Seq(TransientQueryable(transients) -> None, DataStoreQueryable(persistence) -> None), true, false) {
+      ds, Seq(TransientQueryable(transients) -> None, DataStoreQueryable(persistence) -> None), true, false)(ds.ec) {
 
   import org.locationtech.geomesa.index.conf.QueryHints.RichHints
 

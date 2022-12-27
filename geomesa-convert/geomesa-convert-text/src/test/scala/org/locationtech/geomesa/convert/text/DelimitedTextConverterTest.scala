@@ -30,7 +30,7 @@ import java.util.{Collections, Date}
 @RunWith(classOf[JUnitRunner])
 class DelimitedTextConverterTest extends Specification {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 
@@ -756,7 +756,7 @@ class DelimitedTextConverterTest extends Specification {
     }
 
     "infer a converter from input data" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val data =
         """
@@ -783,7 +783,7 @@ class DelimitedTextConverterTest extends Specification {
     }
 
     "infer a string types from null inputs" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val data =
         """
@@ -826,7 +826,7 @@ class DelimitedTextConverterTest extends Specification {
     }
 
     "type infer and ingest magic files" >> {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val data =
         """id,fid:Integer,name:String,age:Integer,lastseen:Date,friends:List[String],"talents:Map[String,Integer]",*geom:Point:srid=4326

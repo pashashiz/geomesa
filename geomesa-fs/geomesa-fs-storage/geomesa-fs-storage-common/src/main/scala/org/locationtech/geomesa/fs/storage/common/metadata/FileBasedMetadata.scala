@@ -28,8 +28,8 @@ import java.util.UUID
 import java.util.concurrent._
 import java.util.function.BiFunction
 import scala.collection.mutable.ArrayBuffer
-import scala.collection.parallel.ExecutionContextTaskSupport
-import scala.concurrent.ExecutionContext
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContext, ExecutionContextExecutor, ExecutionContextExecutorService, Future}
 import scala.runtime.BoxedUnit
 import scala.util.control.NonFatal
 
@@ -64,7 +64,7 @@ class FileBasedMetadata(
 
   import FileBasedMetadata._
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val expiry = PathCache.CacheDurationProperty.toDuration.get.toMillis
 
@@ -182,7 +182,7 @@ class FileBasedMetadata(
       paths ++= f.parsed
     }
 
-    writeCompactedConfig(configs)
+    writeCompactedConfig(configs.toList)
     delete(paths, threads)
 
     partitions.invalidate(BoxedUnit.UNIT)
@@ -285,11 +285,13 @@ class FileBasedMetadata(
     val updates = if (threads < 2) {
       files.unparsed.flatMap(readPartitionConfig)
     } else {
-      val ec = ExecutionContext.fromExecutorService(new CachedThreadPool(threads))
+      implicit val ec: ExecutionContextExecutorService =
+        ExecutionContext.fromExecutorService(new CachedThreadPool(threads))
       try {
-        val unparsed = files.unparsed.par
-        unparsed.tasksupport = new ExecutionContextTaskSupport(ec)
-        unparsed.flatMap(readPartitionConfig).seq
+        val result = Future.traverse(files.unparsed) { path =>
+          Future(readPartitionConfig(path))
+        }
+        Await.result(result.map(_.flatten), Duration.Inf)
       } finally {
         ec.shutdown()
       }
@@ -349,11 +351,13 @@ class FileBasedMetadata(
     if (threads < 2) {
       paths.foreach(fc.delete(_, false))
     } else {
-      val ec = ExecutionContext.fromExecutorService(new CachedThreadPool(threads))
+      implicit val ec: ExecutionContextExecutorService =
+        ExecutionContext.fromExecutorService(new CachedThreadPool(threads))
       try {
-        val parPaths = paths.par
-        parPaths.tasksupport = new ExecutionContextTaskSupport(ec)
-        parPaths.foreach(fc.delete(_, false))
+        val result = Future.traverse(paths) { path =>
+          Future(fc.delete(path, false))
+        }
+        Await.result(result, Duration.Inf)
       } finally {
         ec.shutdown()
       }

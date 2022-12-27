@@ -27,7 +27,7 @@ import org.opengis.feature.Feature
 import org.opengis.filter.Filter
 
 import java.util.Date
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @DescribeProcess(
   title = "Tube Select",

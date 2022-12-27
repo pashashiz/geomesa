@@ -26,7 +26,7 @@ import org.opengis.temporal.Period
 
 import java.time.{ZoneOffset, ZonedDateTime}
 import java.util.{Date, Locale}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.collection.mutable.ListBuffer
 
 object FilterHelper {

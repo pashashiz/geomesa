@@ -21,7 +21,7 @@ import org.specs2.specification.AllExpectations
 @RunWith(classOf[JUnitRunner])
 class ConfigurationTest extends Specification with AllExpectations {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   "SimpleFeatureTypes" should {
 

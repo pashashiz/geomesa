@@ -37,7 +37,7 @@ import java.io._
 @RunWith(classOf[JUnitRunner])
 class BackCompatibilityIT extends TestWithDataStore with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
   /**
     * Runs version tests against old data. To add more versions, generate a new data file by running
     * 'BackCompatibilityWriter' against the git tag, then add another call to 'testVersion'.
@@ -282,7 +282,7 @@ class BackCompatibilityIT extends TestWithDataStore with LazyLogging {
 @RunWith(classOf[JUnitRunner])
 class BackCompatibilityWriter extends TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val spec = "name:String:index=join,dtg:Date,*geom:Point:srid=4326,multi:MultiPolygon:srid=4326"
 

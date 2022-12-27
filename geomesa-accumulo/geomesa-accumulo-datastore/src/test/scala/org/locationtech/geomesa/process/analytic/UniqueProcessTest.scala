@@ -21,7 +21,7 @@ import org.specs2.runner.JUnitRunner
 
 import java.text.SimpleDateFormat
 import java.util.TimeZone
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @RunWith(classOf[JUnitRunner])
 class UniqueProcessTest extends Specification with TestWithFeatureType {

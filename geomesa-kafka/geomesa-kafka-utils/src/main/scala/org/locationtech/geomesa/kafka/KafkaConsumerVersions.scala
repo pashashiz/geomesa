@@ -87,7 +87,7 @@ object KafkaConsumerVersions {
   }
 
   private val _beginningOffsets: (Consumer[_, _], String, Seq[Int]) => Map[Int, Long] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     // note: this method doesn't exist in 0.9, so may be null
     val method = methods.find(m => m.getName == "beginningOffsets" && m.getParameterCount == 1).orNull
     (consumer, topic, partitions) => {
@@ -105,7 +105,7 @@ object KafkaConsumerVersions {
   }
 
   private val _endOffsets: (Consumer[_, _], String, Seq[Int]) => Map[Int, Long] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     // note: this method doesn't exist in 0.9, so may be null
     val method = methods.find(m => m.getName == "endOffsets" && m.getParameterCount == 1).orNull
     (consumer, topic, partitions) => {
@@ -123,7 +123,7 @@ object KafkaConsumerVersions {
   }
 
   private val _offsetsForTimes: (Consumer[_, _], String, Seq[Int], Long) => Map[Int, Long] = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
     // note: this method doesn't exist until 0.10.1, so may be null
     val method = methods.find(m => m.getName == "offsetsForTimes" && m.getParameterCount == 1).orNull
     (consumer, topic, partitions, time) => {

@@ -23,7 +23,7 @@ import java.util.Date
 @RunWith(classOf[JUnitRunner])
 class BinConversionProcessTest extends TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   sequential
 

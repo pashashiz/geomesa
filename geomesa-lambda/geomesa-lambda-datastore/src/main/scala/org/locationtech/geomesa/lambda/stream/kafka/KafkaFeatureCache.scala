@@ -25,7 +25,7 @@ import scala.collection.mutable.ArrayBuffer
 class KafkaFeatureCache(topic: String) extends WritableFeatureCache with ReadableFeatureCache
     with ExpiringFeatureCache with OffsetListener with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // map of feature id -> current feature
   private val features = new ConcurrentHashMap[String, FeatureReference]

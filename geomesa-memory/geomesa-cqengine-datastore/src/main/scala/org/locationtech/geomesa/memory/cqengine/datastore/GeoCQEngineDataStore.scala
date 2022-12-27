@@ -18,7 +18,7 @@ import org.opengis.feature.`type`.Name
 import org.opengis.feature.simple.SimpleFeatureType
 
 import java.util
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 class GeoCQEngineDataStore(useGeoIndex: Boolean) extends ContentDataStore with LazyLogging {
 

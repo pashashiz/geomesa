@@ -29,7 +29,7 @@ import org.specs2.runner.JUnitRunner
 import java.io.{File, IOException}
 import java.nio.file.Files
 import java.util.Collections
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @RunWith(classOf[JUnitRunner])
 class FileSystemDataStoreTest extends Specification {

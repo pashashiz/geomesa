@@ -43,7 +43,7 @@ trait ManagePartitionsCommand extends CommandWithSubCommands {
 
 object ManagePartitionsCommand {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   @Parameters(commandDescription = "Manage partitioned schemas")
   class ManagePartitionsParams {}
@@ -57,8 +57,8 @@ object ManagePartitionsCommand {
 
     override protected def execute(ds: DS, sft: SimpleFeatureType, partition: TablePartition): Unit = {
       Command.user.info(s"Partitions for schema ${params.featureName}:")
-      val partitions = ds.manager.indices(sft).par.flatMap(_.getPartitions)
-      partitions.seq.distinct.sorted.foreach(p => Command.output.info(p))
+      val partitions = ds.manager.indices(sft).flatMap(_.getPartitions)
+      partitions.distinct.sorted.foreach(p => Command.output.info(p))
     }
   }
 
@@ -71,7 +71,7 @@ object ManagePartitionsCommand {
 
     override protected def modify(ds: DS, sft: SimpleFeatureType, partition: TablePartition, p: String): Unit = {
       Command.user.info(s"Adding partition '$p'")
-      ds.manager.indices(sft, mode = IndexMode.Write).par.foreach { index =>
+      ds.manager.indices(sft, mode = IndexMode.Write).foreach { index =>
         ds.adapter.createTable(index, Some(p), index.getSplits(Some(p)))
       }
     }
@@ -153,7 +153,7 @@ object ManagePartitionsCommand {
 
     override protected def modify(ds: DS, sft: SimpleFeatureType, partition: TablePartition, p: String): Unit = {
       Command.user.info(s"Deleting partition '$p'")
-      ds.manager.indices(sft).par.foreach { index =>
+      ds.manager.indices(sft).foreach { index =>
         ds.adapter.deleteTables(index.deleteTableNames(Some(p)))
       }
     }

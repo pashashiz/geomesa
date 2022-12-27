@@ -24,7 +24,7 @@ import scala.util.control.NonFatal
   */
 object FastConverter extends StrictLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val factories = Converters.getConverterFactories(GeoTools.getDefaultHints).asScala.toArray.filter {
     // exclude jai-related factories as it's not usually on the classpath

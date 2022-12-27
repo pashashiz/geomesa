@@ -179,7 +179,7 @@ class AccumuloDataStoreTransformsTest extends Specification with TestWithMultipl
     }
 
     "return no properties" in {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
 
       val sft = createNewSchema("name:String:index=join,age:Int:index=full,dtg:Date,*geom:Point:srid=4326")
       addFeature(ScalaSimpleFeature.create(sft, "fid-1", "name1", "20", "2010-05-07T12:30:00.000Z", "POINT(45 49)"))

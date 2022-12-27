@@ -15,7 +15,7 @@ import org.opengis.feature.simple.SimpleFeatureType
 
 trait ConfigSftParsing extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Parse out simple feature types from a config

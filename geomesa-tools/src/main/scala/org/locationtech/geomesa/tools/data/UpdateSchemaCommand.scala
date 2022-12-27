@@ -31,7 +31,7 @@ trait UpdateSchemaCommand[DS <: DataStore] extends DataStoreCommand[DS] {
 
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val name = "update-schema"
   override def params: UpdateSchemaParams

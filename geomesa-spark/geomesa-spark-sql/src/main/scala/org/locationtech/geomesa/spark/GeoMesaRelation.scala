@@ -53,7 +53,7 @@ case class GeoMesaRelation(
     partitioned: Option[PartitionedRDD]
   ) extends BaseRelation with PrunedFilteredScan with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Attempts to do an optimized join between two relations.
@@ -147,7 +147,7 @@ case class GeoMesaRelation(
 
 object GeoMesaRelation extends LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Create a new relation based on the input parameters

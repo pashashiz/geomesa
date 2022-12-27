@@ -31,7 +31,7 @@ object JavaSpatialRDDProvider {
 
 class JavaSpatialRDDProvider(provider: SpatialRDDProvider) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def rdd(
       conf: Configuration,
@@ -46,7 +46,7 @@ class JavaSpatialRDDProvider(provider: SpatialRDDProvider) {
 
 object JavaSpatialRDD {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   def apply(rdd: SpatialRDD): JavaSpatialRDD = new JavaSpatialRDD(rdd)
 

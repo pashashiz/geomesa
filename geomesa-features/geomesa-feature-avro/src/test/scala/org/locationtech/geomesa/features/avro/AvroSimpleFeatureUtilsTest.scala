@@ -17,7 +17,7 @@ import org.specs2.runner.JUnitRunner
 import java.nio.charset.StandardCharsets
 import java.util.{Date, UUID}
 import java.{lang, util}
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 
 @RunWith(classOf[JUnitRunner])
 class AvroSimpleFeatureUtilsTest extends Specification {

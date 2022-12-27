@@ -94,7 +94,7 @@ class FileSystemFeatureStore(
 
 object FileSystemFeatureStore {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   private val capabilities = new QueryCapabilities() {
     override def isReliableFIDSupported: Boolean = true

@@ -27,7 +27,7 @@ import java.io.{Closeable, InputStream}
  */
 trait SimpleFeatureConverter extends Closeable with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   /**
     * Result feature type

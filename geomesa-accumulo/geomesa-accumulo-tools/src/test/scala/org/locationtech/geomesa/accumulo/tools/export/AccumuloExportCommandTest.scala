@@ -45,7 +45,7 @@ import java.util.{Collections, Date}
 @RunWith(classOf[JUnitRunner])
 class AccumuloExportCommandTest extends TestWithFeatureType {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val spec: String = "name:String,dtg:Date,*geom:Point:srid=4326"
 
@@ -180,7 +180,7 @@ class AccumuloExportCommandTest extends TestWithFeatureType {
     bytes.grouped(16).map(BinaryOutputEncoder.decode).toSeq.map { values =>
       val dtg = new Date(values.dtg)
       val f1 = features.find(_.getAttribute("dtg") == dtg).get
-      val attributes = sft.getAttributeDescriptors.asScala.map(_.getLocalName).map {
+      val attributes = sft.getAttributeDescriptors.asScala.toList.map(_.getLocalName).map {
         case "geom" => s"POINT (${values.lon} ${values.lat})"
         case "dtg"  => dtg
         case "name" => f1.getAttribute("name")
@@ -246,7 +246,7 @@ class AccumuloExportCommandTest extends TestWithFeatureType {
       SelfClosingIterator(ds.getFeatureReader).toList.map { f =>
         val dtg = f.getAttribute("dtg")
         val f1 = features.find(_.getAttribute("dtg") == dtg).get
-        val attributes = sft.getAttributeDescriptors.asScala.map(_.getLocalName).map {
+        val attributes = sft.getAttributeDescriptors.asScala.toList.map(_.getLocalName).map {
           case "geom" => f.getAttribute(0)
           case "dtg"  => dtg
           case "name" => f.getAttribute("name")

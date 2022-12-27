@@ -20,7 +20,8 @@ case object MiniCluster extends LazyLogging {
     logger.info("Starting embedded hbase")
     cluster.getConfiguration.set("hbase.superuser", "admin")
     cluster.getConfiguration.set(CoprocessorHost.USER_REGION_COPROCESSOR_CONF_KEY, HBaseIndexAdapter.CoprocessorClass)
-    Option("zookeeper.jmx.log4j.disable").foreach(key => sys.props.get(key).foreach(cluster.getConfiguration.set(key, _)))
+    // ZooKeeper uses a JMX feature of log4j that reload4j doesn't support
+    cluster.getConfiguration.set("zookeeper.jmx.log4j.disable", "true")
     cluster.startMiniCluster(sys.props.get("geomesa.hbase.test.region.servers").map(_.toInt).getOrElse(2))
     logger.info("Started embedded hbase")
     cluster

@@ -34,7 +34,7 @@ import scala.util.Try
 class DelimitedTextConverterFactory
     extends AbstractConverterFactory[DelimitedTextConverter, DelimitedTextConfig, BasicField, DelimitedTextOptions] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override protected val typeToProcess: String = DelimitedTextConverterFactory.TypeToProcess
 
@@ -95,7 +95,7 @@ class DelimitedTextConverterFactory
         SimpleFeatureValidator.default, Seq.empty, ParseMode.Default, ErrorMode(), StandardCharsets.UTF_8)
 
       val config = configConvert.to(converterConfig)
-          .withFallback(fieldConvert.to(fields))
+          .withFallback(fieldConvert.to(fields.toList))
           .withFallback(optsConvert.to(options))
           .toConfig
 
@@ -151,7 +151,7 @@ class DelimitedTextConverterFactory
           SimpleFeatureValidator.default, Seq.empty, ParseMode.Default, ErrorMode(), StandardCharsets.UTF_8)
 
         val config = configConvert.to(converterConfig)
-            .withFallback(fieldConvert.to(fields))
+            .withFallback(fieldConvert.to(fields.toList))
             .withFallback(optsConvert.to(options))
             .toConfig
 

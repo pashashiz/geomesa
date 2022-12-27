@@ -22,7 +22,7 @@ import org.specs2.specification.core.Fragments
 @RunWith(classOf[JUnitRunner])
 class FilterPackageObjectTest extends Specification with LazyLogging {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
   import TestFilters._
 
   "The partitionGeom function" should {
@@ -263,7 +263,7 @@ class FilterPackageObjectTest extends Specification with LazyLogging {
 
     def breakUpOr(f: Filter): Seq[Filter] = {
        f match {
-         case or: Or => or.getChildren.asScala
+         case or: Or => or.getChildren.asScala.toList
          case _ => Seq(f)
        }
     }

@@ -105,7 +105,7 @@ class OsmWaysConverterTest extends Specification {
         features must haveLength(1)
         features.head.getID mustEqual "1789239"
         features.head.getAttribute("user") mustEqual "mackerski"
-        import scala.collection.JavaConverters._
+        import scala.jdk.CollectionConverters._
         features.head.getAttribute("tags") mustEqual Map("name" -> "Church Avenue", "highway" -> "residential").asJava
         features.head.getAttribute("name") mustEqual "Church Avenue"
         features.head.getAttribute("dtg").asInstanceOf[Date] mustEqual Converters.convert("2010-10-28T18:06:37Z", classOf[Date])

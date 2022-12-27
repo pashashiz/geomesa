@@ -27,12 +27,15 @@ import org.locationtech.geomesa.utils.geotools.converters.FastConverter
 import org.locationtech.geomesa.utils.stats.IndexCoverage
 import org.opengis.feature.simple.SimpleFeatureType
 
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, Future}
+
 class CassandraDataStore(val session: Session, config: CassandraDataStoreConfig)
     extends GeoMesaDataStore[CassandraDataStore](config) with LocalLocking {
 
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override val metadata: GeoMesaMetadata[String] =
     new CassandraBackedMetadata(session, config.catalog, MetadataStringSerializer)
@@ -46,9 +49,10 @@ class CassandraDataStore(val session: Session, config: CassandraDataStoreConfig)
 
   override def delete(): Unit = {
     val tables = getTypeNames.flatMap(getAllIndexTableNames)
-    (tables.distinct :+ config.catalog).par.foreach { table =>
-      session.execute(s"drop table $table")
+    val result = Future.traverse(tables.distinct.toList :+ config.catalog) { table =>
+      Future(session.execute(s"drop table $table"))
     }
+    Await.result(result, Duration.Inf)
   }
 
   override protected def preSchemaUpdate(sft: SimpleFeatureType, previous: SimpleFeatureType): Unit = {

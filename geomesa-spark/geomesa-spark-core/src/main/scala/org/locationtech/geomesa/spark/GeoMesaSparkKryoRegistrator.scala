@@ -22,7 +22,7 @@ import org.locationtech.geomesa.utils.geotools.SimpleFeatureTypes
 import org.opengis.feature.simple.{SimpleFeature, SimpleFeatureType}
 
 import java.util.concurrent.ConcurrentHashMap
-import scala.collection.JavaConverters._
+import scala.jdk.CollectionConverters._
 import scala.util.hashing.MurmurHash3
 
 class GeoMesaSparkKryoRegistrator extends KryoRegistrator {

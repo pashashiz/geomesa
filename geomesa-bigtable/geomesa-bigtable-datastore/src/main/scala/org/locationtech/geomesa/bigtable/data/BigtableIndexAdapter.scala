@@ -17,7 +17,7 @@ import org.locationtech.geomesa.hbase.data.HBaseQueryPlan.TableScan
 
 class BigtableIndexAdapter(ds: BigtableDataStore) extends HBaseIndexAdapter(ds) {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   // https://cloud.google.com/bigtable/quotas#limits-table-id
   override val tableNameLimit: Option[Int] = Some(50)

@@ -54,7 +54,7 @@ abstract class AbstractConverter[T, C <: ConverterConfig, F <: Field, O <: Conve
   import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichArray
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   if (fields.exists(f => f.name == IdFieldName || f.name.startsWith(UserDataFieldPrefix))) {
     throw new IllegalArgumentException(
@@ -239,7 +239,7 @@ abstract class AbstractConverter[T, C <: ConverterConfig, F <: Field, O <: Conve
 
 object AbstractConverter {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   type Dag = scala.collection.mutable.Map[Field, Set[Field]]
 

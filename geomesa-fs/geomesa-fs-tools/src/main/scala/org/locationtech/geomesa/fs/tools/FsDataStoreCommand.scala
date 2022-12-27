@@ -28,7 +28,7 @@ import java.util.ServiceLoader
  */
 trait FsDataStoreCommand extends DataStoreCommand[FileSystemDataStore] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   override def params: FsParams
 
@@ -46,7 +46,7 @@ trait FsDataStoreCommand extends DataStoreCommand[FileSystemDataStore] {
 
 object FsDataStoreCommand {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   trait FsDistributedCommand extends FsDataStoreCommand with DistributedCommand {
 

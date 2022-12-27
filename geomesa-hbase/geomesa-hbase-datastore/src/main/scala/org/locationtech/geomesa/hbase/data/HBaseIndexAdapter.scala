@@ -26,6 +26,8 @@ import org.locationtech.geomesa.utils.io.IsFlushableImplicits
 import java.nio.charset.StandardCharsets
 import java.util.regex.Pattern
 import java.util.{Collections, Locale, UUID}
+import scala.concurrent.duration.Duration
+import scala.concurrent.{Await, ExecutionContextExecutor, Future}
 import scala.util.Try
 // noinspection ScalaDeprecation
 import org.locationtech.geomesa.hbase.HBaseSystemProperties.{CoprocessorPath, CoprocessorUrl, TableAvailabilityTimeout}
@@ -64,7 +66,9 @@ class HBaseIndexAdapter(ds: HBaseDataStore) extends IndexAdapter[HBaseDataStore]
   import HBaseIndexAdapter._
   import org.locationtech.geomesa.utils.geotools.RichSimpleFeatureType.RichSimpleFeatureType
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
+
+  implicit val ec: ExecutionContextExecutor = ds.ec
 
   override def createTable(
       index: GeoMesaFeatureIndex[_, _],
@@ -148,41 +152,47 @@ class HBaseIndexAdapter(ds: HBaseDataStore) extends IndexAdapter[HBaseDataStore]
 
   override def deleteTables(tables: Seq[String]): Unit = {
     WithClose(ds.connection.getAdmin) { admin =>
-      tables.par.foreach { name =>
-        val table = TableName.valueOf(name)
-        if (admin.tableExists(table)) {
-          HBaseVersions.disableTableAsync(admin, table)
-          val timeout = TableAvailabilityTimeout.toDuration.filter(_.isFinite())
-          logger.debug(s"Waiting for table '$table' to be disabled with " +
+      val result = Future.traverse(tables) { name =>
+        Future {
+          val table = TableName.valueOf(name)
+          if (admin.tableExists(table)) {
+            HBaseVersions.disableTableAsync(admin, table)
+            val timeout = TableAvailabilityTimeout.toDuration.filter(_.isFinite)
+            logger.debug(s"Waiting for table '$table' to be disabled with " +
               s"${timeout.map(t => s"a timeout of $t").getOrElse("no timeout")}")
-          val stop = timeout.map(t => System.currentTimeMillis() + t.toMillis)
-          while (!admin.isTableDisabled(table) && stop.forall(_ > System.currentTimeMillis())) {
-            Thread.sleep(1000)
+            val stop = timeout.map(t => System.currentTimeMillis() + t.toMillis)
+            while (!admin.isTableDisabled(table) && stop.forall(_ > System.currentTimeMillis())) {
+              Thread.sleep(1000)
+            }
+            // no async operation, but timeout can be controlled through hbase-site.xml "hbase.client.sync.wait.timeout.msec"
+            admin.deleteTable(table)
           }
-          // no async operation, but timeout can be controlled through hbase-site.xml "hbase.client.sync.wait.timeout.msec"
-          admin.deleteTable(table)
         }
       }
+      Await.result(result, Duration.Inf)
     }
   }
 
   override def clearTables(tables: Seq[String], prefix: Option[Array[Byte]]): Unit = {
-    tables.par.foreach { name =>
+    val result = Future.traverse(tables) { name =>
       val tableName = TableName.valueOf(name)
       WithClose(ds.connection.getTable(tableName)) { table =>
         val scan = new Scan().setFilter(new KeyOnlyFilter)
         prefix.foreach(scan.setRowPrefixFilter)
         ds.applySecurity(scan)
         val mutateParams = new BufferedMutatorParams(tableName)
-        WithClose(table.getScanner(scan), ds.connection.getBufferedMutator(mutateParams)) { case (scanner, mutator) =>
-          scanner.iterator.asScala.grouped(10000).foreach { result =>
-            // TODO GEOMESA-2546 set delete visibilities
-            val deletes = result.map(r => new Delete(r.getRow))
-            mutator.mutate(deletes.asJava)
+        Future {
+          WithClose(table.getScanner(scan), ds.connection.getBufferedMutator(mutateParams)) { case (scanner, mutator) =>
+            scanner.iterator.asScala.grouped(10000).foreach { result =>
+              // TODO GEOMESA-2546 set delete visibilities
+              val deletes = result.map(r => new Delete(r.getRow))
+              mutator.mutate(deletes.asJava)
+            }
           }
         }
       }
     }
+    Await.result(result, Duration.Inf)
   }
 
   override def createQueryPlan(strategy: QueryStrategy): HBaseQueryPlan = {
@@ -539,7 +549,7 @@ object HBaseIndexAdapter extends LazyLogging {
    */
   def waitForTable(admin: Admin, table: TableName): Unit = {
     if (!admin.isTableAvailable(table)) {
-      val timeout = TableAvailabilityTimeout.toDuration.filter(_.isFinite())
+      val timeout = TableAvailabilityTimeout.toDuration.filter(_.isFinite)
       logger.debug(s"Waiting for table '$table' to become available with " +
           s"${timeout.map(t => s"a timeout of $t").getOrElse("no timeout")}")
       val stop = timeout.map(t => System.currentTimeMillis() + t.toMillis)

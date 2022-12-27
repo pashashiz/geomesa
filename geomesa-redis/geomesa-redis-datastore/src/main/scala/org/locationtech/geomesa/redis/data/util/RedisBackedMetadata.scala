@@ -26,7 +26,7 @@ import java.nio.charset.StandardCharsets
 class RedisBackedMetadata[T](connection: JedisPool, table: String, val serializer: MetadataSerializer[T])
     extends KeyValueStoreMetadata[T] {
 
-  import scala.collection.JavaConverters._
+  import scala.jdk.CollectionConverters._
 
   val key: Array[Byte] = table.getBytes(StandardCharsets.UTF_8)
 

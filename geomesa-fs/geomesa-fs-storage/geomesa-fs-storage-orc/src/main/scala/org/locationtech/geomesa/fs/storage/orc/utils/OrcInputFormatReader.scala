@@ -336,7 +336,7 @@ object OrcInputFormatReader {
     private val converter = getConverter(binding)
 
     override def apply(input: OrcStruct, sf: SimpleFeature): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val value = input.getFieldValue(attribute).asInstanceOf[OrcList[_ <: WritableComparable[_]]]
       if (value == null) {
         sf.setAttribute(attribute, null)
@@ -354,7 +354,7 @@ object OrcInputFormatReader {
     private val valueConverter = getConverter(valueBinding)
 
     override def apply(input: OrcStruct, sf: SimpleFeature): Unit = {
-      import scala.collection.JavaConverters._
+      import scala.jdk.CollectionConverters._
       val value = input.getFieldValue(attribute).asInstanceOf[OrcMap[_ <: WritableComparable[_], _ <: WritableComparable[_]]]
       if (value == null) {
         sf.setAttribute(attribute, null)

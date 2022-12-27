@@ -23,7 +23,7 @@ import java.nio.charset.StandardCharsets
 class MetadataMigration(ds: KafkaDataStore, zkPath: String, zookeepers: String) extends Runnable {
 
   override def run(): Unit = {
-    import scala.collection.JavaConverters._
+    import scala.jdk.CollectionConverters._
 
     val client = CuratorHelper.client(zookeepers).namespace(zkPath).build()
 
