@@ -226,7 +226,13 @@ class ExportCommandTest extends Specification {
   }
 
   def readAvro(file: String): Seq[SimpleFeature] =
-    WithClose(new AvroDataFileReader(new FileInputStream(file)))(_.toList)
+    WithClose(new AvroDataFileReader(new FileInputStream(file))) { features =>
+      features.toList.map { feature =>
+        // todo: looks like AvroDataFileReader never sets USE_PROVIDED_FID, check in PR why!
+        feature.getUserData.put(Hints.USE_PROVIDED_FID, java.lang.Boolean.TRUE)
+        feature
+      }
+    }
 
   def readBin(file: String, sft: SimpleFeatureType): Seq[SimpleFeature] = {
     val bytes = IOUtils.toByteArray(new FileInputStream(file))
@@ -291,7 +297,11 @@ class ExportCommandTest extends Specification {
     val conf = new Configuration()
     StorageConfiguration.setSft(conf, sft)
     WithClose(new ParquetPathReader(conf, sft, FilterCompat.NOOP, None, None).read(path)) { iter =>
-      iter.map(ScalaSimpleFeature.copy).toList
+      iter.map(ScalaSimpleFeature.copy).toList.map { feature =>
+        // todo: looks like ParquetPathReader never sets USE_PROVIDED_FID, check in PR why!
+        feature.getUserData.put(Hints.USE_PROVIDED_FID, java.lang.Boolean.TRUE)
+        feature
+      }
     }
   }
 

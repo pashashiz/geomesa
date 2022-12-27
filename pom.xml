@@ -79,9 +79,10 @@
         <codehaus.jackson.version>1.9.3</codehaus.jackson.version>
         <json4s.version>3.5.5</json4s.version>
         <scalatra.version>2.7.1</scalatra.version>
-        <kryo.version>3.0.3</kryo.version>
+        <kryo.version>4.0.2</kryo.version>
         <arrow.version>0.16.0</arrow.version>
-        <netty.version>4.1.48.Final</netty.version>
+        <!-- required by Spark 3.2, might need to keep 4.1.48.Final for scala 2.12 and Spark 2.* -->
+        <netty.version>4.1.68.Final</netty.version>
         <metrics.version>3.2.6</metrics.version>
         <aws.sdk.version>1.11.421</aws.sdk.version>
 
@@ -96,19 +97,26 @@
         <thrift.version>0.12.0</thrift.version>
         <hadoop.version>2.8.5</hadoop.version>
         <guava.version>27.0-jre</guava.version>
-        <spark.version>3.2.3</spark.version> <!-- cannot use 3.3.x yet cause it relies on hadoop 3.x -->
+        <spark.version>3.2.3</spark.version>
         <hbase.version>2.2.3</hbase.version>
         <hbase-1.version>1.4.12</hbase-1.version>
         <hbase.guava.version>11.0.2</hbase.guava.version>
         <protobuf.version>2.5.0</protobuf.version>
         <cassandra.version>3.0.0</cassandra.version>
         <cassandra.guava.version>18.0</cassandra.guava.version>
+        <!-- running project on osx-arm requires >= 5.7.x -->
+        <jni.version>5.9.0</jni.version>
+        <!-- to support scala 2.13 we need kafka >= 2.4.x, however to support confluent even >= 2.6.x -->
         <kafka.version>2.4.1</kafka.version> <!-- also supports: 2.0.0, 1.1.1, 1.0.2, 0.10.2.1, 0.9.0.1 -->
-        <zkclient.version>0.10</zkclient.version> <!-- corresponding versions: 0.10, 0.10, 0.10, 0.7 -->
+        <zkclient.version>0.11</zkclient.version> <!-- corresponding versions: 0.10, 0.10, 0.10, 0.7 -->
         <kafka.jopt.version>5.0.4</kafka.jopt.version> <!-- corresponding versions: 5.0.4, 5.0.4, 4.9, 3.2 -->
-        <confluent.version>5.1.0</confluent.version>
+        <confluent.version>6.0.10</confluent.version>
+        <!-- todo: check to see if we need to bump recommended version -->
         <confluent.recommended.version>5.5.8</confluent.recommended.version>
-        <confluent.avro.version>1.8.2</confluent.avro.version>
+        <!-- to support current confluent version we need newer kafka + zookeeper -->
+        <confluent.avro.version>1.9.2</confluent.avro.version>
+        <confluent.kafka.version>2.6.3</confluent.kafka.version>
+        <confluent.zookeeper.version>3.5.9</confluent.zookeeper.version>
 
         <slf4j.version>1.7.36</slf4j.version> <!-- 1.7.x is for hadoop 2 and accumulo 1.5.x -->
         <scalalogging.version>3.9.2</scalalogging.version>
@@ -1773,7 +1781,7 @@
             <dependency>
                 <groupId>com.github.pureconfig</groupId>
                 <artifactId>pureconfig_${scala.binary.version}</artifactId>
-                <version>0.11.1</version>
+                <version>0.13.0</version>
                 <exclusions>
                     <exclusion>
                         <!-- should only be needed for scala 2.10 compilation -->
@@ -2307,6 +2315,11 @@
                 <scope>provided</scope>
             </dependency>
             <dependency>
+                <groupId>net.java.dev.jna</groupId>
+                <artifactId>jna</artifactId>
+                <version>${jni.version}</version>
+            </dependency>
+            <dependency>
                 <groupId>com.datastax.cassandra</groupId>
                 <artifactId>cassandra-driver-core</artifactId>
                 <version>${cassandra.version}</version>
@@ -2695,9 +2708,9 @@
                         </dependency>
                     </dependencies>
                     <configuration>
-<!--                        <forkCount>${test.fork.count}</forkCount>-->
-<!--                        <reuseForks>${test.fork.reuse}</reuseForks>-->
-<!--                        <forkedProcessTimeoutInSeconds>60</forkedProcessTimeoutInSeconds>-->
+                        <forkCount>${test.fork.count}</forkCount>
+                        <reuseForks>${test.fork.reuse}</reuseForks>
+                        <forkedProcessTimeoutInSeconds>0</forkedProcessTimeoutInSeconds>
                         <rerunFailingTestsCount>1</rerunFailingTestsCount> <!-- re-try intermittent failures -->
                         <enableAssertions>${test.enable.assertions}</enableAssertions>
                         <includes>
@@ -2713,9 +2726,6 @@
                             <geomesa.scan.ranges.target>500</geomesa.scan.ranges.target>
                             <geomesa.accumulo.test.tablet.servers>1</geomesa.accumulo.test.tablet.servers>
                             <geomesa.hbase.test.region.servers>1</geomesa.hbase.test.region.servers>
-                            <!-- ZooKeeper uses a JMX feature of log4j that reload4j doesn't support.
-                                 We need to disable it for the mini clusters to work in unit tests -->
-                            <zookeeper.jmx.log4j.disable>true</zookeeper.jmx.log4j.disable>
                             <java.util.logging.config.file>logging.properties</java.util.logging.config.file>
                             <org.jboss.logging.provider>slf4j</org.jboss.logging.provider>
                         </systemPropertyVariables>
@@ -2897,11 +2907,11 @@
                             <goal>compile</goal>
                         </goals>
                         <!-- uncomment to enable useful error messages for pureconfig development -->
-                        <!--<configuration>
+                        <configuration>
                             <args>
                                 <arg>-Xmacro-settings:materialize-derivations</arg>
                             </args>
-                        </configuration>-->
+                        </configuration>
                     </execution>
                     <execution>
                         <id>scala-test-compile</id>

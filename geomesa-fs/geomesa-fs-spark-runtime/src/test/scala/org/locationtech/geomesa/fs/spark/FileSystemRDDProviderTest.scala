@@ -10,6 +10,9 @@ package org.locationtech.geomesa.fs.spark
 
 import com.typesafe.scalalogging.LazyLogging
 import org.apache.commons.io.FileUtils
+import org.apache.hadoop.fs.FileEncryptionInfo
+import org.apache.hadoop.fs.permission.FsPermission
+import org.apache.hadoop.hdfs.protocol.HdfsFileStatus
 import org.apache.hadoop.hdfs.{HdfsConfiguration, MiniDFSCluster}
 import org.apache.spark.sql.{SQLContext, SQLTypes, SparkSession}
 import org.geotools.data.{DataStore, DataStoreFinder, Transaction}
@@ -49,6 +52,10 @@ class FileSystemRDDProviderTest extends Specification with LazyLogging {
   val formats = Seq("orc", "parquet")
 
   step {
+
+    new HdfsFileStatus(0L, true, 0, 0L, 0L, 0L, new FsPermission(1016.toShort), null.asInstanceOf[String], null.asInstanceOf[String], null.asInstanceOf[Array[Byte]], HdfsFileStatus.EMPTY_NAME, -1L, 0, null.asInstanceOf[FileEncryptionInfo], 0.toByte)
+
+
     // Start MiniCluster
     val conf = new HdfsConfiguration()
     conf.set(MiniDFSCluster.HDFS_MINIDFS_BASEDIR, tempDir.toFile.getAbsolutePath)

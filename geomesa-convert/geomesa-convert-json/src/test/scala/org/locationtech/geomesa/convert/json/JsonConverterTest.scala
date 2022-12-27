@@ -1426,8 +1426,8 @@ class JsonConverterTest extends Specification {
       inferred must beSome
 
       val sft = inferred.get._1
-      sft.getAttributeDescriptors.asScala.map(d => (d.getLocalName, d.getType.getBinding)) mustEqual
-          Seq(("name", classOf[String]), ("demographics_age", classOf[Integer]), ("geom", classOf[Point]))
+      sft.getAttributeDescriptors.asScala.map(d => (d.getLocalName, d.getType.getBinding)) mustEqual Seq(
+        ("demographics_age", classOf[Integer]), ("name", classOf[String]), ("geom", classOf[Point]))
 
       WithClose(SimpleFeatureConverter(sft, inferred.get._2)) { converter =>
         converter must not(beNull)
@@ -1436,11 +1436,11 @@ class JsonConverterTest extends Specification {
         features must haveLength(3)
 
         val expected = Seq(
-          Seq("name1", null, WKTUtils.read("POINT (41 51)")),
-          Seq("name2", 2, WKTUtils.read("POINT (42 52)")),
-          Seq("name3", 3, WKTUtils.read("POINT (43 53)"))
+          Seq(null, "name1", WKTUtils.read("POINT (41 51)")),
+          Seq(2, "name2", WKTUtils.read("POINT (42 52)")),
+          Seq(3, "name3", WKTUtils.read("POINT (43 53)"))
         )
-        features.map(_.getAttributes.asScala) must containTheSameElementsAs(expected)
+        features.map(_.getAttributes.asScala.toList) must containTheSameElementsAs(expected)
       }
     }
 

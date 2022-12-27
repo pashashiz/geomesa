@@ -1,4 +1,8 @@
-1. Use collections compat to support 2.12, 2.11
-2. Spark 3.x does not exist for 2.11
-3. Check why LocalQueryRunnerTest fails
-4. In [geomesa-accumulo-datastore, geomesa-accumulo-distributed-runtime, geomesa-geojson-api] accumulo cluster does not start cause Table Server throws accumulo minicluster Caused by: java.net.SocketException: Invalid argument
+Note, to run individual tests which involve Accumulo minicluster pass -Djava.net.preferIPv4Stack=true
+
+1. Scala 2.12 support. Use collections compat.
+2. Spark 3.x does not exist for 2.11 find a workaround (looks like there is already something in place)
+3. geomesa-index-api Check why LocalQueryRunnerTest fails
+4. geomesa-fs-spark-runtime relies on Hadoop 2.x where spark on 3.x hence test fails
+5. geomesa-kafka-datastore relies on old kafka which relies on rocksdbjni with version 5.18.3 < 6.29.4.1,
+  just bumping rocksdbjni does not help cause that is not compatible with current kafka version, so need to update kafka to 3.x

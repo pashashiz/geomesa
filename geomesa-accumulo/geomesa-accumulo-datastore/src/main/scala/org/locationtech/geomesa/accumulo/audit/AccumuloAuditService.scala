@@ -37,8 +37,7 @@ class AccumuloAuditService(connector: Connector,
                                            (implicit ct: ClassTag[T]): Iterator[T] = {
     import scala.jdk.CollectionConverters._
     val auths = new Authorizations(authProvider.getAuthorizations.asScala.toSeq: _*)
-    val iter = reader.query(typeName, dates, auths)(transform(ct.runtimeClass.asInstanceOf[Class[T]]))
-    iter.asInstanceOf[Iterator[T]]
+    reader.query(typeName, dates, auths)(transform(ct.runtimeClass.asInstanceOf[Class[T]]))
   }
 
   override def close(): Unit = if (writer != null) { writer.close() }

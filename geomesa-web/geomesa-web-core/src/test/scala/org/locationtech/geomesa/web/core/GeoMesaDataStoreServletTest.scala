@@ -89,8 +89,8 @@ class GeoMesaDataStoreServletTest extends TestWithDataStore with MutableScalatra
     "list all registered datastores without passwords" in {
       get("/ds") {
         status mustEqual 200
-        body must startWith("{")
-        body must endWith("}")
+        body must startWith("[")
+        body must endWith("]")
         body must contain(""""servlettest":{""")
         forall(jsonParams)(param => body must contain(param))
       }
@@ -104,7 +104,7 @@ class GeoMesaDataStoreServletTest extends TestWithDataStore with MutableScalatra
       }
       get("/ds") {
         status mustEqual 200
-        body mustEqual "{}"
+        body mustEqual "[]"
       }
     }
   }

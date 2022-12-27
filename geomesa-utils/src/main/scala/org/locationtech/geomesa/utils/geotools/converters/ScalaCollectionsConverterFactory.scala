@@ -10,6 +10,7 @@ package org.locationtech.geomesa.utils.geotools.converters
 
 import org.geotools.util.factory.Hints
 import org.geotools.util.{Converter, ConverterFactory}
+import scala.collection.Seq
 
 class ScalaCollectionsConverterFactory extends ConverterFactory {
 

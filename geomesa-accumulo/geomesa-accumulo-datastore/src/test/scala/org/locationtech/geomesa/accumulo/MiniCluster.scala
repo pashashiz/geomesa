@@ -21,6 +21,8 @@ import scala.jdk.CollectionConverters._
 
 case object MiniCluster extends LazyLogging {
 
+  sys.props += ("java.net.preferIPv4Stack=true" -> "true")
+
   private val miniClusterTempDir = Files.createTempDirectory("gm-mini-acc-")
 
   private val systemPermissions = Seq(
@@ -43,14 +45,14 @@ case object MiniCluster extends LazyLogging {
     logger.info(s"Starting Accumulo minicluster at $miniClusterTempDir")
 
     val config = new MiniAccumuloConfig(miniClusterTempDir.toFile, Users.root.password)
-    sys.props.get("geomesa.accumulo.test.tablet.servers").map(_.toInt).foreach(config.setNumTservers)
+    config.setNumTservers(sys.props.get("geomesa.accumulo.test.tablet.servers").map(_.toInt).getOrElse(1))
     config.setDefaultMemory(256, org.apache.accumulo.minicluster.MemoryUnit.MEGABYTE) // default is 128MB
 
     // Use reflection to access a package-private method to set system properties before starting
     // the minicluster. It is possible that this could break with future versions of Accumulo.
     val configGetImpl = config.getClass.getDeclaredMethod("getImpl")
-    val systemProps = Map.empty[String, String] ++
-      Option("zookeeper.jmx.log4j.disable").flatMap(key => sys.props.get(key).map(key -> _))
+    // ZooKeeper uses a JMX feature of log4j that reload4j doesn't support
+    val systemProps = Map("zookeeper.jmx.log4j.disable" -> "true")
     configGetImpl.setAccessible(true)
     configGetImpl.invoke(config).asInstanceOf[MiniAccumuloConfigImpl].setSystemProperties(systemProps.asJava)
 

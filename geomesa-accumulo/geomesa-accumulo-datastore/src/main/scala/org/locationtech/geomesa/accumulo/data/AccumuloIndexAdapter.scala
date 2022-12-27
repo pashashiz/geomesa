@@ -137,10 +137,12 @@ class AccumuloIndexAdapter(ds: AccumuloDataStore)(implicit val ec: ExecutionCont
     val result = Future.traverse(tables) { table =>
       if (tableOps.exists(table)) {
         val config = GeoMesaBatchWriterConfig().setMaxWriteThreads(ds.config.writeThreads)
-        WithClose(ds.connector.createBatchDeleter(table, auths, ds.config.queries.threads, config)) { deleter =>
-          val range = prefix.map(p => Range.prefix(new Text(p))).getOrElse(new Range())
-          deleter.setRanges(Collections.singletonList(range))
-          Future(deleter.delete())
+        Future {
+          WithClose(ds.connector.createBatchDeleter(table, auths, ds.config.queries.threads, config)) { deleter =>
+            val range = prefix.map(p => Range.prefix(new Text(p))).getOrElse(new Range())
+            deleter.setRanges(Collections.singletonList(range))
+            deleter.delete()
+          }
         }
       } else {
         Future.successful(())

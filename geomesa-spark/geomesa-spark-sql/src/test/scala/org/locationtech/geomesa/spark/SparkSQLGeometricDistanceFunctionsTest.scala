@@ -11,6 +11,7 @@ package org.locationtech.geomesa.spark
 import com.typesafe.scalalogging.LazyLogging
 import org.geotools.data.DataStoreFinder
 import org.junit.runner.RunWith
+import org.locationtech.geomesa.utils.conversions.ScalaImplicits.RichDouble
 import org.locationtech.geomesa.utils.text.WKTUtils
 import org.locationtech.jts.geom.Point
 import org.specs2.mutable.Specification
@@ -59,7 +60,7 @@ class SparkSQLGeometricDistanceFunctionsTest extends Specification with LazyLogg
           |   size(l) > 1
         """.stripMargin).
           collect().map(_.getDouble(2))
-        Array(70681.00230533126, 141178.05958707482) must beEqualTo(res)
+        Array(70681.00230533, 141178.05958707) must beEqualTo(res.map(_.truncateAt(8)))
       }
     }
 
@@ -84,7 +85,7 @@ class SparkSQLGeometricDistanceFunctionsTest extends Specification with LazyLogg
           |   size(l) > 1
         """.stripMargin).
           collect().map(_.getDouble(1))
-        Array(70681.00230533126, 141178.05958707482) must beEqualTo(res)
+        Array(70681.00230533, 141178.05958707) must beEqualTo(res.map(_.truncateAt(8)))
       }
     }
 

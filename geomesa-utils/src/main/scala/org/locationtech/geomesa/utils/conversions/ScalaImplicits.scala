@@ -9,6 +9,7 @@
 package org.locationtech.geomesa.utils.conversions
 
 import scala.collection.{IterableOnce, IterableOps, Iterator}
+import scala.math.BigDecimal.RoundingMode.{FLOOR, HALF_UP}
 import scala.reflect.ClassTag
 
 object ScalaImplicits {
@@ -64,5 +65,14 @@ object ScalaImplicits {
       var i = -1
       array.flatMap { v => i += 1; f(v, i) }
     }
+  }
+
+  implicit class RichDouble(val value: Double) extends AnyVal {
+
+    def roundAt(precision: Int): Double =
+      BigDecimal(value).setScale(precision, HALF_UP).doubleValue
+
+    def truncateAt(precision: Int): Double =
+      BigDecimal(value).setScale(precision, FLOOR).doubleValue
   }
 }

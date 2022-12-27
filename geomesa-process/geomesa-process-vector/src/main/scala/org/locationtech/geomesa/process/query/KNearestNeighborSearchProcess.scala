@@ -201,7 +201,7 @@ object KNearestNeighborSearchProcess {
               s"Found $found/$k neighbors at (${p.getX} ${p.getY}) after $iteration iteration(s) with final search " +
                 s"distance of ${window.radius} (initial $start, max $threshold)")
             logger.trace(results.take(found).map(_.sf).mkString("; "))
-            results
+            results.filter(_ != null)
           }
         }.map(_.flatten)
 
